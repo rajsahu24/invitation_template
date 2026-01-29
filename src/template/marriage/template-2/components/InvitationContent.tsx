@@ -16,8 +16,8 @@ const containerVariants = {
   }
 };
 
-// Paisley Corner SVG Component
-const PaisleyCorner = ({
+// Paisley Corner SVG Component 
+export const PaisleyCorner = ({
   className
 }: {
   className?: string;

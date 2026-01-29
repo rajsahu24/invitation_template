@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { CornerDecoration } from './ui/OrnateDecorations';
 import { MapPin, Clock, Calendar } from 'lucide-react';

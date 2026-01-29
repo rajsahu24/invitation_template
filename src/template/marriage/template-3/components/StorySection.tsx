@@ -1,4 +1,4 @@
-import React, { memo } from 'react';
+
 import { motion } from 'framer-motion';
 import { SectionDivider } from './ui/OrnateDecorations';
 export function StorySection() {

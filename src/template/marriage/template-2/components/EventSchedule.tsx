@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion';
-import { Wine, Utensils, Music, Sparkles, Icon } from 'lucide-react';
+import { Wine, Utensils, Music, Sparkles } from 'lucide-react';
 import { usePreview } from '../../../../context/PreviewContext';
 
 // Utility function to format date and time

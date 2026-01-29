@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { MandalaPattern, CornerDecoration } from './ui/OrnateDecorations';
 import { ChevronDown } from 'lucide-react';

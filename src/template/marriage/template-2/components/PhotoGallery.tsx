@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 
 import { usePreview } from '../../../../context/PreviewContext';
@@ -16,22 +16,7 @@ const containerVariants = {
     }
   }
 };
-const itemVariants = {
-  hidden: {
-    opacity: 0,
-    y: 20,
-    scale: 0.95
-  },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.8,
-      ease: 'easeOut'
-    }
-  }
-};
+
 // Ornate Corner SVG
 const CornerFlourish = ({
   className

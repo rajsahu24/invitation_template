@@ -1,5 +1,6 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
+import type { ReactNode } from 'react';
 interface BookPageProps {
   children: ReactNode;
   pageNumber: number;
@@ -11,7 +12,6 @@ interface BookPageProps {
 }
 export function BookPage({
   children,
-  pageNumber,
   isFlipped,
   zIndex,
   onFlip,
