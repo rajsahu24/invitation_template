@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Open Graph Meta Tags for WhatsApp Preview -->
+    <meta property="og:title" content="Wedding Invitation" />
+    <meta property="og:description" content="You're invited to our special day!" />
+    <meta property="og:image" content="https://via.placeholder.com/1200x630/8B5CF6/FFFFFF?text=Wedding+Invitation" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="IndoorLoop Invitations" />
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Wedding Invitation" />
+    <meta name="twitter:description" content="You're invited to our special day!" />
+    <meta name="twitter:image" content="https://via.placeholder.com/1200x630/8B5CF6/FFFFFF?text=Wedding+Invitation" />
+    
+    <title>Wedding Invitation</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+    
+    <!-- Dynamic Meta Tags Script -->
+    <script>
+      // Update meta tags dynamically based on URL
+      function updateMetaTags() {
+        const pathParts = window.location.pathname.split('/');
+        const invitationId = pathParts[4];
+        
+        if (invitationId) {
+          // Fetch invitation data and update meta tags
+              const getInvitationIdFromUrl = () => {
+        const pathParts = window.location.pathname.split('/');
+        return pathParts[4] || null;
+    };
+
+    const isRSVPToken = (param) => {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        return param.length === 10 && !uuidRegex.test(param);
+    };
+         !isRSVPToken && fetch(`http://localhost:5000/api/invitations/${invitationId}`)
+            .then(response => response.json())
+            .then(data => {
+              document.querySelector('meta[property="og:title"]').content = data.invitation_title || 'Wedding Invitation';
+              document.querySelector('meta[property="og:description"]').content = data.invitation_message || "You're invited to our special day!";
+              document.querySelector('meta[name="twitter:title"]').content = data.invitation_title || 'Wedding Invitation';
+              document.querySelector('meta[name="twitter:description"]').content = data.invitation_message || "You're invited to our special day!";
+              document.title = data.invitation_title || 'Wedding Invitation';
+            })
+            .catch(console.error);
+        }
+      }
+      
+      // Update meta tags when page loads
+      updateMetaTags();
+    </script>
+  </body>
+</html>
