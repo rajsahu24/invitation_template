@@ -67,7 +67,7 @@ export const useGetTemplateData = () => {
 
     const getInvitationIdFromUrl = (): string | null => {
         const pathParts = window.location.pathname.split('/');
-        return pathParts[4] || null;
+        return pathParts[3] || null;
     };
 
 
@@ -133,7 +133,20 @@ export const useGetTemplateData = () => {
         const handleMessage = (event: MessageEvent) => {
             if (event.data?.type === 'INVITATION_PREVIEW_UPDATE') {
                 console.log('Preview update received:', event.data.payload);
-                setPreviewData(event.data.payload || {});
+                const payload = event.data.payload;
+
+                // If payload is flat (direct invitation object), wrap it to match expected structure
+                if (payload && !payload.invitation && payload.invitation_title) {
+                    setPreviewData({
+                        invitation: payload,
+                        events: payload.events || [],
+                        images: payload.images || [],
+                        guest: {},
+                        invitation_tag_line: payload.invitation_tag_line || ''
+                    });
+                } else {
+                    setPreviewData(payload || {});
+                }
                 setHasReceivedMessage(true);
             }
         };

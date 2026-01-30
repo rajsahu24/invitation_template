@@ -8,9 +8,10 @@ import "./index.css";
 import  RSVPForm  from "../template-1/components/RSVPform";
 
 export default function MarriageTemplate1() {
+  
       const getInvitationIdFromUrl = (): string | null => {
         const pathParts = window.location.pathname.split('/');
-        return pathParts[4] || null;
+        return pathParts[3] || null;
     };
     const param = getInvitationIdFromUrl()
 
@@ -19,7 +20,7 @@ export default function MarriageTemplate1() {
         return param.length === 10 && !uuidRegex.test(param);
     };
     const isRSVp = param ? isRSVPToken(param) : false;
-
+    console.log("is rsvp",isRSVp)
   return (
     <PreviewProvider>
       <div className=""> 

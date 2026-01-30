@@ -39,6 +39,7 @@ const demoEvents = [{
 }];
 export function EventsSection() {
   const { previewData } = usePreview();
+
   const events = (previewData as any).events || [];
   return <section className="py-24 bg-royal-deepPurple text-white relative overflow-hidden">
       {/* Background Texture */}

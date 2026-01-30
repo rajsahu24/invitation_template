@@ -1,0 +1,32 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+
+ base {
+  body {
+
+    font-family: 'Quicksand', sans-serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Caveat', cursive;
+  }
+}
+
+/* Custom Paper Texture Utility */
+.bg-paper-texture {
+  background-color: #FFF8F0;
+  background-image: 
+    linear-gradient(to right, rgba(212, 165, 116, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(212, 165, 116, 0.1) 1px, transparent 1px),
+    radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 100%);
+  background-size: 40px 40px, 40px 40px, 100% 100%;
+}
+
+.bg-watercolor-wash {
+  background: 
+    radial-gradient(circle at 10% 20%, rgba(255, 179, 217, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 90% 10%, rgba(197, 180, 227, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(180, 231, 206, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 20% 90%, rgba(255, 212, 179, 0.15) 0%, transparent 40%);
+}

@@ -6,6 +6,7 @@ import MarriageTemplate1 from "../template/marriage/template-1";
 // import MarriageT2 from "../templates/marriage/template-2";
 import MarriageTemplate2 from "../template/marriage/template-2";
 import MarriageTemplate3 from "../template/marriage/template-3";
+import BirthdayT1 from "../template/birthday/template-1";
 // // birthday
 // import BirthdayT1 from "../templates/birthday/template-1";
 
@@ -16,17 +17,17 @@ const TEMPLATE_MAP: any = {
     "2": MarriageTemplate2,
     "3": MarriageTemplate3
   },
-//   birthday: {
-//     "1": BirthdayT1
-//   }
+  birthday: {
+    "3": BirthdayT1
+  }
 };
 
 export default function TemplateRenderer() {
   const { category, id } = useParams();
-  
+  console.log(category,id)
   const Template = TEMPLATE_MAP[category!]?.[id!];
-  
-
+  console.log(Template)
+  console.log("Hello")
   
   if (!Template) {
     return (
