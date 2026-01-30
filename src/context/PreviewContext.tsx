@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react';
 import type { ReactNode } from "react";
-import { useGetTemplateData  } from '../hooks/useGetTemplateData';
+import { useGetTemplateData, DEFAULT_INVITATION_DATA } from '../hooks/useGetTemplateData';
 import type { RsvpInvitationResponse } from '../hooks/getTemplateDataModel';
 
 export interface InvitationEvent {
@@ -48,24 +48,7 @@ export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children }) =>
   const templateData = useGetTemplateData();
   
   // Handle unified data structure - ensure it always matches RsvpInvitationResponse
-  const safePreviewData: RsvpInvitationResponse = templateData as RsvpInvitationResponse || {
-    invitation: {
-      id: '',
-      user_id: '',
-      invitation_title: 'Loading...',
-      invitation_message: 'Loading...',
-      invitation_tag_line: 'Loading...',
-      invitation_type: 'wedding',
-      metadata: {},
-      quick_action: null,
-      created_at: '',
-      updated_at: '',
-      invitation_template_id: ''
-    },
-    events: [],
-    images: [],
-    guest: null
-  };
+  const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
   
   console.log("Final safePreviewData:", safePreviewData);
   

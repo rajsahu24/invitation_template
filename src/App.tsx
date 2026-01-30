@@ -9,7 +9,7 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route
-          path="/template/:category/:id/:invitation_id"
+          path="/template/:category/:id/:invitation_id?"
           element={<TemplateRenderer />}
         />
       </Routes>

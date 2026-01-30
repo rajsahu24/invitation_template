@@ -18,8 +18,7 @@ export default function MarriageTemplate1() {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         return param.length === 10 && !uuidRegex.test(param);
     };
-    if(param == null) return null 
-    const isRSVp = isRSVPToken(param)
+    const isRSVp = param ? isRSVPToken(param) : false;
 
   return (
     <PreviewProvider>

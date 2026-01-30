@@ -23,9 +23,9 @@ const TEMPLATE_MAP: any = {
 
 export default function TemplateRenderer() {
   const { category, id } = useParams();
-  console.log("hello template render ")
- 
+  
   const Template = TEMPLATE_MAP[category!]?.[id!];
+  
 
   
   if (!Template) {
