@@ -27,7 +27,7 @@ export default function App() {
   const images = (previewData as any).images || [];
   const guest = (previewData as any).guest || {};
   const metadata = invitation?.metadata || {};
-
+  
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Helper functions for RSVP
@@ -77,7 +77,7 @@ export default function App() {
 
   const name = metadata.birthday_person_name || invitation?.invitation_title?.split("'")[0] || "Sarah";
   const age = metadata.age || "30th";
-  const message = invitation?.invitation_message || "Join us to celebrate a very special day";
+  const message = invitation.invitation_tag_line || "Join us to celebrate a very special day";
   
   const formatDate = (dateString: string) => {
     try {
