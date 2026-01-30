@@ -1,25 +1,24 @@
-import React from 'react';
 import { motion } from 'framer-motion';
 // Common path variants for "drawing" effect
-const drawVariants = {
-  hidden: {
-    pathLength: 0,
-    opacity: 0
-  },
-  visible: {
-    pathLength: 1,
-    opacity: 1,
-    transition: {
-      pathLength: {
-        duration: 1.5,
-        ease: 'easeInOut'
-      },
-      opacity: {
-        duration: 0.5
-      }
-    }
-  }
-};
+// const drawVariants = {
+//   hidden: {
+//     pathLength: 0,
+//     opacity: 0
+//   },
+//   visible: {
+//     pathLength: 1,
+//     opacity: 1,
+//     transition: {
+//       pathLength: {
+//         duration: 1.5,
+//         ease: 'easeInOut'
+//       },
+//       opacity: {
+//         duration: 0.5
+//       }
+//     }
+//   }
+// };
 interface DoodleProps {
   className?: string;
   color?: string;

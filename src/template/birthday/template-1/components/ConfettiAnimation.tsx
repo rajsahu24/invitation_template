@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 const COLORS = ['#FFB3D9', '#C5B4E3', '#B4E7CE', '#FFD4B3', '#D4A574'];
 const SHAPES = ['circle', 'square', 'triangle'];
