@@ -26,38 +26,6 @@
     <script type="module" src="/src/main.tsx"></script>
     
     <!-- Dynamic Meta Tags Script -->
-    <script>
-      // Update meta tags dynamically based on URL
-      function updateMetaTags() {
-        const pathParts = window.location.pathname.split('/');
-        const invitationId = pathParts[4];
-        
-        if (invitationId) {
-          // Fetch invitation data and update meta tags
-              const getInvitationIdFromUrl = () => {
-        const pathParts = window.location.pathname.split('/');
-        return pathParts[4] || null;
-    };
 
-    const isRSVPToken = (param) => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return param.length === 10 && !uuidRegex.test(param);
-    };
-         !isRSVPToken && fetch(`${import.meta.env.VITE_API_URL}/api/invitations/${invitationId}`)
-            .then(response => response.json())
-            .then(data => {
-              document.querySelector('meta[property="og:title"]').content =  'An invitation to celebrate a special day';
-              document.querySelector('meta[property="og:description"]').content =  "You're invited to our special day!";
-              document.querySelector('meta[name="twitter:title"]').content =  'An invitation to celebrate a special day';
-              document.querySelector('meta[name="twitter:description"]').content ="You're invited to our special day!";
-              document.title =  'An invitation to celebrate a special day';
-            })
-            .catch(console.error);
-        }
-      }
-      
-      // Update meta tags when page loads
-      updateMetaTags();
-    </script>
   </body>
 </html>
