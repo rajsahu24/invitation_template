@@ -5,4 +5,9 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss(),],
   envPrefix: ['VITE_', 'PUBLIC_'],
+    server: {
+    headers: {
+      'Cache-Control': 'no-store',
+    },
+  },
 })
