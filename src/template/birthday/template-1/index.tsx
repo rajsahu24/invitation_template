@@ -5,7 +5,7 @@ import { PreviewProvider } from "../../../context/PreviewContext";
 
 function index() {
   return (
-    <PreviewProvider>
+    <PreviewProvider theme="birthday">
        <App />
     </PreviewProvider>
   )

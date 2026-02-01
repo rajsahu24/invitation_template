@@ -7,33 +7,37 @@ import { PreviewProvider } from "../../../context/PreviewContext";
 import "./index.css";
 import  RSVPForm  from "../template-1/components/RSVPform";
 
-export default function MarriageTemplate1() {
+function MarriageContent() {
+  const getInvitationIdFromUrl = (): string | null => {
+    const pathParts = window.location.pathname.split('/');
+    return pathParts[3] || null;
+  };
+  const param = getInvitationIdFromUrl()
+
+  const isRSVPToken = (param: string): boolean => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return param.length === 10 && !uuidRegex.test(param);
+  };
+  const isRSVp = param ? isRSVPToken(param) : false;
   
-      const getInvitationIdFromUrl = (): string | null => {
-        const pathParts = window.location.pathname.split('/');
-        return pathParts[3] || null;
-    };
-    const param = getInvitationIdFromUrl()
-
-    const isRSVPToken = (param: string): boolean => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return param.length === 10 && !uuidRegex.test(param);
-    };
-    const isRSVp = param ? isRSVPToken(param) : false;
-    console.log("is rsvp",isRSVp)
   return (
-    <PreviewProvider>
-      <div className=""> 
-        <HeroSection />
-        <EventsSection />
-        <PhotoGallery />
-        <GuestList />
+    <div className=""> 
+      <HeroSection />
+      <EventsSection />
+      <PhotoGallery />
+      <GuestList />
+      {isRSVp && <RSVPForm />}
+      <footer className="bg-royal-deepPurple text-royal-gold/50 py-8 text-center font-cinzel text-xs tracking-widest">
+        <p>&copy; 2024 Alexander & Victoria. All Rights Reserved.</p>
+      </footer>
+    </div>
+  );
+}
 
-        {isRSVp && <RSVPForm />}
-        <footer className="bg-royal-deepPurple text-royal-gold/50 py-8 text-center font-cinzel text-xs tracking-widest">
-          <p>&copy; 2024 Alexander & Victoria. All Rights Reserved.</p>
-        </footer>
-      </div>
+export default function MarriageTemplate1() {
+  return (
+    <PreviewProvider theme="wedding">
+      <MarriageContent />
     </PreviewProvider>
   );
 }

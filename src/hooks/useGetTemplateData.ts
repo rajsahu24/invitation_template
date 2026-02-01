@@ -62,8 +62,9 @@ export const DEFAULT_INVITATION_DATA: RsvpInvitationResponse = {
 };
 
 export const useGetTemplateData = () => {
-    const [previewData, setPreviewData] = useState<PreviewData | RsvpInvitationResponse>();
+    const [previewData, setPreviewData] = useState<PreviewData | RsvpInvitationResponse>(DEFAULT_INVITATION_DATA);
     const [hasReceivedMessage, setHasReceivedMessage] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
 
     const getInvitationIdFromUrl = (): string | null => {
         const pathParts = window.location.pathname.split('/');
@@ -78,19 +79,29 @@ export const useGetTemplateData = () => {
 
     const fetchGuestInvitationData = async (invitationId: string) => {
         console.log(invitationId)
+        setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitations/rsvp/${invitationId}`);
             if (response.ok) {
                 const data = await response.json();
-                setPreviewData(data);
-
+                if (data && Object.keys(data).length > 0) {
+                    setPreviewData(data);
+                } else {
+                    setPreviewData(DEFAULT_INVITATION_DATA);
+                }
+            } else {
+                setPreviewData(DEFAULT_INVITATION_DATA);
             }
         } catch (error) {
             console.error('Failed to fetch RSVP invitation data:', error);
+            setPreviewData(DEFAULT_INVITATION_DATA);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     const fetchInvitationData = async (invitationId: string) => {
+        setIsLoading(true);
         try {
             const [invitationResponse, eventsResponse, imageResponse] = await Promise.all([
                 fetch(`${import.meta.env.VITE_API_URL}/api/invitations/${invitationId}`),
@@ -123,9 +134,14 @@ export const useGetTemplateData = () => {
                     guest: {},
                     invitation_tag_line: invitationData.invitation_tag_line || ''
                 });
+            } else {
+                setPreviewData(DEFAULT_INVITATION_DATA);
             }
         } catch (error) {
             console.error('Failed to fetch invitation data:', error);
+            setPreviewData(DEFAULT_INVITATION_DATA);
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -148,6 +164,7 @@ export const useGetTemplateData = () => {
                     setPreviewData(payload || {});
                 }
                 setHasReceivedMessage(true);
+                setIsLoading(false);
             }
         };
 
@@ -162,8 +179,9 @@ export const useGetTemplateData = () => {
                 fetchInvitationData(invitationId);
             }
         } else if (!invitationId && !hasReceivedMessage) {
-            // Set default data if no invitation ID is present
+            // No invitation ID and no message received - use default data
             setPreviewData(DEFAULT_INVITATION_DATA);
+            setIsLoading(false);
         }
 
         return () => {
@@ -171,5 +189,5 @@ export const useGetTemplateData = () => {
         };
     }, [hasReceivedMessage]);
 
-    return previewData;
+    return { previewData, isLoading };
 };

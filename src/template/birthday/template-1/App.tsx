@@ -15,12 +15,12 @@ import {
 import { PolaroidFrame } from './components/PolaroidFrame';
 import { MusicPlayer } from './components/MusicPlayer';
 import { usePreview } from '../../../context/PreviewContext';
+import { GenericLoader } from '../../../components/LoadingScreen';
 
 export default function App() {
   
   const { previewData } = usePreview();
   const [rsvpState, setRsvpState] = useState<'idle' | 'yes' | 'no'>('idle');
-
   // Handle both RSVP and regular/real-time invitation data structures
   const invitation = (previewData as any).invitation || previewData;
   const events = (previewData as any).events || [];

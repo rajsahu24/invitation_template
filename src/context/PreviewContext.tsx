@@ -1,6 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import type { ReactNode } from "react";
 import { useGetTemplateData, DEFAULT_INVITATION_DATA } from '../hooks/useGetTemplateData';
+import { GenericLoader } from '../components/LoadingScreen';
 import type { RsvpInvitationResponse } from '../hooks/getTemplateDataModel';
 
 export interface InvitationEvent {
@@ -35,6 +36,7 @@ interface PreviewData {
 
 interface PreviewContextType {
   previewData: RsvpInvitationResponse;
+  isLoading: boolean;
 }
 
 const PreviewContext = createContext< PreviewContextType | undefined>(undefined);
@@ -42,18 +44,19 @@ const PreviewContext = createContext< PreviewContextType | undefined>(undefined)
 interface PreviewProviderProps {
   children: ReactNode;
   initialData?: PreviewData | RsvpInvitationResponse;
+  theme?: 'birthday' | 'wedding' | 'default';
 }
 
-export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children }) => {
-  const templateData = useGetTemplateData();
-  
-  // Handle unified data structure - ensure it always matches RsvpInvitationResponse
+export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme = 'default' }) => {
+  const { previewData: templateData, isLoading } = useGetTemplateData();
   const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
   
-  console.log("Final safePreviewData:", safePreviewData);
+  if (isLoading) {
+    return <GenericLoader theme={theme} />;
+  }
   
   return (
-    <PreviewContext.Provider value={{ previewData: safePreviewData }}>
+    <PreviewContext.Provider value={{ previewData: safePreviewData, isLoading: false }}>
       {children}
     </PreviewContext.Provider>
   );
