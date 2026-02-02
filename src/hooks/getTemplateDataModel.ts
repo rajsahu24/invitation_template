@@ -22,8 +22,17 @@ interface Guest {
   rsvp_token: string;
 }
 
+ interface Template {
+  id: string;                 
+  template_type: string;      
+  template_name: string;      
+  template_key: string;       
+  is_active: boolean;
+  created_at: string;         
+  updated_at: string;         
+};
 
-interface Invitation {
+export interface Invitation {
   id: string;
   user_id: string;
   invitation_type: string;
@@ -32,6 +41,8 @@ interface Invitation {
   invitation_tag_line: string;
   metadata: InvitationMetadata;
   quick_action: string | null;
+  template:Template;
+  public_id:string
   created_at: string;
   updated_at: string;
   invitation_template_id: string;

@@ -11,7 +11,7 @@ const themes = {
     colors: ['#FFB3D9', '#C5B4E3', '#B4E7CE', '#FFD4B3'],
     bg: '#FFF8F0',
     icon: '🎉',
-    defaultMessage: 'Preparing your birthday invitation...asdfasdasdf'
+    defaultMessage: 'Preparing your birthday invitation....'
   },
   wedding: {
     colors: ['#E8D5C4', '#F4E4BC', '#C9A96E', '#A67B5B'],
@@ -23,7 +23,7 @@ const themes = {
     colors: ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B'],
     bg: '#F8FAFC',
     icon: '✨',
-    defaultMessage: 'Loading your invitation...asdfasdf'
+    defaultMessage: 'Loading your invitation...'
   }
 };
 

@@ -5,12 +5,12 @@ export default function App() {
   return (
     <div>
     <BrowserRouter>
-        <Routes>
-          <Route
-            path="/:category/:id/:invitation_id?"
-            element={<TemplateRenderer />}
-          />
-        </Routes>
+      <Routes>
+        <Route
+          path="/:id"
+          element={<TemplateRenderer />}
+        />
+      </Routes>
     </BrowserRouter>
     </div>
   );

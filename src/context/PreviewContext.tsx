@@ -30,6 +30,7 @@ interface PreviewData {
   invitation_message?: string;
   invitation_tag_line?: string;
   invitation_type?: string;
+  public_id?: string;
   metadata?: Record<string, any>;
   events?: InvitationEvent[];
 }
@@ -45,14 +46,20 @@ interface PreviewProviderProps {
   children: ReactNode;
   initialData?: PreviewData | RsvpInvitationResponse;
   theme?: 'birthday' | 'wedding' | 'default';
+  public_id?:string;
+  template_id?:string;
 }
 
-export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme = 'default' }) => {
+export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme, public_id, template_id }) => {
   const { previewData: templateData, isLoading } = useGetTemplateData();
   const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
   
+  // Dynamically determine theme from invitation data if not provided
+  const invitation = (safePreviewData as any).invitation || safePreviewData;
+  const dynamicTheme = theme || (invitation?.invitation_type === 'birthday' ? 'birthday' : 'wedding');
+  
   if (isLoading) {
-    return <GenericLoader theme={theme} />;
+    return <GenericLoader theme={dynamicTheme} />;
   }
   
   return (
