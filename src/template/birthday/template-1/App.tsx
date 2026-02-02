@@ -15,7 +15,6 @@ import {
 import { PolaroidFrame } from './components/PolaroidFrame';
 import { MusicPlayer } from './components/MusicPlayer';
 import { usePreview } from '../../../context/PreviewContext';
-import { GenericLoader } from '../../../components/LoadingScreen';
 
 export default function App() {
   

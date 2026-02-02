@@ -50,7 +50,7 @@ interface PreviewProviderProps {
   template_id?:string;
 }
 
-export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme, public_id, template_id }) => {
+export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme }) => {
   const { previewData: templateData, isLoading } = useGetTemplateData();
   const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
   
