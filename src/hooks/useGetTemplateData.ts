@@ -13,23 +13,23 @@ export const DEFAULT_INVITATION_DATA: RsvpInvitationResponse = {
         invitation_title: 'Alexander & Victoria',
         invitation_message: 'We invite you to celebrate our special day as we embark on a new journey together.',
         invitation_tag_line: 'Celebrate Love, Laughter, and Happily Ever After',
-        public_id:'default',
+        public_id: 'default',
         template: {
-        id:"",
-        template_key:"",
-        template_name:"Modern Wedding",
-        template_type:"Wedding",
-        is_active:true,
-        created_at:new Date().toISOString(),
-        updated_at:new Date().toISOString(),
-    },
+            id: "",
+            template_key: "",
+            template_name: "Modern Wedding",
+            template_type: "Wedding",
+            is_active: true,
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+        },
         metadata: {
             bride_name: 'Victoria',
             groom_name: 'Alexander',
             wedding_date: '2024-12-12',
             wedding_location: 'Grand Palace, London'
         },
-        
+
         quick_action: null,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),
@@ -78,20 +78,22 @@ export const useGetTemplateData = () => {
     const [hasReceivedMessage, setHasReceivedMessage] = useState(false);
     const [invitationDetails, setInvitationDetails] = useState<Invitation>();
     const [isLoading, setIsLoading] = useState(true);
+    const [hasFetchedDetails, setHasFetchedDetails] = useState(false);
+    const [hasFetchedData, setHasFetchedData] = useState(false);
 
-    const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token'| null } => {
+    const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | null } => {
         const pathParts = window.location.pathname.split('/');
         const id = pathParts[1] || null;
-        
+
         if (!id) return { id: null, type: null };
-        
+
         // Check if it's a UUID (template_id)
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         if (uuidRegex.test(id)) {
             return { id, type: 'template' };
         }
         const rsvp_token = isRSVPToken(id)
-        if(rsvp_token) return {id: id, type: 'rsvp_token'}  
+        if (rsvp_token) return { id: id, type: 'rsvp_token' }
         // Otherwise it's a nano ID (public_id)
         return { id, type: 'public' };
     };
@@ -127,7 +129,7 @@ export const useGetTemplateData = () => {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/templates/${template_id}`);
             if (response.ok) {
                 const templateData = await response.json();
-                
+
                 setPreviewData({
                     invitation: {
                         ...DEFAULT_INVITATION_DATA.invitation,
@@ -150,11 +152,13 @@ export const useGetTemplateData = () => {
         }
     };
 
-    const fetchInvitationDetails = async(public_id: string) => {
+    const fetchInvitationDetails = async (public_id: string) => {
+        if (hasFetchedDetails) return;
+        setHasFetchedDetails(true);
         setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitations/public/${public_id}`);
-            if(response.ok){
+            if (response.ok) {
                 const data = await response.json();
                 setInvitationDetails(data);
                 console.log(data)
@@ -170,7 +174,8 @@ export const useGetTemplateData = () => {
     };
 
     const fetchInvitationData = async (invitationId: string) => {
-        
+        if (hasFetchedData) return;
+        setHasFetchedData(true);
         setIsLoading(true);
         try {
             const [invitationResponse, eventsResponse, imageResponse] = await Promise.all([
@@ -183,7 +188,7 @@ export const useGetTemplateData = () => {
                 const invitationData = await invitationResponse.json();
                 const eventsData = eventsResponse.ok ? await eventsResponse.json() : [];
                 const imageData = imageResponse.ok ? await imageResponse.json() : [];
-                
+
                 setPreviewData({
                     invitation: invitationData,
                     events: eventsData || [],
@@ -203,11 +208,11 @@ export const useGetTemplateData = () => {
     };
 
     useEffect(() => {
-        if (invitationDetails && invitationDetails.id) {
+        if (invitationDetails && invitationDetails.id && !hasFetchedData) {
             console.log("Fetching full invitation data for:", invitationDetails.id);
             fetchInvitationData(invitationDetails.id);
         }
-    }, [invitationDetails]);
+    }, [invitationDetails, hasFetchedData]);
 
     useEffect(() => {
         const handleMessage = (event: MessageEvent) => {
@@ -231,24 +236,24 @@ export const useGetTemplateData = () => {
         };
 
         window.addEventListener('message', handleMessage);
-        
+
         const { id, type } = getIdFromUrl();
-        
+
         if (type === 'template' && id) {
             fetchTemplateData(id);
         } else if (type === 'rsvp_token' && id) {
             fetchGuestInvitationData(id);
-        } else if (type === 'public' && id && !invitationDetails) {
+        } else if (type === 'public' && id && !hasFetchedDetails) {
             fetchInvitationDetails(id);
         } else if (!id && !hasReceivedMessage) {
             setPreviewData(DEFAULT_INVITATION_DATA);
             setIsLoading(false);
         }
-        
+
         return () => {
             window.removeEventListener('message', handleMessage);
         };
-    }, [hasReceivedMessage, invitationDetails]);
-    console.log("faslkdjfakjerpwuierpoikjvlknv",previewData)
+    }, [hasReceivedMessage]);
+
     return { previewData, isLoading };
 };

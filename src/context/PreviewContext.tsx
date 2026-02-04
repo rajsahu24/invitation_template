@@ -51,6 +51,7 @@ interface PreviewProviderProps {
 }
 
 export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme }) => {
+  
   const { previewData: templateData, isLoading } = useGetTemplateData();
   const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
   
@@ -71,6 +72,7 @@ export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, them
 
 export const usePreview = (): PreviewContextType => {
   const context = useContext(PreviewContext);
+  
   if (!context) {
     throw new Error('usePreview must be used within a PreviewProvider');
   }

@@ -2,7 +2,7 @@ import { EventsSection } from "./components/EventsSection";
 import { GuestList } from "./components/GuestList";
 import { HeroSection } from "./components/HeroSection";
 import { PhotoGallery } from "./components/PhotoGallery";
-import { PreviewProvider } from "../../../context/PreviewContext";
+
 
 import "./index.css";
 import  RSVPForm  from "../template-1/components/RSVPform";
@@ -19,7 +19,7 @@ function MarriageContent() {
     return param.length === 10 && !uuidRegex.test(param);
   };
   const isRSVp = param ? isRSVPToken(param) : false;
-  
+ 
   return (
     <div className=""> 
       <HeroSection />
@@ -36,8 +36,6 @@ function MarriageContent() {
 
 export default function MarriageTemplate1() {
   return (
-    <PreviewProvider theme="wedding">
-      <MarriageContent />
-    </PreviewProvider>
+    <MarriageContent />
   );
 }

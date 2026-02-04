@@ -70,7 +70,7 @@ export default function App() {
         return param.length === 10 && !uuidRegex.test(param);
     };
     const isRSVp = param ? isRSVPToken(param) : false;
-  return <PreviewProvider>
+  return (
     <div className="min-h-screen bg-cream selection:bg-maroon selection:text-gold pb-24">
       <header>
         <MandalaHeader />
@@ -127,5 +127,5 @@ export default function App() {
         </p>
       </footer>
     </div>
-  </PreviewProvider>;
+  )
 }
