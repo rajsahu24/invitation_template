@@ -2,7 +2,6 @@ import { InvitationContent } from './components/InvitationContent';
 import { EventSchedule } from './components/EventSchedule';
 import { PhotoGallery } from './components/PhotoGallery';
 import { RSVPForm } from './components/RSVPForm';
-import { PreviewProvider } from '../../../context/PreviewContext';
 import { motion } from 'framer-motion';
 // Decorative Mandala Component
 const MandalaHeader = () => <div className="w-full h-64 md:h-80 bg-maroon relative overflow-hidden flex items-center justify-center">
