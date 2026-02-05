@@ -1,117 +1,21 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { Invitation, PreviewData, RsvpInvitationResponse } from './getTemplateDataModel';
+import { DEFAULT_INVITATION_DATA, getIdFromUrl } from '../assets/utils';
 
-
-
-
-
-export const DEFAULT_INVITATION_DATA: RsvpInvitationResponse = {
-    invitation: {
-        id: 'default',
-        user_id: 'default',
-        invitation_type: 'wedding',
-        invitation_title: 'Alexander & Victoria',
-        invitation_message: 'We invite you to celebrate our special day as we embark on a new journey together.',
-        invitation_tag_line: 'Celebrate Love, Laughter, and Happily Ever After',
-        public_id: 'default',
-        template: {
-            id: "",
-            template_key: "",
-            template_name: "Modern Wedding",
-            template_type: "Wedding",
-            is_active: true,
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-        },
-        metadata: {
-            bride_name: 'Victoria',
-            groom_name: 'Alexander',
-            wedding_date: '2024-12-12',
-            wedding_location: 'Grand Palace, London'
-        },
-
-        quick_action: null,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-        invitation_template_id: '1'
-    },
-
-    events: [
-        {
-            id: 'e1',
-            booking_id: null,
-            name: 'Wedding Ceremony',
-            event_type: 'ceremony',
-            invitation_id: 'default',
-            venue_id: null,
-            start_time: '2024-12-12T10:00:00Z',
-            end_time: '2024-12-12T12:00:00Z',
-            description: 'The formal exchange of vows.',
-            metadata: { questionnaire: [] },
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            event_location: 'St. Mary\'s Cathedral'
-        },
-        {
-            id: 'e2',
-            booking_id: null,
-            name: 'Reception',
-            event_type: 'reception',
-            invitation_id: 'default',
-            venue_id: null,
-            start_time: '2024-12-12T18:00:00Z',
-            end_time: '2024-12-13T00:00:00Z',
-            description: 'Dinner, drinks, and dancing.',
-            metadata: { questionnaire: [] },
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-            event_location: 'Grand Ballroom'
-        }
-    ],
-    images: [],
-    guest: {},
-    invitation_tag_line: 'Join us for our special day'
-};
 
 export const useGetTemplateData = () => {
     const [previewData, setPreviewData] = useState<PreviewData | RsvpInvitationResponse>(DEFAULT_INVITATION_DATA);
-    const [hasReceivedMessage, setHasReceivedMessage] = useState(false);
     const [invitationDetails, setInvitationDetails] = useState<Invitation>();
     const [isLoading, setIsLoading] = useState(true);
-    const [hasFetchedDetails, setHasFetchedDetails] = useState(false);
-    const [hasFetchedData, setHasFetchedData] = useState(false);
+    const [hasFetchedInitial, setHasFetchedInitial] = useState(false);
 
-    const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | null } => {
-        const pathParts = window.location.pathname.split('/');
-        const id = pathParts[1] || null;
-
-        if (!id) return { id: null, type: null };
-
-        // Check if it's a UUID (template_id)
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        if (uuidRegex.test(id)) {
-            return { id, type: 'template' };
-        }
-        const rsvp_token = isRSVPToken(id)
-        if (rsvp_token) return { id: id, type: 'rsvp_token' }
-        // Otherwise it's a nano ID (public_id)
-        return { id, type: 'public' };
-    };
-
-
-    const isRSVPToken = (param: string): boolean => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return param.length === 10 && !uuidRegex.test(param);
-    };
-
-    const fetchGuestInvitationData = async (invitationId: string) => {
+    const fetchGuestInvitationData = useCallback(async (invitationId: string) => {
         setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitations/rsvp/${invitationId}`);
             if (response.ok) {
                 const data = await response.json();
                 setPreviewData(data);
-
             } else {
                 setPreviewData(DEFAULT_INVITATION_DATA);
             }
@@ -121,15 +25,14 @@ export const useGetTemplateData = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    const fetchTemplateData = async (template_id: string) => {
+    const fetchTemplateData = useCallback(async (template_id: string) => {
         setIsLoading(true);
         try {
             const response = await fetch(`${import.meta.env.VITE_API_URL}/api/templates/${template_id}`);
             if (response.ok) {
                 const templateData = await response.json();
-
                 setPreviewData({
                     invitation: {
                         ...DEFAULT_INVITATION_DATA.invitation,
@@ -150,32 +53,9 @@ export const useGetTemplateData = () => {
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    const fetchInvitationDetails = async (public_id: string) => {
-        if (hasFetchedDetails) return;
-        setHasFetchedDetails(true);
-        setIsLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitations/public/${public_id}`);
-            if (response.ok) {
-                const data = await response.json();
-                setInvitationDetails(data);
-                console.log(data)
-            } else {
-                setPreviewData(DEFAULT_INVITATION_DATA);
-            }
-        } catch (error) {
-            console.error('Failed to fetch invitation data:', error);
-            setPreviewData(DEFAULT_INVITATION_DATA);
-        } finally {
-            setIsLoading(false);
-        }
-    };
-
-    const fetchInvitationData = async (invitationId: string) => {
-        if (hasFetchedData) return;
-        setHasFetchedData(true);
+    const fetchInvitationData = useCallback(async (invitationId: string) => {
         setIsLoading(true);
         try {
             const [invitationResponse, eventsResponse, imageResponse] = await Promise.all([
@@ -200,60 +80,102 @@ export const useGetTemplateData = () => {
                 setPreviewData(DEFAULT_INVITATION_DATA);
             }
         } catch (error) {
-            console.error('Failed to fetch invitation data:', error);
+            console.error('Failed to fetch full invitation data:', error);
             setPreviewData(DEFAULT_INVITATION_DATA);
         } finally {
             setIsLoading(false);
         }
-    };
+    }, []);
 
-    useEffect(() => {
-        if (invitationDetails && invitationDetails.id && !hasFetchedData) {
-            console.log("Fetching full invitation data for:", invitationDetails.id);
-            fetchInvitationData(invitationDetails.id);
-        }
-    }, [invitationDetails, hasFetchedData]);
-
-    useEffect(() => {
-        const handleMessage = (event: MessageEvent) => {
-            if (event.data?.type === 'INVITATION_PREVIEW_UPDATE') {
-                console.log('Preview update received:', event.data.payload);
-                const payload = event.data.payload;
-
-                if (payload && !payload.invitation && payload.invitation_title) {
-                    setPreviewData({
-                        invitation: payload,
-                        events: payload.events || [],
-                        images: payload.images || [],
-                        guest: {},
-                        invitation_tag_line: payload.invitation_tag_line || ''
-                    });
-                } else {
-                    setPreviewData(payload || {});
+    const fetchInvitationDetails = useCallback(async (public_id: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitations/public/${public_id}`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Public invitation details fetched:', data);
+                setInvitationDetails(data);
+                // After getting details, we need to fetch the full data using the real ID
+                if (data.id) {
+                    await fetchInvitationData(data.id);
                 }
-                setHasReceivedMessage(true);
+            } else {
+                setPreviewData(DEFAULT_INVITATION_DATA);
             }
-        };
+        } catch (error) {
+            console.error('Failed to fetch invitation details by public_id:', error);
+            setPreviewData(DEFAULT_INVITATION_DATA);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [fetchInvitationData]);
 
-        window.addEventListener('message', handleMessage);
+    // Initial data load effect
+    useEffect(() => {
+        if (hasFetchedInitial) return;
 
         const { id, type } = getIdFromUrl();
+        console.log('Hook initialized. URL context:', { id, type });
 
         if (type === 'template' && id) {
             fetchTemplateData(id);
         } else if (type === 'rsvp_token' && id) {
             fetchGuestInvitationData(id);
-        } else if (type === 'public' && id && !hasFetchedDetails) {
+        } else if (type === 'public' && id) {
             fetchInvitationDetails(id);
-        } else if (!id && !hasReceivedMessage) {
+        } else if (!id) {
             setPreviewData(DEFAULT_INVITATION_DATA);
             setIsLoading(false);
         }
 
-        return () => {
-            window.removeEventListener('message', handleMessage);
-        };
-    }, [hasReceivedMessage]);
+        setHasFetchedInitial(true);
+    }, [hasFetchedInitial, fetchTemplateData, fetchGuestInvitationData, fetchInvitationDetails]);
 
-    return { previewData, isLoading };
+    // Message listener effect
+    useEffect(() => {
+        const handleMessage = (event: MessageEvent) => {
+            if (event.data?.type === 'INVITATION_PREVIEW_UPDATE') {
+                const payload = event.data.payload;
+                console.log('Preview update message received:', payload);
+
+                if (!payload || Object.keys(payload).length === 0) {
+                    console.log('Empty payload received, ignoring update');
+                    return;
+                }
+
+                setPreviewData(prev => {
+                    // If the payload is a full RSVP response or PreviewData
+                    if (payload.invitation) {
+                        return { ...prev, ...payload };
+                    }
+
+                    // If the payload is just partial invitation fields (from DetailsForm)
+                    if (payload.invitation_title || payload.invitation_message || payload.invitation_tag_line) {
+                        // Merge with current invitation data if it exists
+                        const currentInvitation = 'invitation' in prev ? prev.invitation : {};
+                        return {
+                            ...prev,
+                            invitation: {
+                                ...currentInvitation,
+                                ...payload
+                            }
+                        } as RsvpInvitationResponse;
+                    }
+
+                    return { ...prev, ...payload };
+                });
+            }
+        };
+
+        window.addEventListener('message', handleMessage);
+        return () => window.removeEventListener('message', handleMessage);
+    }, []);
+
+    const result = useMemo(() => ({
+        previewData,
+        isLoading,
+        invitationDetails
+    }), [previewData, isLoading, invitationDetails]);
+
+    return result;
 };

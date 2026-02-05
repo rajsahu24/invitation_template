@@ -20,14 +20,27 @@ const TEMPLATE_MAP: any = {
   }
 };
 
+
+
+
 function TemplateContent() {
   const { previewData } = usePreview();
-  const invitation = previewData.invitation;
-  console.log(invitation.template)
-  const category = invitation.template.template_type
-  const templateName = invitation.template.template_name
+  const invitation = previewData?.invitation;
+  console.log("preview",previewData)
+  // console.log('Template object:', invitation?.template)
+  console.log('Full invitation:', invitation)
+  
+  // Add null checks and fallbacks
+  const category = invitation.template?.template_type  
+  const templateName = invitation.template?.template_name 
+  
+  console.log('Category:', category)
+  console.log('Template Name:', templateName)
+  console.log('Available templates for category:', TEMPLATE_MAP[category])
 
   const Template = TEMPLATE_MAP[category]?.[templateName];
+  
+
   
   if (!Template) {
     return (
