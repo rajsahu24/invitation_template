@@ -18,27 +18,25 @@ const TEMPLATE_MAP: any = {
   Birthday: {
     "Birthday Celebration": BirthdayT1
   }
-};
+};  
 
 
 
 
 function TemplateContent() {
+  const { category, templateName } = useParams();
   const { previewData } = usePreview();
   const invitation = previewData?.invitation;
-  console.log("preview",previewData)
-  // console.log('Template object:', invitation?.template)
-  console.log('Full invitation:', invitation)
+  const template_name = templateName?.replace( "_", " " )
+  // Prioritize invitation data if available, otherwise use URL params
+  const finalCategory = invitation?.template?.template_type || category;
+  const finalTemplateName = invitation?.template?.template_name || template_name;
   
-  // Add null checks and fallbacks
-  const category = invitation.template?.template_type  
-  const templateName = invitation.template?.template_name 
-  
-  console.log('Category:', category)
-  console.log('Template Name:', templateName)
-  console.log('Available templates for category:', TEMPLATE_MAP[category])
+  console.log('Category:', finalCategory, 'Template Name:', finalTemplateName);
 
-  const Template = TEMPLATE_MAP[category]?.[templateName];
+  const categoryKey = (finalCategory || "") as string;
+  const templateKey = (finalTemplateName || "") as string;
+  const Template = TEMPLATE_MAP[categoryKey]?.[templateKey];
   
 
   
@@ -47,8 +45,8 @@ function TemplateContent() {
       <div className="min-h-screen flex flex-col items-center justify-center bg-stone-50 p-4 text-center">
         <h2 className="text-3xl font-[Caveat] text-stone-700 font-bold mb-4">Template Not Found</h2>
         <div className="text-stone-500 space-y-2">
-          <p>Category: <span className="font-mono text-stone-800">{category}</span></p>
-          <p>Template Name: <span className="font-mono text-stone-800">{templateName}</span></p>
+          <p>Category: <span className="font-mono text-stone-800">{finalCategory}</span></p>
+          <p>Template Name: <span className="font-mono text-stone-800">{finalTemplateName}</span></p>
         </div>
       </div>
     );
@@ -58,9 +56,11 @@ function TemplateContent() {
 }
 
 export default function TemplateRenderer() {
-  const { id } = useParams();
+  const { id, invitation_id } = useParams();
+  const actualId = invitation_id || id;
+  console.log('Params:', { id, invitation_id, actualId });
   
-  if (!id) {
+  if (!actualId) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-stone-50 p-4 text-center">
         <h2 className="text-3xl font-[Caveat] text-stone-700 font-bold mb-4">Invalid URL</h2>

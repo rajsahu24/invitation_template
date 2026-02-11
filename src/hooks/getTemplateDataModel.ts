@@ -2,9 +2,26 @@ export interface RsvpInvitationResponse {
   guest: Guest | {};
   invitation: Invitation;
   metadata?: Record<string, any>;
-  invitation_tag_line:string
+  invitation_tag_line: string;
   events: Event[];
   images: Image[];
+  family_info?: FamilyInfoMember[];
+}
+
+export interface TemplateSection {
+  template_name: string;
+  template_type: string;
+  invitation_data_id: string;
+  template_section_id: string;
+  section_name: string;
+  data: any;
+}
+
+export interface FamilyInfoMember {
+  title: string;
+  tag_line: string;
+  groomsmen: string;
+  bridesmaids: string;
 }
 
 interface Guest {
@@ -22,14 +39,14 @@ interface Guest {
   rsvp_token: string;
 }
 
- interface Template {
-  id: string;                 
-  template_type: string;      
-  template_name: string;      
-  template_key: string;       
+interface Template {
+  id: string;
+  template_type: string;
+  template_name: string;
+  template_key: string;
   is_active: boolean;
-  created_at: string;         
-  updated_at: string;         
+  created_at: string;
+  updated_at: string;
 };
 
 export interface Invitation {
@@ -41,8 +58,8 @@ export interface Invitation {
   invitation_tag_line: string;
   metadata: InvitationMetadata;
   quick_action: string | null;
-  template:Template;
-  public_id:string
+  template: Template;
+  public_id: string
   created_at: string;
   updated_at: string;
   invitation_template_id: string;
@@ -55,12 +72,12 @@ interface InvitationMetadata {
   wedding_location?: string;
   [key: string]: any;   // future safe
 }
- interface EventMetadata {
+interface EventMetadata {
   questionnaire: any[];
   [key: string]: any;
 }
 
- interface Event {
+interface Event {
   id: string;
   booking_id: string | null;
   name: string;
@@ -93,6 +110,6 @@ export interface PreviewData {
   invitation_tag_line?: string;
   invitation_type?: string;
   metadata?: Record<string, any>;
-  images?:Image
+  images?: Image
   events?: any[];
 }

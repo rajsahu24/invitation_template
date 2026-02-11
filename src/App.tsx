@@ -7,6 +7,10 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         <Route
+          path="/preview/:category/:templateName/:invitation_id"
+          element={<TemplateRenderer />}
+        />
+        <Route
           path="/:id"
           element={<TemplateRenderer />}
         />
