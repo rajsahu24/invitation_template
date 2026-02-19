@@ -8,7 +8,7 @@ export function Hero() {
   const heroSection = previewData?.hero_section;
   const data = heroSection?.data;
   const schema = heroSection?.schema;
-
+  console.log("data",data)
   const getFieldValue = (key: string) => (data && typeof data === 'object' ? data[key] : '') || '';
   
   let brideName = '';

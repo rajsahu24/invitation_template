@@ -29,7 +29,7 @@ export const useGetTemplateData = () => {
     }, []);
 
 
-    
+
     const fetchInvitationData = useCallback(async (invitationId: string) => {
         setIsLoading(true);
         console.log(invitationId)
@@ -74,6 +74,25 @@ export const useGetTemplateData = () => {
         }
     }, []);
 
+    const fetchTemplateData = useCallback(async (template_id: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/templates/${template_id}`);
+            if (response.ok) {
+                const data = await response.json();
+                setPreviewData(data);
+                console.log('Template data fetched:', data);
+            } else {
+                setPreviewData([]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch template data:', error);
+            setPreviewData([]);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
     // Initial data load effect
     useEffect(() => {
         if (hasFetchedInitial) return;
@@ -87,13 +106,15 @@ export const useGetTemplateData = () => {
             fetchGuestInvitationData(id);
         } else if (type === 'public' && id) {
             fetchInvitationDetails(id);
+        } else if (type === 'template' && id) {
+            fetchTemplateData(id);
         } else if (!id) {
             setPreviewData([]);
             setIsLoading(false);
         }
 
         setHasFetchedInitial(true);
-    }, [hasFetchedInitial, fetchGuestInvitationData, fetchInvitationDetails, fetchInvitationData]);
+    }, [hasFetchedInitial, fetchGuestInvitationData, fetchInvitationDetails, fetchInvitationData, fetchTemplateData]);
 
     // Message listener effect
     useEffect(() => {
@@ -108,19 +129,58 @@ export const useGetTemplateData = () => {
                 }
 
                 setPreviewData(prev => {
-                    // If the payload is a full RSVP response or PreviewData
-                    if (payload.invitation) {
+                    if (!prev) return payload;
+
+                    // If it's a full data object
+                    if (payload.invitation_id) {
                         return { ...prev, ...payload };
                     }
 
-                    // If the payload is just partial invitation fields (from DetailsForm)
-                    if (payload.invitation_title || payload.invitation_message || payload.invitation_tag_line) {
-                        // Merge with current invitation data if it exists
-                        if(!prev) return
-                        // const currentInvitation = 'invitation' in  prev ? prev.invitation : {};
+                    // If it's a section-specific update from DetailsForm
+                    if (payload.section_type && payload.metadata) {
+                        const sectionKey = payload.section_type;
+                        const existingSection = (prev as any)[sectionKey] || {};
+
+                        let newData;
+                        if (Array.isArray(payload.metadata)) {
+                            // If it's an array (repeated section), we take it as the new state for that section
+                            newData = payload.metadata;
+                        } else {
+                            // If it's an object, we merge it
+                            newData = {
+                                ...(existingSection.data || {}),
+                                ...payload.metadata
+                            };
+                        }
+
                         return {
                             ...prev,
-                        } as InvitationData;
+                            [sectionKey]: {
+                                ...existingSection,
+                                data: newData
+                            }
+                        };
+                    }
+
+                    // For top-level invitation fields
+                    const invitationFields = ['invitation_title', 'invitation_message', 'invitation_tag_line', 'invitation_type'];
+                    let hasInvitationField = false;
+                    const update: any = {};
+
+                    invitationFields.forEach(field => {
+                        if (payload[field] !== undefined) {
+                            update[field] = payload[field];
+                            hasInvitationField = true;
+                        }
+                    });
+
+                    if (hasInvitationField || payload.metadata) {
+                        return {
+                            ...prev,
+                            ...update,
+                            // If metadata is present but no section_name, we merge it at top level or into existing metadata if it exists
+                            metadata: payload.metadata ? { ...({}), ...payload.metadata } : ""
+                        };
                     }
 
                     return { ...prev, ...payload };

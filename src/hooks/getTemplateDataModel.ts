@@ -116,6 +116,7 @@ export interface PreviewData {
 
 
 export type SectionResponse<T = any> = {
+ 
   invitation_data_id: string;
   template_section_id: string;
   data: T;
@@ -123,6 +124,8 @@ export type SectionResponse<T = any> = {
 };
 
 export type InvitationData = {
+   invitation_id:string
   template_name: string;
   template_type: string;
+  
 } & Record<string, SectionResponse>;

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionDivider, CornerDecoration } from './ui/OrnateDecorations';
-// import { usePreview } from '../../../../context/PreviewContext';
-// import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
+import { usePreview } from '../../../../context/PreviewContext';
+import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
 export function RSVPSection() {
   const [formState, setFormState] = useState({
     name: '',
@@ -12,9 +12,9 @@ export function RSVPSection() {
     status: '2',
     message: ''
   });
-    // const { previewData } = usePreview() as { previewData: InvitationData };
-    // const eventSection = previewData?.event_section;
-    // const events = eventSection?.data || [];
+    const { previewData } = usePreview() as { previewData: InvitationData };
+    const invitation_id = previewData.invitation_id
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -30,7 +30,7 @@ export function RSVPSection() {
           name: formState.name,
           phone: formState.phone,
           email: formState.email,
-          invitation_id: formState.invitation_id,
+          invitation_id: invitation_id,
           status: formState.status,
         }),
       });
