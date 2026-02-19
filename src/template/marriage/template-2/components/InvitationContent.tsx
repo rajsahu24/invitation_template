@@ -1,6 +1,6 @@
 
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin } from 'lucide-react';
+import { Calendar,  MapPin } from 'lucide-react';
 import { usePreview } from '../../../../context/PreviewContext';
 
 const containerVariants = {

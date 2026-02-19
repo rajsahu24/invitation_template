@@ -30,7 +30,14 @@ const containerVariants = {
   }
 };
 
-const schedule = [{
+
+export function EventSchedule() {
+  const { previewData } = usePreview();
+  const eventSection = previewData?.event_section;
+  let events = eventSection?.data || [];
+  const schema = eventSection?.schema;
+  if(!events){
+   events = [{
   time: '4:00 PM',
   title: 'Baraat Swagat',
   description: 'Welcoming the Groom with music and dance',
@@ -51,13 +58,7 @@ const schedule = [{
   description: 'Celebration continues into the night',
   icon: Wine
 }];
-
-export function EventSchedule() {
-  const { previewData } = usePreview();
-  const eventSection = previewData?.event_section;
-  const events = eventSection?.data || [];
-  const schema = eventSection?.schema;
-
+  }
   if (!Array.isArray(events) || events.length === 0) return null;
 
   const renderEvent = (event: any, index: number) => {

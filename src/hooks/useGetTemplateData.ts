@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback, useMemo } from 'react';
 import type { InvitationData } from './getTemplateDataModel';
-import {  DEFAULT_INVITATION_DATA, getIdFromUrl } from '../assets/utils';
+import { getIdFromUrl } from '../assets/utils';
 
 
 export const useGetTemplateData = () => {
@@ -28,33 +28,7 @@ export const useGetTemplateData = () => {
         }
     }, []);
 
-    const fetchTemplateData = useCallback(async (template_id: string) => {
-        setIsLoading(true);
-        try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/templates/${template_id}`);
-            if (response.ok) {
-                const templateData = await response.json();
-                // setPreviewData({
-                //     invitation: {
-                //         ...DEFAULT_INVITATION_DATA.invitation,
-                //         invitation_type: templateData.template_type?.toLowerCase() || 'wedding',
-                //         template: templateData
-                //     },
-                //     events: DEFAULT_INVITATION_DATA.events,
-                //     // images: [],
-                //     // guest: {},
-                //     invitation_tag_line: DEFAULT_INVITATION_DATA.invitation_tag_line
-                // });
-            } else {
-                setPreviewData(DEFAULT_INVITATION_DATA);
-            }
-        } catch (error) {
-            console.error('Failed to fetch template data:', error);
-            setPreviewData(DEFAULT_INVITATION_DATA);
-        } finally {
-            setIsLoading(false);
-        }
-    }, []);
+
     
     const fetchInvitationData = useCallback(async (invitationId: string) => {
         setIsLoading(true);

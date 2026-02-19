@@ -24,20 +24,20 @@ export interface FamilyInfoMember {
   bridesmaids: string;
 }
 
-interface Guest {
-  id: string;
-  booking_id: string | null;
-  invitation_id: string;
-  name: string;
-  guest_type: string | null;
-  phone: string;
-  email: string;
-  metadata: Record<string, any>;
-  status: number;   // 0–4 enum
-  created_at: string;
-  updated_at: string;
-  rsvp_token: string;
-}
+// interface Guest {
+//   id: string;
+//   booking_id: string | null;
+//   invitation_id: string;
+//   name: string;
+//   guest_type: string | null;
+//   phone: string;
+//   email: string;
+//   metadata: Record<string, any>;
+//   status: number;   // 0–4 enum
+//   created_at: string;
+//   updated_at: string;
+//   rsvp_token: string;
+// }
 
 interface Template {
   id: string;
@@ -72,26 +72,26 @@ interface InvitationMetadata {
   wedding_location?: string;
   [key: string]: any;   // future safe
 }
-interface EventMetadata {
-  questionnaire: any[];
-  [key: string]: any;
-}
+// interface EventMetadata {
+//   questionnaire: any[];
+//   [key: string]: any;
+// }
 
-interface Event {
-  id: string;
-  booking_id: string | null;
-  name: string;
-  event_type: string | null;
-  invitation_id: string;
-  venue_id: string | null;
-  start_time: string;     // ISO date string
-  end_time: string | null;
-  description: string | null;
-  metadata: EventMetadata;
-  created_at: string;
-  updated_at: string;
-  event_location: string | null;
-}
+// interface Event {
+//   id: string;
+//   booking_id: string | null;
+//   name: string;
+//   event_type: string | null;
+//   invitation_id: string;
+//   venue_id: string | null;
+//   start_time: string;     // ISO date string
+//   end_time: string | null;
+//   description: string | null;
+//   metadata: EventMetadata;
+//   created_at: string;
+//   updated_at: string;
+//   event_location: string | null;
+// }
 
 interface Image {
   id: string;

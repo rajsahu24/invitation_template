@@ -1,6 +1,6 @@
-import type { RsvpInvitationResponse } from "../hooks/getTemplateDataModel";
 
-export const DEFAULT_INVITATION_DATA: RsvpInvitationResponse = {
+
+export const DEFAULT_INVITATION_DATA:any  = {
     invitation: {
         id: 'default',
         user_id: 'default',
