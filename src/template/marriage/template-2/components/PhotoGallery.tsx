@@ -27,8 +27,10 @@ const CornerFlourish = ({
     <path d="M0,0 L0,20 C0,10 5,5 15,5 L35,5 L35,0 Z" />
   </svg>;
 export function PhotoGallery() {
-     const { previewData } = usePreview();
-     const images = (previewData as any).images || [];
+  const { previewData } = usePreview();
+  const images = (previewData as any).images || [];
+
+  if (!Array.isArray(images) || images.length === 0) return null;
   return <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{
     once: true,
     margin: '-100px'
@@ -46,47 +48,31 @@ export function PhotoGallery() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        {images.length===0 ? (
-          <div className="md:col-span-2 flex items-center justify-center py-20">
-            <div className="w-8 h-8 border-2 border-gold border-t-transparent rounded-full animate-spin" />
+        <motion.div className="md:col-span-2 relative group">
+          <div className="relative p-2 border-4 border-double border-gold/40 bg-white/50 shadow-lg transform transition-transform duration-500 hover:scale-[1.01]">
+            <CornerFlourish className="top-0 left-0" />
+            <CornerFlourish className="top-0 right-0 rotate-90" />
+            <CornerFlourish className="bottom-0 right-0 rotate-180" />
+            <CornerFlourish className="bottom-0 left-0 -rotate-90" />
+            <div className="overflow-hidden aspect-[16/9]">
+              <img src={images[0]?.image_url} alt="Gallery photo 1" className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
+            </div>
           </div>
-        ) : images.length === 0 ? (
-          <div className="md:col-span-2 text-center py-20">
-            <p className="text-brown/60 font-serif italic">No photos available yet</p>
-          </div>
-        ) : (
-          <>
-            {/* Featured Large Image */}
-            <motion.div className="md:col-span-2 relative group">
-              <div className="relative p-2 border-4 border-double border-gold/40 bg-white/50 shadow-lg transform transition-transform duration-500 hover:scale-[1.01]">
-                <CornerFlourish className="top-0 left-0" />
-                <CornerFlourish className="top-0 right-0 rotate-90" />
-                <CornerFlourish className="bottom-0 right-0 rotate-180" />
-                <CornerFlourish className="bottom-0 left-0 -rotate-90" />
+        </motion.div>
 
-                <div className="overflow-hidden aspect-[16/9]">
-                  <img src={images[0]?.image_url} alt="Gallery photo 1" className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
-                </div>
+        {images.slice(1).map((photo: any, index: number) => (
+          <motion.div key={photo.id} className="relative group">
+            <div className="relative p-2 border-4 border-double border-gold/40 bg-white/50 shadow-lg transform transition-transform duration-500 hover:scale-[1.02]">
+              <CornerFlourish className="top-0 left-0 scale-75" />
+              <CornerFlourish className="top-0 right-0 rotate-90 scale-75" />
+              <CornerFlourish className="bottom-0 right-0 rotate-180 scale-75" />
+              <CornerFlourish className="bottom-0 left-0 -rotate-90 scale-75" />
+              <div className="overflow-hidden aspect-[4/3]">
+                <img src={photo.image_url} alt={`Gallery photo ${index + 2}`} className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
               </div>
-            </motion.div>
-
-            {/* Grid Images */}
-            {images.slice(1).map((photo:any, index:number) => (
-              <motion.div key={photo.id} className="relative group">
-                <div className="relative p-2 border-4 border-double border-gold/40 bg-white/50 shadow-lg transform transition-transform duration-500 hover:scale-[1.02]">
-                  <CornerFlourish className="top-0 left-0 scale-75" />
-                  <CornerFlourish className="top-0 right-0 rotate-90 scale-75" />
-                  <CornerFlourish className="bottom-0 right-0 rotate-180 scale-75" />
-                  <CornerFlourish className="bottom-0 left-0 -rotate-90 scale-75" />
-
-                  <div className="overflow-hidden aspect-[4/3]">
-                    <img src={photo.image_url} alt={`Gallery photo ${index + 2}`} className="w-full h-full object-cover transform transition-transform duration-700 group-hover:scale-110" />
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </>
-        )}
+            </div>
+          </motion.div>
+        ))}
       </div>
 
       <div className="text-center mt-12">

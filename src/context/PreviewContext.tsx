@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import { useGetTemplateData } from '../hooks/useGetTemplateData';
 
 import { GenericLoader } from '../components/LoadingScreen';
-import type { RsvpInvitationResponse } from '../hooks/getTemplateDataModel';
+// import type { RsvpInvitationResponse } from '../hooks/getTemplateDataModel';
 import { DEFAULT_INVITATION_DATA } from '../assets/utils';
 import type { PreviewContextType, PreviewData } from './PreviewContextModel';
+import type { InvitationData } from '../hooks/getTemplateDataModel';
 
 
 
@@ -13,7 +14,7 @@ const PreviewContext = createContext< PreviewContextType | undefined>(undefined)
 
 interface PreviewProviderProps {
   children: ReactNode;
-  initialData?: PreviewData | RsvpInvitationResponse;
+  initialData?: PreviewData | InvitationData;
   theme?: 'birthday' | 'wedding' | 'default';
   public_id?:string;
   template_id?:string;
@@ -22,7 +23,7 @@ interface PreviewProviderProps {
 export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme }) => {
   
   const { previewData: templateData, isLoading } = useGetTemplateData();
-  const safePreviewData: RsvpInvitationResponse = (templateData as RsvpInvitationResponse) || DEFAULT_INVITATION_DATA;
+  const safePreviewData: InvitationData = (templateData as InvitationData) || DEFAULT_INVITATION_DATA;
   
   
   const invitation = (safePreviewData as any).invitation || safePreviewData;

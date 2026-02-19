@@ -5,9 +5,20 @@ import { usePreview } from '../../../../context/PreviewContext';
 
 
 
+const DUMMY_IMAGES = [
+  { image_url: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=800&q=80' },
+  { image_url: 'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=800&q=80' },
+  { image_url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=800&q=80' },
+  { image_url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=800&q=80' },
+  { image_url: 'https://images.unsplash.com/photo-1465495976277-4387d4b0b4c6?w=800&q=80' },
+  { image_url: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=800&q=80' }
+];
+
 export function PhotoGallery() {
-   const { previewData } = usePreview();
-   const images = (previewData as any).images || [];
+  const { previewData } = usePreview();
+  const images = (previewData as any)?.image_section?.data?.images || [];
+  
+  const displayImages = Array.isArray(images) && images.length > 0 ? images : DUMMY_IMAGES;
   return <section className="py-24 bg-royal-cream relative">
       <div className="max-w-7xl mx-auto px-4">
         <div className="text-center mb-16">
@@ -18,17 +29,8 @@ export function PhotoGallery() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-          {images.length=== 0  ? (
-            <div className="col-span-full flex items-center justify-center py-20">
-              <div className="w-8 h-8 border-2 border-royal-gold border-t-transparent rounded-full animate-spin" />
-            </div>
-          ) : images.length === 0 ? (
-            <div className="col-span-full text-center py-20">
-              <p className="text-royal-deepPurple/60 font-playfair italic">No photos available yet</p>
-            </div>
-          ) : (
-            images.map((photo:any, index:number) => (
-              <motion.div key={photo.id} initial={{
+          {displayImages.map((photo: any, index: number) => (
+              <motion.div key={index} initial={{
                 opacity: 0,
                 y: 50
               }} whileInView={{
@@ -56,8 +58,7 @@ export function PhotoGallery() {
                   </motion.div>
                 </OrnateFrame>
               </motion.div>
-            ))
-          )}
+          ))}
         </div>
       </div>
     </section>;

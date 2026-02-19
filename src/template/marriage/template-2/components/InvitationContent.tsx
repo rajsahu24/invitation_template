@@ -30,17 +30,42 @@ export const PaisleyCorner = ({
 
 export function InvitationContent() {
   const { previewData } = usePreview();
+  const heroSection = previewData?.hero_section;
+  const data = heroSection?.data;
+  const schema = heroSection?.schema;
+
+  if (!data) return null;
+
+  const getFieldValue = (key: string) => data[key] || '';
   
-  // Handle unified data structure
-  const invitation = (previewData as any).invitation || previewData;
-  const metadata = invitation?.metadata || {};
-  
-  // Extract data with fallbacks
-  const groomName = metadata?.groom_name || 'Aarav';
-  const brideName = metadata?.bride_name || 'Diya';
-  const weddingDate = metadata?.wedding_date || 'Saturday, December 14th, 2024';
-  const weddingLocation = metadata?.wedding_location || 'The Royal Palace';
-  const invitationMessage = invitation?.invitation_message || 'With the blessings of our parents, we invite you to share in our joy as we embark on this new journey together. Join us for an evening of tradition, music, and celebration.';
+  let brideName = '';
+  let groomName = '';
+  let weddingDate = '';
+  let weddingLocation = '';
+  let message = '';
+
+  if (schema?.fields) {
+    const findField = (keywords: string[]) => 
+      schema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
+
+    const brideField = findField(['bride']);
+    const groomField = findField(['groom']);
+    const dateField = findField(['date']);
+    const locationField = findField(['location']);
+    const messageField = findField(['message', 'description', 'tag']);
+
+    brideName = brideField ? getFieldValue(brideField.key) : '';
+    groomName = groomField ? getFieldValue(groomField.key) : '';
+    weddingDate = dateField ? getFieldValue(dateField.key) : '';
+    weddingLocation = locationField ? getFieldValue(locationField.key) : '';
+    message = messageField ? getFieldValue(messageField.key) : '';
+  } else {
+    brideName = getFieldValue('bride_name');
+    groomName = getFieldValue('groom_name');
+    weddingDate = getFieldValue('date') || getFieldValue('wedding_date');
+    weddingLocation = getFieldValue('location') || getFieldValue('wedding_location');
+    message = getFieldValue('tag_line') || getFieldValue('message') || getFieldValue('description');
+  }
   
   return <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-center space-y-12 relative">
       {/* Decorative Top Element */}
@@ -62,7 +87,7 @@ export function InvitationContent() {
         </div>
 
         <h1 className="text-5xl md:text-7xl font-display text-maroon leading-tight drop-shadow-sm">
-          {groomName} & {brideName}
+          {groomName}{groomName && brideName && ' & '}{brideName}
         </h1>
 
         <p className="text-xl md:text-2xl text-brown font-serif italic">
@@ -71,41 +96,31 @@ export function InvitationContent() {
       </motion.div>
 
       <motion.div  className="py-10 border-y-2 border-gold border-double max-w-lg mx-auto w-full relative">
-        {/* Decorative corner accents for the box */}
         <div className="absolute -top-3 -left-3 w-6 h-6 border-t-2 border-l-2 border-maroon" />
         <div className="absolute -top-3 -right-3 w-6 h-6 border-t-2 border-r-2 border-maroon" />
         <div className="absolute -bottom-3 -left-3 w-6 h-6 border-b-2 border-l-2 border-maroon" />
         <div className="absolute -bottom-3 -right-3 w-6 h-6 border-b-2 border-r-2 border-maroon" />
 
         <div className="grid gap-8 md:gap-6">
-          <div className="flex flex-col items-center space-y-2">
-            <Calendar className="w-6 h-6 text-maroon mb-1" />
-            <p className="text-xl font-serif font-bold text-brown">
-              {weddingDate}
-            </p>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2">
-            <Clock className="w-6 h-6 text-maroon mb-1" />
-            <p className="text-xl font-serif text-brown">6:00 PM - Muhurat</p>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2">
-            <MapPin className="w-6 h-6 text-maroon mb-1" />
-            <p className="text-xl font-serif font-bold text-brown">
-              {weddingLocation}
-            </p>
-            <p className="text-base font-serif text-brown/80">
-              Udaipur, Rajasthan
-            </p>
-          </div>
+          {weddingDate && (
+            <div className="flex flex-col items-center space-y-2">
+              <Calendar className="w-6 h-6 text-maroon mb-1" />
+              <p className="text-xl font-serif font-bold text-brown">{weddingDate}</p>
+            </div>
+          )}
+          {weddingLocation && (
+            <div className="flex flex-col items-center space-y-2">
+              <MapPin className="w-6 h-6 text-maroon mb-1" />
+              <p className="text-xl font-serif font-bold text-brown">{weddingLocation}</p>
+            </div>
+          )}
         </div>
       </motion.div>
 
-      <motion.div  className="max-w-xl mx-auto">
-        <p className="text-lg md:text-xl text-brown font-serif leading-relaxed">
-          {invitationMessage}
-        </p>
-      </motion.div>
+      {message && (
+        <motion.div  className="max-w-xl mx-auto">
+          <p className="text-lg md:text-xl text-brown font-serif leading-relaxed">{message}</p>
+        </motion.div>
+      )}
     </motion.div>;
 }

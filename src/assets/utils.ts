@@ -69,32 +69,32 @@ export const DEFAULT_INVITATION_DATA: RsvpInvitationResponse = {
 };
 
 
-  export  const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | 'invitation' | null } => {
-        const pathParts = window.location.pathname.split('/').filter(Boolean);
-        
-        // Check if it's the new route format: /preview/category/templateName/invitation_id
-        if (pathParts[0] === 'preview' && pathParts.length === 4) {
-            const invitation_id = pathParts[3];
-            return { id: invitation_id, type: 'invitation' };
-        }
-        
-        const id = pathParts[0] || null;
+export const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | 'invitation' | null } => {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
 
-        if (!id) return { id: null, type: null };
+    // Check if it's the new route format: /preview/category/templateName/invitation_id
+    if (pathParts[0] === 'preview' && pathParts.length === 4) {
+        const invitation_id = pathParts[3];
+        return { id: invitation_id, type: 'invitation' };
+    }
 
-       
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        if (uuidRegex.test(id)) {
-            return { id, type: 'template' };
-        }
-        const rsvp_token = isRSVPToken(id)
-        if (rsvp_token) return { id: id, type: 'rsvp_token' }
-        
-        return { id, type: 'public' };
-    };
+    const id = pathParts[0] || null;
+
+    if (!id) return { id: null, type: null };
 
 
- export   const isRSVPToken = (param: string): boolean => {
-        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-        return param.length === 10 && !uuidRegex.test(param);
-    };
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    if (uuidRegex.test(id)) {
+        return { id, type: 'template' };
+    }
+    const rsvp_token = isRSVPToken(id)
+    if (rsvp_token) return { id: id, type: 'rsvp_token' }
+
+    return { id, type: 'public' };
+};
+
+
+export const isRSVPToken = (param: string): boolean => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return param.length === 10 && !uuidRegex.test(param);
+};

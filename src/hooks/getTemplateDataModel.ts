@@ -1,12 +1,12 @@
-export interface RsvpInvitationResponse {
-  guest: Guest | {};
-  invitation: Invitation;
-  metadata?: Record<string, any>;
-  invitation_tag_line: string;
-  events: Event[];
-  images: Image[];
-  family_info?: FamilyInfoMember[];
-}
+// export interface RsvpInvitationResponse {
+//   guest: Guest | {};
+//   invitation: Invitation;
+//   metadata?: Record<string, any>;
+//   invitation_tag_line: string;
+//   events: Event[];
+//   images: Image[];
+//   family_info?: FamilyInfoMember[];
+// }
 
 export interface TemplateSection {
   template_name: string;
@@ -113,3 +113,16 @@ export interface PreviewData {
   images?: Image
   events?: any[];
 }
+
+
+export type SectionResponse<T = any> = {
+  invitation_data_id: string;
+  template_section_id: string;
+  data: T;
+  schema: T
+};
+
+export type InvitationData = {
+  template_name: string;
+  template_type: string;
+} & Record<string, SectionResponse>;

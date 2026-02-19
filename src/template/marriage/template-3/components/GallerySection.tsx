@@ -1,15 +1,33 @@
 
 import { motion } from 'framer-motion';
 import { SectionDivider } from './ui/OrnateDecorations';
-const photos = [
-'https://images.unsplash.com/photo-1605218427368-35b0f996d716?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'https://images.unsplash.com/photo-1587271407850-8d43891882c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'https://images.unsplash.com/photo-1621621667797-e06afc217fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'https://images.unsplash.com/photo-1583939411023-147850f3ad4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
-'https://images.unsplash.com/photo-1606216794074-735e91aa2c92?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'];
+import { usePreview } from '../../../../context/PreviewContext';
+let photos = [
+  {
+    image_url:'https://images.unsplash.com/photo-1605218427368-35b0f996d716?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    image_url:'https://images.unsplash.com/photo-1587271407850-8d43891882c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    image_url:'https://images.unsplash.com/photo-1621621667797-e06afc217fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    image_url:'https://images.unsplash.com/photo-1583939411023-147850f3ad4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    image_url:'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  },
+  {
+    image_url:'https://images.unsplash.com/photo-1511795409873-25c0284a0338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+  }
+]
 
 export function GallerySection() {
+    const { previewData } = usePreview();
+    const images = (previewData as any)?.image_section?.data?.images || [];
+    photos = Array.isArray(images) && images.length > 0 ? images : photos;
+    console.log("this is photos", photos);
   return (
     <section className="py-24 bg-white">
       <div className="container mx-auto px-4">
@@ -61,7 +79,7 @@ export function GallerySection() {
               <div className="absolute inset-0 border-2 border-[#D4AF37] m-4 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 scale-95 group-hover:scale-100"></div>
 
               <img
-              src={photo}
+              src={photo.image_url}
               alt={`Gallery ${index + 1}`}
               className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
 

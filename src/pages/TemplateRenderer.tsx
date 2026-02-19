@@ -26,11 +26,12 @@ const TEMPLATE_MAP: any = {
 function TemplateContent() {
   const { category, templateName } = useParams();
   const { previewData } = usePreview();
-  const invitation = previewData?.invitation;
+  console.log(previewData)
+  const invitation = previewData;
   const template_name = templateName?.replace( "_", " " )
   // Prioritize invitation data if available, otherwise use URL params
-  const finalCategory = invitation?.template?.template_type || category;
-  const finalTemplateName = invitation?.template?.template_name || template_name;
+  const finalCategory = invitation?.template_type ||category ;
+  const finalTemplateName = invitation?.template_name || template_name;
   
   console.log('Category:', finalCategory, 'Template Name:', finalTemplateName);
 
@@ -38,7 +39,6 @@ function TemplateContent() {
   const templateKey = (finalTemplateName || "") as string;
   const Template = TEMPLATE_MAP[categoryKey]?.[templateKey];
   
-
   
   if (!Template) {
     return (

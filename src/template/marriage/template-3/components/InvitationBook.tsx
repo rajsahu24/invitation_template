@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Hand } from 'lucide-react';
 import { Hero } from './Hero';
-import { StorySection } from './StorySection';
+// import { StorySection } from './StorySection';
 import { EventsSection } from './EventsSection';
 import { GallerySection } from './GallerySection';
 import { RSVPSection } from './RSVPSection';
-// Custom Cover Components
-const FrontCover = ({ onOpen }: {onOpen: () => void;}) =>
+import { usePreview } from '../../../../context/PreviewContext';
+
+const FrontCover = ({ onOpen, groomName, brideName, weddingDate }: {onOpen: () => void; groomName: string; brideName: string; weddingDate: string;}) =>
 <div
   className="h-full w-full bg-[#8B0000] flex flex-col items-center justify-center text-[#FFD700] p-8 border-[12px] border-double border-[#FFD700]/30 relative overflow-hidden cursor-pointer"
   onClick={onOpen}>
@@ -26,10 +27,10 @@ const FrontCover = ({ onOpen }: {onOpen: () => void;}) =>
         The Wedding Of
       </p>
       <h1 className="font-serif-display text-5xl md:text-7xl mb-4 drop-shadow-lg">
-        Aarav <br /> <span className="text-3xl">&</span> <br /> Priya
+        {groomName} <br /> <span className="text-3xl">&</span> <br /> {brideName}
       </h1>
       <div className="w-24 h-1 bg-[#FFD700] mx-auto rounded-full my-6" />
-      <p className="font-serif text-lg tracking-wide">October 12th, 2024</p>
+      <p className="font-serif text-lg tracking-wide">{weddingDate}</p>
 
       <motion.div
       animate={{
@@ -46,7 +47,7 @@ const FrontCover = ({ onOpen }: {onOpen: () => void;}) =>
     </div>
   </div>;
 
-const BackCover = () =>
+const BackCover = ({ groomName, brideName }: {groomName: string; brideName: string;}) =>
 <div className="h-full w-full bg-[#8B0000] flex flex-col items-center justify-center text-[#FFD700] p-8 border-[12px] border-double border-[#FFD700]/30 relative">
     <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')]" />
     <div className="text-center z-10">
@@ -55,7 +56,7 @@ const BackCover = () =>
         "We can't wait to celebrate our special day with you."
       </p>
       <div className="mt-12 opacity-60 text-xs uppercase tracking-widest">
-        #AaravWedsPriya
+        #{groomName}Weds{brideName}
       </div>
     </div>
   </div>;
@@ -83,9 +84,43 @@ const PageWrapper = ({
   </div>;
 
 export function InvitationBook() {
+  const { previewData } = usePreview();
+  const heroSection = previewData?.hero_section;
+  const data = heroSection?.data;
+  const schema = heroSection?.schema;
+  console.log("invitation_id",heroSection)
+  const getFieldValue = (key: string) => (data && typeof data === 'object' ? data[key] : '') || '';
+  
+  let brideName = '';
+  let groomName = '';
+  let weddingDate = '';
+
+  if (data && typeof data === 'object') {
+    if (schema?.fields) {
+      const findField = (keywords: string[]) => 
+        schema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
+
+      const brideField = findField(['bride']);
+      const groomField = findField(['groom']);
+      const dateField = findField(['date']);
+
+      brideName = brideField ? getFieldValue(brideField.key) : '';
+      groomName = groomField ? getFieldValue(groomField.key) : '';
+      weddingDate = dateField ? getFieldValue(dateField.key) : '';
+    } else {
+      brideName = getFieldValue('bride_name');
+      groomName = getFieldValue('groom_name');
+      weddingDate = getFieldValue('date') || getFieldValue('wedding_date');
+    }
+  }
+
+  const displayGroomName = groomName || 'Aarav';
+  const displayBrideName = brideName || 'Priya';
+  const displayWeddingDate = weddingDate || 'October 12th, 2024';
+
   const [page, setPage] = useState(0);
-  const [direction, setDirection] = useState(0); // Track swipe direction
-  const totalPages = 6;
+  const [direction, setDirection] = useState(0);
+  const totalPages = 5;
   const nextPage = () => {
     if (page < totalPages) {
       setDirection(1);
@@ -107,6 +142,8 @@ export function InvitationBook() {
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [page]);
+
+  
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#1a0505] via-[#2a0a0a] to-[#1a0505] flex items-center justify-center p-4 md:p-8 overflow-hidden relative">
       {/* Ambient Background */}
@@ -190,7 +227,7 @@ export function InvitationBook() {
             }}
             onClick={nextPage}>
 
-              <FrontCover onOpen={nextPage} />
+              <FrontCover onOpen={nextPage} groomName={displayGroomName} brideName={displayBrideName} weddingDate={displayWeddingDate} />
             </motion.div>
           }
 
@@ -251,22 +288,22 @@ export function InvitationBook() {
                       <Hero />
                     </PageWrapper>
                 }
-                  {page === 2 &&
+                  {/* {page === 2 &&
                 <PageWrapper title="Our Story">
                       <StorySection />
                     </PageWrapper>
-                }
-                  {page === 3 &&
+                } */}
+                  {page === 2 &&
                 <PageWrapper title="Events Timeline">
                       <EventsSection />
                     </PageWrapper>
                 }
-                  {page === 4 &&
+                  {page === 3 &&
                 <PageWrapper title="Gallery & Moments">
                       <GallerySection />
                     </PageWrapper>
                 }
-                  {page === 5 &&
+                  {page === 4 &&
                 <PageWrapper title="RSVP">
                       <RSVPSection />
                     </PageWrapper>
@@ -312,7 +349,7 @@ export function InvitationBook() {
               backfaceVisibility: 'hidden'
             }}>
 
-              <BackCover />
+              <BackCover groomName={displayGroomName} brideName={displayBrideName} />
             </motion.div>
           }
         </AnimatePresence>

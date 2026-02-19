@@ -1,4 +1,5 @@
-import type { RsvpInvitationResponse } from "../hooks/getTemplateDataModel";
+import type { InvitationData } from "../hooks/getTemplateDataModel";
+
 
 export interface InvitationEvent {
   id: string;                     // UUID
@@ -32,6 +33,6 @@ export interface PreviewData {
 }
 
 export interface PreviewContextType {
-  previewData: RsvpInvitationResponse;
+  previewData: InvitationData;
   isLoading: boolean;
 }

@@ -2,39 +2,39 @@
 import { motion } from 'framer-motion';
 import { EventCard } from './EventCard';
 import { SectionDivider, MandalaPattern } from './ui/OrnateDecorations';
-const events = [
-{
-  title: 'Mehndi & Sangeet',
-  date: 'December 11th, 2024',
-  time: '4:00 PM onwards',
-  location: 'The Oberoi Udaivilas, Udaipur',
-  description:
-  'Join us for an evening of music, dance, and henna application. A colorful celebration to kickstart the wedding festivities with traditional folk performances and a gala dinner.',
-  image:
-  'https://images.unsplash.com/photo-1596225577626-38b456897268?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-},
-{
-  title: 'Wedding Ceremony',
-  date: 'December 12th, 2024',
-  time: '10:00 AM',
-  location: 'Jagmandir Island Palace',
-  description:
-  'The sacred union. Witness the Baraat procession followed by the Pheras under the mandap, as we take our vows in the presence of the holy fire and our loved ones.',
-  image:
-  'https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-},
-{
-  title: 'Grand Reception',
-  date: 'December 12th, 2024',
-  time: '7:00 PM',
-  location: 'City Palace, Udaipur',
-  description:
-  'A night of celebration as Mr. & Mrs. Join us for cocktails, dinner, and dancing under the stars to celebrate the beginning of our new chapter together.',
-  image:
-  'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
-}];
+import { usePreview } from '../../../../context/PreviewContext';
+import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
+
+const DUMMY_EVENTS = [
+  {
+    event_name: 'Mehndi & Sangeet',
+    date_time: '2024-12-11T16:00:00',
+    location: 'The Oberoi Udaivilas, Udaipur',
+    description: 'Join us for an evening of music, dance, and henna application. A colorful celebration to kickstart the wedding festivities with traditional folk performances and a gala dinner.',
+    image: 'https://images.unsplash.com/photo-1596225577626-38b456897268?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    event_name: 'Wedding Ceremony',
+    date_time: '2024-12-12T10:00:00',
+    location: 'Jagmandir Island Palace',
+    description: 'The sacred union. Witness the Baraat procession followed by the Pheras under the mandap, as we take our vows in the presence of the holy fire and our loved ones.',
+    image: 'https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+  },
+  {
+    event_name: 'Grand Reception',
+    date_time: '2024-12-12T19:00:00',
+    location: 'City Palace, Udaipur',
+    description: 'A night of celebration as Mr. & Mrs. Join us for cocktails, dinner, and dancing under the stars to celebrate the beginning of our new chapter together.',
+    image: 'https://images.unsplash.com/photo-1511795409834-ef04bbd61622?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+  }
+];
 
 export function EventsSection() {
+  const { previewData } = usePreview() as { previewData: InvitationData };
+  const eventSection = previewData?.event_section;
+  const events = eventSection?.data || [];
+
+  const displayEvents = Array.isArray(events) && events.length > 0 ? events : DUMMY_EVENTS;
   return (
     <section className="py-24 bg-[#FFFAF0] relative overflow-hidden">
       {/* Background Decor */}
@@ -70,8 +70,8 @@ export function EventsSection() {
         </motion.div>
 
         <div className="space-y-8">
-          {events.map((event, index) =>
-          <EventCard key={index} {...event} index={index} />
+          {displayEvents.map((event, index) =>
+          <EventCard key={index} event={event} index={index} />
           )}
         </div>
       </div>

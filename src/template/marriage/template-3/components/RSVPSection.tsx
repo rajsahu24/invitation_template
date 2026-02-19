@@ -1,18 +1,58 @@
-import  { useState } from 'react';
+import { useState } from 'react';
 import { motion } from 'framer-motion';
 import { SectionDivider, CornerDecoration } from './ui/OrnateDecorations';
+import { usePreview } from '../../../../context/PreviewContext';
+import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
 export function RSVPSection() {
   const [formState, setFormState] = useState({
     name: '',
+    phone: '',
     email: '',
-    guests: '1',
-    attending: 'yes',
+    invitation_id: '',
+    status: '2',
     message: ''
   });
-  const handleSubmit = (e: React.FormEvent) => {
+    const { previewData } = usePreview() as { previewData: InvitationData };
+    const eventSection = previewData?.event_section;
+    const events = eventSection?.data || [];
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle submission logic here
-    alert('Thank you for your RSVP!');
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/guests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formState.name,
+          phone: formState.phone,
+          email: formState.email,
+          invitation_id: formState.invitation_id,
+          status: formState.status,
+        }),
+      });
+
+      if (response.ok) {
+        alert('Thank you for your RSVP!');
+        setFormState({
+          name: '',
+          phone: '',
+          email: '',
+          invitation_id: '',
+          status: '2',
+          message: ''
+        });
+      } else {
+        alert('Failed to submit RSVP. Please try again.');
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <section className="py-24 bg-[#FFFAF0] relative">
@@ -38,9 +78,6 @@ export function RSVPSection() {
             RSVP
           </h2>
           <SectionDivider />
-          <p className="text-gray-600 mt-4">
-            Kindly respond by November 1st, 2024
-          </p>
         </motion.div>
 
         <motion.div
@@ -100,63 +137,44 @@ export function RSVPSection() {
               </div>
               <div className="space-y-2">
                 <label className="text-sm uppercase tracking-widest text-gray-500">
-                  Email
+                  Phone
                 </label>
                 <input
-                  type="email"
+                  type="tel"
                   required
                   className="w-full border-b-2 border-gray-200 focus:border-[#8B0000] outline-none py-2 bg-transparent transition-colors"
-                  placeholder="Enter your email"
-                  value={formState.email}
+                  placeholder="Enter your phone"
+                  value={formState.phone}
                   onChange={(e) =>
                   setFormState({
                     ...formState,
-                    email: e.target.value
+                    phone: e.target.value
                   })
                   } />
 
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <label className="text-sm uppercase tracking-widest text-gray-500">
-                  Number of Guests
-                </label>
-                <select
-                  className="w-full border-b-2 border-gray-200 focus:border-[#8B0000] outline-none py-2 bg-transparent transition-colors"
-                  value={formState.guests}
-                  onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    guests: e.target.value
-                  })
-                  }>
 
-                  <option value="1">1 Guest</option>
-                  <option value="2">2 Guests</option>
-                  <option value="3">3 Guests</option>
-                  <option value="4">4 Guests</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-sm uppercase tracking-widest text-gray-500">
-                  Will you attend?
-                </label>
-                <select
-                  className="w-full border-b-2 border-gray-200 focus:border-[#8B0000] outline-none py-2 bg-transparent transition-colors"
-                  value={formState.attending}
-                  onChange={(e) =>
-                  setFormState({
-                    ...formState,
-                    attending: e.target.value
-                  })
-                  }>
 
-                  <option value="yes">Joyfully Accept</option>
-                  <option value="no">Regretfully Decline</option>
-                </select>
-              </div>
+            <div className="space-y-2">
+              <label className="text-sm uppercase tracking-widest text-gray-500">
+                Will you attend?
+              </label>
+              <select
+                className="w-full border-b-2 border-gray-200 focus:border-[#8B0000] outline-none py-2 bg-transparent transition-colors"
+                value={formState.status}
+                onChange={(e) =>
+                setFormState({
+                  ...formState,
+                  status: e.target.value
+                })
+                }>
+
+                <option value="2">Joyfully Accept</option>
+                <option value="3">May be</option>
+                <option value="4">Regretfully Decline</option>
+              </select>
             </div>
 
             <div className="space-y-2">
@@ -180,9 +198,10 @@ export function RSVPSection() {
             <div className="pt-6 text-center">
               <button
                 type="submit"
-                className="bg-[#8B0000] text-white px-12 py-3 rounded-sm uppercase tracking-widest hover:bg-[#A52A2A] transition-colors duration-300 shadow-lg">
+                disabled={isSubmitting}
+                className="bg-[#8B0000] text-white px-12 py-3 rounded-sm uppercase tracking-widest hover:bg-[#A52A2A] transition-colors duration-300 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
 
-                Send RSVP
+                {isSubmitting ? 'Sending...' : 'Send RSVP'}
               </button>
             </div>
           </form>

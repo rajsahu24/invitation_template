@@ -54,16 +54,7 @@ export function BookPage({
         </div>
       </div>
 
-      {/* Back of the page (Left side content for the NEXT spread) -
-             Note: In a real DOM implementation, the back of this div would be the "left" page of the next spread.
-             However, for simplicity in React, we often just render the front and handle the "back" as a separate component or just let this be single sided
-             and rely on the page underneath.
-             
-             BUT for a true flip, we need the back content.
-             For this implementation, we will assume this component renders ONE physical sheet of paper.
-             The 'children' is the FRONT content.
-             We might need a 'backContent' prop if we want to render the other side.
-         */}
+
     </motion.div>);
 
 }

@@ -51,9 +51,71 @@ const schedule = [{
   description: 'Celebration continues into the night',
   icon: Wine
 }];
+
 export function EventSchedule() {
   const { previewData } = usePreview();
-  const events = (previewData as any).events || [];
+  const eventSection = previewData?.event_section;
+  const events = eventSection?.data || [];
+  const schema = eventSection?.schema;
+
+  if (!Array.isArray(events) || events.length === 0) return null;
+
+  const renderEvent = (event: any, index: number) => {
+    let title = '';
+    let location = '';
+    let description = '';
+    let dateDisplay = '';
+    let timeDisplay = '';
+
+    if (schema?.fields) {
+      const titleField = schema.fields.find((f: any) => f.key.toLowerCase().includes('name') || f.key.toLowerCase().includes('title'));
+      const dateField = schema.fields.find((f: any) => f.type === 'datetime' || f.type === 'date');
+      const locationField = schema.fields.find((f: any) => f.key.toLowerCase().includes('location'));
+      const descField = schema.fields.find((f: any) => f.key.toLowerCase().includes('description') || f.key.toLowerCase().includes('tag'));
+
+      title = titleField ? event[titleField.key] : '';
+      location = locationField ? event[locationField.key] : '';
+      description = descField ? event[descField.key] : '';
+
+      if (dateField && event[dateField.key]) {
+        if (dateField.type === 'datetime') {
+          const { date, time } = formatDateTime(event[dateField.key]);
+          dateDisplay = date;
+          timeDisplay = time;
+        } else {
+          dateDisplay = new Date(event[dateField.key]).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+      }
+    } else {
+      title = event.event_name || event.name || event.title || '';
+      location = event.location || event.event_location || '';
+      description = event.description || event.tag_line || '';
+      
+      const dateTimeValue = event.date_time || event.start_time || event.date;
+      if (dateTimeValue) {
+        if (dateTimeValue.includes('T')) {
+          const { date, time } = formatDateTime(dateTimeValue);
+          dateDisplay = date;
+          timeDisplay = time;
+        } else {
+          dateDisplay = new Date(dateTimeValue).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+        }
+      }
+    }
+
+    return (
+      <motion.div key={index} className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-0 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
+        <div className={`flex-1 md:w-1/2 ${index % 2 === 0 ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'} pl-12 md:pl-0`}>
+          {timeDisplay && <span className="text-maroon font-bold text-lg font-display block mb-1">{timeDisplay}</span>}
+          {dateDisplay && <span className="text-maroon/70 font-medium text-sm font-display block mb-2">{dateDisplay}</span>}
+          {title && <h3 className="text-xl font-serif font-bold text-brown mb-1">{title}</h3>}
+          {description && <p className="text-brown/80 text-sm leading-relaxed font-serif italic">{description}</p>}
+          {location && <p className="text-brown/60 text-xs mt-1 font-serif">📍 {location}</p>}
+        </div>
+        <div className="hidden md:block flex-1" />
+      </motion.div>
+    );
+  };
   return <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{
     once: true,
     margin: '-100px'
@@ -76,63 +138,7 @@ export function EventSchedule() {
         <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-gold/30 md:hidden border-l-2 border-dotted border-gold" />
 
         <div className="space-y-12">
-          {Array.isArray(events) && events.length > 0
-  ?events.map((event, index)=> {
-          const { date, time } = formatDateTime(event.start_time);
-          return <motion.div key={index}  className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-0 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                {/* Time & Content Side */}
-                <div className={`flex-1 md:w-1/2 ${index % 2 === 0 ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'} pl-12 md:pl-0`}>
-                  <span className="text-maroon font-bold text-lg font-display block mb-1">
-                    {time}
-                  </span>
-                  <span className="text-maroon/70 font-medium text-sm font-display block mb-2">
-                    {date}
-                  </span>
-                  <h3 className="text-xl font-serif font-bold text-brown mb-1">
-                    {event.name}
-                  </h3>
-                  <p className="text-brown/80 text-sm leading-relaxed font-serif italic">
-                    {event.description}
-                  </p>
-                  <p className="text-brown/60 text-xs mt-1 font-serif">
-                    📍 {event.event_location}
-                  </p>
-                </div>
-
-                {/* Center Icon Marker */}
-                {/* <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-maroon border-2 border-gold z-10 shadow-lg">
-                  <Icon className="w-5 h-5 text-gold" />
-                </div> */}
-
-                {/* Empty side for balance on desktop */}
-                <div className="hidden md:block flex-1" />
-              </motion.div>;
-        }):
-          schedule.map((event, index) => {
-          const Icon = event.icon;
-          return <motion.div key={index}  className={`relative flex flex-col md:flex-row items-start md:items-center gap-6 md:gap-0 ${index % 2 === 0 ? 'md:flex-row-reverse' : ''}`}>
-                {/* Time & Content Side */}
-                <div className={`flex-1 md:w-1/2 ${index % 2 === 0 ? 'md:pl-12 text-left' : 'md:pr-12 md:text-right'} pl-12 md:pl-0`}>
-                  <span className="text-maroon font-bold text-lg font-display block mb-1">
-                    {event.time}
-                  </span>
-                  <h3 className="text-xl font-serif font-bold text-brown mb-1">
-                    {event.title}
-                  </h3>
-                  <p className="text-brown/80 text-sm leading-relaxed font-serif italic">
-                    {event.description}
-                  </p>
-                </div>
-
-                {/* Center Icon Marker */}
-                <div className="absolute left-4 md:left-1/2 -translate-x-1/2 flex items-center justify-center w-10 h-10 rounded-full bg-maroon border-2 border-gold z-10 shadow-lg">
-                  <Icon className="w-5 h-5 text-gold" />
-                </div>
-
-                {/* Empty side for balance on desktop */}
-                <div className="hidden md:block flex-1" />
-              </motion.div>;
-        })}
+          {events.map((event, index) => renderEvent(event, index))}
         </div>
       </div>
     </motion.div>;

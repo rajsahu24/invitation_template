@@ -2,24 +2,40 @@
 import { motion } from 'framer-motion';
 import { CornerDecoration } from './ui/OrnateDecorations';
 import { MapPin, Clock, Calendar } from 'lucide-react';
+
 interface EventCardProps {
-  title: string;
-  date: string;
-  time: string;
-  location: string;
-  description: string;
-  image?: string;
+  event: any;
   index: number;
 }
-export function EventCard({
-  title,
-  date,
-  time,
-  location,
-  description,
-  image,
-  index
-}: EventCardProps) {
+
+const formatDateTime = (dateTimeString: string) => {
+  const date = new Date(dateTimeString);
+  return {
+    date: date.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+    time: date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })
+  };
+};
+
+export function EventCard({ event, index }: EventCardProps) {
+  const title = event.event_name || event.name || event.title || 'Event';
+  const location = event.location || event.event_location || '';
+  const description = event.description || event.tag_line || '';
+  const image = event.image_url || event.image;
+  
+  let dateDisplay = '';
+  let timeDisplay = '';
+  console.log("asdfjsfdjlskjfdl",event)
+  const dateTimeValue = event.date_time || event.start_time || event.date;
+  if (dateTimeValue) {
+    if (dateTimeValue.includes('T')) {
+      const { date, time } = formatDateTime(dateTimeValue);
+      dateDisplay = date;
+      timeDisplay = time;
+    } else {
+      dateDisplay = new Date(dateTimeValue).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
+      timeDisplay = 'TBA';
+    }
+  }
   const isEven = index % 2 === 0;
   return (
     <motion.div
@@ -85,23 +101,31 @@ export function EventCard({
             </h3>
 
             <div className="space-y-3 mb-6">
-              <div className="flex items-center justify-center md:justify-start text-gray-700">
-                <Calendar className="w-4 h-4 text-[#D4AF37] mr-2" />
-                <span className="font-medium">{date}</span>
-              </div>
-              <div className="flex items-center justify-center md:justify-start text-gray-700">
-                <Clock className="w-4 h-4 text-[#D4AF37] mr-2" />
-                <span>{time}</span>
-              </div>
-              <div className="flex items-center justify-center md:justify-start text-gray-700">
-                <MapPin className="w-4 h-4 text-[#D4AF37] mr-2" />
-                <span>{location}</span>
-              </div>
+              {dateDisplay && (
+                <div className="flex items-center justify-center md:justify-start text-gray-700">
+                  <Calendar className="w-4 h-4 text-[#D4AF37] mr-2" />
+                  <span className="font-medium">{dateDisplay}</span>
+                </div>
+              )}
+              {timeDisplay && (
+                <div className="flex items-center justify-center md:justify-start text-gray-700">
+                  <Clock className="w-4 h-4 text-[#D4AF37] mr-2" />
+                  <span>{timeDisplay}</span>
+                </div>
+              )}
+              {location && (
+                <div className="flex items-center justify-center md:justify-start text-gray-700">
+                  <MapPin className="w-4 h-4 text-[#D4AF37] mr-2" />
+                  <span>{location}</span>
+                </div>
+              )}
             </div>
 
-            <p className="text-gray-600 leading-relaxed font-light">
-              {description}
-            </p>
+            {description && (
+              <p className="text-gray-600 leading-relaxed font-light">
+                {description}
+              </p>
+            )}
 
             <div className="mt-8 flex justify-center md:justify-start">
               <button className="px-6 py-2 border border-[#8B0000] text-[#8B0000] hover:bg-[#8B0000] hover:text-white transition-all duration-300 rounded-sm uppercase tracking-widest text-xs font-semibold">
