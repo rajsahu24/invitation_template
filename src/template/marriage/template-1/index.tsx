@@ -22,11 +22,19 @@ function MarriageContent() {
  
   return (
     <div className=""> 
-      <HeroSection />
-      <EventsSection />
-      <PhotoGallery />
-      <GuestList />
-      {isRSVp && <RSVPForm />}
+      <div id="hero_section">
+        <HeroSection />
+      </div>
+      <div id="event_section">
+        <EventsSection />
+      </div>
+      <div id="image_section">
+        <PhotoGallery />
+      </div>
+      <div id="guest_section">
+        <GuestList />
+      </div>
+      {isRSVp && <div id="rsvp_section"><RSVPForm /></div>}
       <footer className="bg-royal-deepPurple text-royal-gold/50 py-8 text-center font-cinzel text-xs tracking-widest">
         <p>&copy; 2024 Alexander & Victoria. All Rights Reserved.</p>
       </footer>

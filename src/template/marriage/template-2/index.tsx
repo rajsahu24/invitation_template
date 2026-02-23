@@ -89,19 +89,25 @@ export default function App() {
             </svg>
           </div>
 
-          <InvitationContent />
+          <div id="hero_section">
+            <InvitationContent />
+          </div>
 
           <DecorativeDivider />
 
-          <EventSchedule />
+          <div id="event_section">
+            <EventSchedule />
+          </div>
 
           <DecorativeDivider />
 
-          <PhotoGallery />
+          <div id="image_section">
+            <PhotoGallery />
+          </div>
 
           <DecorativeDivider />
 
-          {isRSVp && <RSVPForm />}
+          {isRSVp && <div id="rsvp_section"><RSVPForm /></div>}
 
           {/* Bottom Corner Decorations */}
           <div className="absolute bottom-0 left-0 w-24 h-24 pointer-events-none opacity-20 -rotate-90">

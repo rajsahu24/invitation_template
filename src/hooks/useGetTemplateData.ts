@@ -185,6 +185,18 @@ export const useGetTemplateData = () => {
 
                     return { ...prev, ...payload };
                 });
+            } else if (event.data?.type === 'SCROLL_TO_SECTION') {
+                const sectionId = event.data.sectionId;
+                console.log('Scroll to section request received:', sectionId);
+                if (sectionId) {
+                    const element = document.getElementById(sectionId);
+                    if (element) {
+                        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        console.log('Scrolled to element:', sectionId);
+                    } else {
+                        console.warn('Scrolled element not found:', sectionId);
+                    }
+                }
             }
         };
 

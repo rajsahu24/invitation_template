@@ -143,6 +143,34 @@ export function InvitationBook() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [page]);
 
+  // Listen for SCROLL_TO_SECTION messages to change pages
+  useEffect(() => {
+    const handleMessage = (event: MessageEvent) => {
+      if (event.data?.type === 'SCROLL_TO_SECTION') {
+        const sectionId = event.data.sectionId;
+        console.log('Book template received scroll request:', sectionId);
+        
+        const sectionToPage: Record<string, number> = {
+          'hero_section': 1,
+          'event_section': 2,
+          'image_section': 3,
+          'rsvp_section': 4
+        };
+
+        if (sectionId in sectionToPage) {
+          const targetPage = sectionToPage[sectionId];
+          if (targetPage !== page) {
+            setDirection(targetPage > page ? 1 : -1);
+            setPage(targetPage);
+          }
+        }
+      }
+    };
+
+    window.addEventListener('message', handleMessage);
+    return () => window.removeEventListener('message', handleMessage);
+  }, [page]);
+
   
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#1a0505] via-[#2a0a0a] to-[#1a0505] flex items-center justify-center p-4 md:p-8 overflow-hidden relative">
@@ -284,9 +312,11 @@ export function InvitationBook() {
                 className="h-full">
 
                   {page === 1 &&
-                <PageWrapper>
-                      <Hero />
-                    </PageWrapper>
+                <div id="hero_section" className="h-full">
+                  <PageWrapper>
+                        <Hero />
+                      </PageWrapper>
+                </div>
                 }
                   {/* {page === 2 &&
                 <PageWrapper title="Our Story">
@@ -294,19 +324,25 @@ export function InvitationBook() {
                     </PageWrapper>
                 } */}
                   {page === 2 &&
-                <PageWrapper title="Events Timeline">
-                      <EventsSection />
-                    </PageWrapper>
+                <div id="event_section" className="h-full">
+                  <PageWrapper title="Events Timeline">
+                        <EventsSection />
+                      </PageWrapper>
+                </div>
                 }
                   {page === 3 &&
-                <PageWrapper title="Gallery & Moments">
-                      <GallerySection />
-                    </PageWrapper>
+                <div id="image_section" className="h-full">
+                  <PageWrapper title="Gallery & Moments">
+                        <GallerySection />
+                      </PageWrapper>
+                </div>
                 }
                   {page === 4 &&
-                <PageWrapper title="RSVP">
-                      <RSVPSection />
-                    </PageWrapper>
+                <div id="rsvp_section" className="h-full">
+                  <PageWrapper title="RSVP">
+                        <RSVPSection />
+                      </PageWrapper>
+                </div>
                 }
                 </motion.div>
               </div>
