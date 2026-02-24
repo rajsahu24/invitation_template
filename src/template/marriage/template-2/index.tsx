@@ -3,6 +3,7 @@ import { EventSchedule } from './components/EventSchedule';
 import { PhotoGallery } from './components/PhotoGallery';
 import { RSVPForm } from './components/RSVPForm';
 import { motion } from 'framer-motion';
+import { RSVPSection } from './components/RSVPSection';
 // Decorative Mandala Component
 const MandalaHeader = () => <div className="w-full h-64 md:h-80 bg-maroon relative overflow-hidden flex items-center justify-center">
     {/* Background Pattern */}
@@ -60,15 +61,16 @@ const DecorativeDivider = () => <div className="my-16 flex items-center justify-
 export default function App() {
         const getInvitationIdFromUrl = (): string | null => {
         const pathParts = window.location.pathname.split('/');
-        return pathParts[4] || null;
+        return pathParts[1] || null;
     };
     const param = getInvitationIdFromUrl()
-
+     console.log(param)
     const isRSVPToken = (param: string): boolean => {
         const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
         return param.length === 10 && !uuidRegex.test(param);
     };
     const isRSVp = param ? isRSVPToken(param) : false;
+    console.log(isRSVp)
   return (
     <div className="min-h-screen bg-cream selection:bg-maroon selection:text-gold pb-24">
       <header>
@@ -104,10 +106,10 @@ export default function App() {
           <div id="image_section">
             <PhotoGallery />
           </div>
-
+        
           <DecorativeDivider />
 
-          {isRSVp && <div id="rsvp_section"><RSVPForm /></div>}
+          {isRSVp?<div id="rsvp_section"><RSVPSection /></div>:<div id="rsvp_section"><RSVPForm /></div> }
 
           {/* Bottom Corner Decorations */}
           <div className="absolute bottom-0 left-0 w-24 h-24 pointer-events-none opacity-20 -rotate-90">

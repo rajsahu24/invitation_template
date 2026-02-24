@@ -59,7 +59,7 @@ export function EventSchedule() {
   icon: Wine
 }];
   }
-  if (!Array.isArray(events) || events.length === 0) return null;
+  
 
   const renderEvent = (event: any, index: number) => {
     let title = '';
@@ -139,7 +139,7 @@ export function EventSchedule() {
         <div className="absolute left-4 top-4 bottom-4 w-0.5 bg-gold/30 md:hidden border-l-2 border-dotted border-gold" />
 
         <div className="space-y-12">
-          {events.map((event, index) => renderEvent(event, index))}
+          {events.map((event:any, index:number) => renderEvent(event, index))}
         </div>
       </div>
     </motion.div>;

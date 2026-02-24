@@ -33,16 +33,16 @@ export function InvitationContent() {
   const heroSection = previewData?.hero_section;
   const data = heroSection?.data;
   const schema = heroSection?.schema;
-
-  if (!data) return null;
-
-  const getFieldValue = (key: string) => data[key] || '';
   
-  let brideName = '';
-  let groomName = '';
-  let weddingDate = '';
-  let weddingLocation = '';
-  let message = '';
+
+
+  const getFieldValue = (key: string) => data?.[key] || '';
+  
+  let brideName = 'Meera';
+  let groomName = 'Deepak';
+  let weddingDate = '15 nav 2025';
+  let weddingLocation = 'Jaipur';
+  let message = 'Please join';
 
   if (schema?.fields) {
     const findField = (keywords: string[]) => 
@@ -54,17 +54,17 @@ export function InvitationContent() {
     const locationField = findField(['location']);
     const messageField = findField(['message', 'description', 'tag']);
 
-    brideName = brideField ? getFieldValue(brideField.key) : '';
-    groomName = groomField ? getFieldValue(groomField.key) : '';
-    weddingDate = dateField ? getFieldValue(dateField.key) : '';
-    weddingLocation = locationField ? getFieldValue(locationField.key) : '';
-    message = messageField ? getFieldValue(messageField.key) : '';
+    brideName = brideField ? getFieldValue(brideField.key) : 'Meera';
+    groomName = groomField ? getFieldValue(groomField.key) : 'Deepak';
+    weddingDate = dateField ? getFieldValue(dateField.key) : '15 November 2025';
+    weddingLocation = locationField ? getFieldValue(locationField.key) : 'Jaipur, Rajasthan';
+    message = messageField ? getFieldValue(messageField.key) : 'Join us in celebrating our special day';
   } else {
-    brideName = getFieldValue('bride_name');
-    groomName = getFieldValue('groom_name');
-    weddingDate = getFieldValue('date') || getFieldValue('wedding_date');
-    weddingLocation = getFieldValue('location') || getFieldValue('wedding_location');
-    message = getFieldValue('tag_line') || getFieldValue('message') || getFieldValue('description');
+    brideName = getFieldValue('bride_name') || 'Meera';
+    groomName = getFieldValue('groom_name') || 'Deepak';
+    weddingDate = getFieldValue('date') || getFieldValue('wedding_date') || '15 November 2025';
+    weddingLocation = getFieldValue('location') || getFieldValue('wedding_location') || 'Jaipur, Rajasthan';
+    message = getFieldValue('tag_line') || getFieldValue('message') || getFieldValue('description') || 'Join us in celebrating our special day';
   }
   
   return <motion.div variants={containerVariants} initial="hidden" animate="visible" className="text-center space-y-12 relative">

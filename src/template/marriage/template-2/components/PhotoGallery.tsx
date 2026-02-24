@@ -30,7 +30,7 @@ export function PhotoGallery() {
   const { previewData } = usePreview();
   const images = (previewData as any).images || [];
 
-  if (!Array.isArray(images) || images.length === 0) return null;
+
   return <motion.div variants={containerVariants} initial="hidden" whileInView="visible" viewport={{
     once: true,
     margin: '-100px'

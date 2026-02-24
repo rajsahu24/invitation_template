@@ -7,6 +7,7 @@ import { EventsSection } from './EventsSection';
 import { GallerySection } from './GallerySection';
 import { RSVPSection } from './RSVPSection';
 import { usePreview } from '../../../../context/PreviewContext';
+import { RSVPForm } from './RSVPForm';
 
 const FrontCover = ({ onOpen, groomName, brideName, weddingDate }: {onOpen: () => void; groomName: string; brideName: string; weddingDate: string;}) =>
 <div
@@ -171,7 +172,18 @@ export function InvitationBook() {
     return () => window.removeEventListener('message', handleMessage);
   }, [page]);
 
-  
+          const getInvitationIdFromUrl = (): string | null => {
+        const pathParts = window.location.pathname.split('/');
+        return pathParts[1] || null;
+    };
+    const param = getInvitationIdFromUrl()
+     console.log(param)
+    const isRSVPToken = (param: string): boolean => {
+        const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+        return param.length === 10 && !uuidRegex.test(param);
+    };
+    const isRSVp = param ? isRSVPToken(param) : false;
+    console.log(isRSVp)
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-[#1a0505] via-[#2a0a0a] to-[#1a0505] flex items-center justify-center p-4 md:p-8 overflow-hidden relative">
       {/* Ambient Background */}
@@ -340,7 +352,7 @@ export function InvitationBook() {
                   {page === 4 &&
                 <div id="rsvp_section" className="h-full">
                   <PageWrapper title="RSVP">
-                        <RSVPSection />
+                        {!isRSVp?<div id="rsvp_section"><RSVPSection /></div>:<div id="rsvp_section"><RSVPForm /></div> }
                       </PageWrapper>
                 </div>
                 }

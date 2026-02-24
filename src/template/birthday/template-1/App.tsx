@@ -15,26 +15,49 @@ import {
 import { PolaroidFrame } from './components/PolaroidFrame';
 import { MusicPlayer } from './components/MusicPlayer';
 import { usePreview } from '../../../context/PreviewContext';
-
+import { RSVPFormComponent } from './components/RSVPFormComponent';
 export default function App() {
   
   const { previewData } = usePreview();
-
   const [rsvpState, setRsvpState] = useState<'idle' | 'yes' | 'no'>('idle');
-  // Handle both RSVP and regular/real-time invitation data structures
-  const invitation = (previewData as any).invitation || previewData;
-  const events = (previewData as any).events || [];
-  const images = (previewData as any).images || [];
-  const guest = (previewData as any).guest || {};
-  const metadata = invitation?.metadata || {};
+  const hero_section = (previewData as any).hero_section
   
+  const events = (previewData as any).event_section?.data || [
+    {
+      date: "2023-07-15T10:00:00Z",
+      time: "10:00 AM",
+      end_time: "12:00 PM",
+      location: "Central Park",
+      description: "Morning picnic"
+    },
+    {
+      date: "2023-07-15T14:00:00Z",
+      time: "2:00 PM",
+      end_time: "5:00 PM",
+      location: "Beachfront Pavilion",
+      description: "Afternoon celebration"
+    }
+  ]
+  const images = (previewData as any)?.image_section?.data?.images ||[
+    {
+      image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
+      type: "cover"
+    },
+    {
+      image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
+      type: "memory"
+    },
+    {
+      image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
+      type: "memory"
+    }]
+  
+  console.log(events,"events")
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Helper functions for RSVP
   const getRSVPTokenFromUrl = (): string | null => {
     const pathParts = window.location.pathname.split('/');
-    // Check both potential positions (preview vs rsvp routes)
-    return pathParts[3] || pathParts[4] || null;
+    return pathParts[1] ;
   };
 
   const isRSVPToken = (param: string): boolean => {
@@ -44,7 +67,7 @@ export default function App() {
 
   const rsvpToken = getRSVPTokenFromUrl();
   const showRSVP = rsvpToken && isRSVPToken(rsvpToken);
-
+  
   const handleRSVPSubmit = async (status: 'yes' | 'no') => {
     if (!rsvpToken) return;
     
@@ -69,15 +92,15 @@ export default function App() {
     }
   };
 
-  // Sync rsvpState with guest status if available
-  React.useEffect(() => {
-    if (guest.status === 2) setRsvpState('yes');
-    else if (guest.status === 4) setRsvpState('no');
-  }, [guest.status]);
 
-  const name = metadata.birthday_person_name || invitation?.invitation_title?.split("'")[0] || "Sarah";
-  const age = metadata.age || "30th";
-  const message = invitation.invitation_tag_line || "Join us to celebrate a very special day";
+  // React.useEffect(() => {
+  //   if (guest.status === 2) setRsvpState('yes');
+  //   else if (guest.status === 4) setRsvpState('no');
+  // }, [guest.status]);
+
+  const name = hero_section?.data?.celebrant_name ||"Sarah";
+  const age = hero_section?.data?.date || "30th"; 
+  const message = hero_section?.data?.tag_line || "Join us to celebrate a very special day";
   
   const formatDate = (dateString: string) => {
     try {
@@ -282,21 +305,21 @@ export default function App() {
                   <DetailCard
                     icon={<Calendar className="w-8 h-8 text-[#FFB3D9]" />}
                     title="When"
-                    content={formatDate(event.start_time)}
-                    subContent={new Date(event.start_time).getFullYear().toString()}
+                    content={formatDate(event.date)}
+                    subContent={new Date(event.date).getFullYear().toString()}
                     delay={index * 0.1}
                   />
                   <DetailCard
                     icon={<Clock className="w-8 h-8 text-[#C5B4E3]" />}
                     title="Time"
-                    content={`${formatTime(event.start_time)} ${event.end_time ? `- ${formatTime(event.end_time)}` : ''}`}
+                    content={`${event.time} ${event.end_time ? `- ${formatTime(event.end_time)}` : ''}`}
                     subContent={event.name}
                     delay={index * 0.1 + 0.1}
                   />
                   <DetailCard
                     icon={<MapPin className="w-8 h-8 text-[#B4E7CE]" />}
                     title="Where"
-                    content={event.event_location || "TBA"}
+                    content={event.location || "TBA"}
                     subContent={event.description || ""}
                     delay={index * 0.1 + 0.2}
                   />
@@ -327,19 +350,19 @@ export default function App() {
               </>
             )}
 
-            {metadata.dress_code && (
+            {/* {metadata.dress_code && (
               <DetailCard
                 icon={<Shirt className="w-8 h-8 text-[#FFD4B3]" />}
                 title="Dress Code"
                 content={metadata.dress_code}
                 subContent="Come as you are!"
                 delay={0.4} />
-            )}
+            )} */}
           </section>
         </div>
 
         {/* RSVP Section */}
-        {showRSVP && (
+        {showRSVP ? (
           <div id="rsvp_section">
             <section className="text-center pb-20">
               <motion.div
@@ -428,7 +451,7 @@ export default function App() {
               </motion.div>
             </section>
           </div>
-        )}
+        ):<RSVPFormComponent />}
       </main>
     </div>);
 

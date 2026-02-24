@@ -2,7 +2,7 @@ import { EventsSection } from "./components/EventsSection";
 import { GuestList } from "./components/GuestList";
 import { HeroSection } from "./components/HeroSection";
 import { PhotoGallery } from "./components/PhotoGallery";
-
+import { RSVPSection } from "./components/RSVPSection";
 
 import "./index.css";
 import  RSVPForm  from "../template-1/components/RSVPform";
@@ -10,7 +10,7 @@ import  RSVPForm  from "../template-1/components/RSVPform";
 function MarriageContent() {
   const getInvitationIdFromUrl = (): string | null => {
     const pathParts = window.location.pathname.split('/');
-    return pathParts[3] || null;
+    return pathParts[1] || null;
   };
   const param = getInvitationIdFromUrl()
 
@@ -18,8 +18,9 @@ function MarriageContent() {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
     return param.length === 10 && !uuidRegex.test(param);
   };
+  
   const isRSVp = param ? isRSVPToken(param) : false;
- 
+
   return (
     <div className=""> 
       <div id="hero_section">
@@ -31,12 +32,9 @@ function MarriageContent() {
       <div id="image_section">
         <PhotoGallery />
       </div>
-      <div id="guest_section">
-        <GuestList />
-      </div>
-      {isRSVp && <div id="rsvp_section"><RSVPForm /></div>}
+      {isRSVp?<div id="rsvp_section"><RSVPSection /></div>:<div id="rsvp_section"><RSVPForm /></div> }
       <footer className="bg-royal-deepPurple text-royal-gold/50 py-8 text-center font-cinzel text-xs tracking-widest">
-        <p>&copy; 2024 Alexander & Victoria. All Rights Reserved.</p>
+        <p>&copy; Inviteera. All Rights Reserved.</p>
       </footer>
     </div>
   );

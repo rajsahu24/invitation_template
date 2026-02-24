@@ -8,10 +8,11 @@ export const useGetTemplateData = () => {
     const [isLoading, setIsLoading] = useState(true);
     const [hasFetchedInitial, setHasFetchedInitial] = useState(false);
 
-    const fetchGuestInvitationData = useCallback(async (invitationId: string) => {
+    const fetchGuestInvitationData = useCallback(async (rsvp_token: string) => {
         setIsLoading(true);
+        console.log(rsvp_token)
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitation-data/rsvp/${invitationId}`);
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitation-data/rsvp/${rsvp_token}`);
             if (response.ok) {
                 const data = await response.json();
                 const transformed = data;
