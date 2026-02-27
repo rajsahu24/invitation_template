@@ -34,9 +34,6 @@ export default {
         emerald: {
           DEFAULT: '#046A38',
         },
-        cream: {
-          DEFAULT: '#FFF8F0',
-        },
         brown: {
           DEFAULT: '#3E2723',
         },

@@ -5,10 +5,7 @@ import {
   CheckIcon,
   UserIcon,
   MailIcon,
-  PhoneIcon,
-  UsersIcon,
-  UtensilsIcon,
-  MessageSquareIcon } from
+  PhoneIcon} from
 'lucide-react';
 interface FormData {
   name: string;
@@ -40,51 +37,51 @@ const initialFormData: FormData = {
   dietary: '',
   message: ''
 };
-const eventLabels = {
-  engagement: 'Engagement Ceremony',
-  mehendi: 'Mehendi Celebration',
-  sangeet: 'Sangeet Night',
-  wedding: 'Wedding Ceremony',
-  reception: 'Reception Dinner'
-};
-function LeafToggle({
-  checked,
-  onChange,
-  label
+// const eventLabels = {
+//   engagement: 'Engagement Ceremony',
+//   mehendi: 'Mehendi Celebration',
+//   sangeet: 'Sangeet Night',
+//   wedding: 'Wedding Ceremony',
+//   reception: 'Reception Dinner'
+// };
+// function LeafToggle({
+//   checked,
+//   onChange,
+//   label
 
 
 
 
-}: {checked: boolean;onChange: () => void;label: string;}) {
-  return (
-    <button
-      type="button"
-      onClick={onChange}
-      className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all duration-300 w-full text-left
-        ${checked ? 'bg-sage border-forest-light shadow-md' : 'bg-white border-sage hover:border-sage-dark'}`}>
+// }: {checked: boolean;onChange: () => void;label: string;}) {
+//   return (
+//     <button
+//       type="button"
+//       onClick={onChange}
+//       className={`flex items-center gap-3 px-4 py-3 rounded-xl border-2 transition-all duration-300 w-full text-left
+//         ${checked ? 'bg-sage border-forest-light shadow-md' : 'bg-white border-sage hover:border-sage-dark'}`}>
 
-      <div
-        className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
-        ${checked ? 'bg-forest' : 'bg-sage-dark/30'}`}>
+//       <div
+//         className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300
+//         ${checked ? 'bg-forest' : 'bg-sage-dark/30'}`}>
 
-        {checked ?
-        <BotanicalLeaf
-          variant="small"
-          animate={false}
-          className="w-4 h-4 text-white" /> :
+//         {checked ?
+//         <BotanicalLeaf
+//           variant="small"
+//           animate={false}
+//           className="w-4 h-4 text-white" /> :
 
 
-        <div className="w-2 h-2 rounded-full bg-sage-dark/50" />
-        }
-      </div>
-      <span
-        className={`font-medium transition-colors ${checked ? 'text-forest' : 'text-forest-light'}`}>
+//         <div className="w-2 h-2 rounded-full bg-sage-dark/50" />
+//         }
+//       </div>
+//       <span
+//         className={`font-medium transition-colors ${checked ? 'text-forest' : 'text-forest-light'}`}>
 
-        {label}
-      </span>
-    </button>);
+//         {label}
+//       </span>
+//     </button>);
 
-}
+// }
 export function RSVPForm() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -125,15 +122,15 @@ export function RSVPForm() {
     setIsSubmitting(false);
     setIsSubmitted(true);
   };
-  const handleEventToggle = (event: keyof FormData['events']) => {
-    setFormData((prev) => ({
-      ...prev,
-      events: {
-        ...prev.events,
-        [event]: !prev.events[event]
-      }
-    }));
-  };
+  // const handleEventToggle = (event: keyof FormData['events']) => {
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     events: {
+  //       ...prev.events,
+  //       [event]: !prev.events[event]
+  //     }
+  //   }));
+  // };
   if (isSubmitted) {
     return (
       <section
@@ -356,7 +353,7 @@ export function RSVPForm() {
             </div>
 
             {/* Number of Guests */}
-            <div>
+            {/* <div>
               <label className="flex items-center gap-2 text-forest font-medium mb-2">
                 <UsersIcon className="w-4 h-4" />
                 Number of Guests
@@ -379,10 +376,10 @@ export function RSVPForm() {
                   </option>
                 )}
               </select>
-            </div>
+            </div> */}
 
             {/* Events */}
-            <div>
+            {/* <div>
               <label className="flex items-center gap-2 text-forest font-medium mb-3">
                 <BotanicalLeaf
                   variant="small"
@@ -403,10 +400,10 @@ export function RSVPForm() {
 
                 )}
               </div>
-            </div>
+            </div> */}
 
             {/* Dietary Requirements */}
-            <div>
+            {/* <div>
               <label className="flex items-center gap-2 text-forest font-medium mb-2">
                 <UtensilsIcon className="w-4 h-4" />
                 Dietary Requirements
@@ -425,10 +422,10 @@ export function RSVPForm() {
 
                 placeholder="Vegetarian, vegan, allergies, etc." />
 
-            </div>
+            </div> */}
 
             {/* Message */}
-            <div>
+            {/* <div>
               <label className="flex items-center gap-2 text-forest font-medium mb-2">
                 <MessageSquareIcon className="w-4 h-4" />
                 Message for the Couple
@@ -447,7 +444,7 @@ export function RSVPForm() {
 
                 placeholder="Share your wishes or any special requests..." />
 
-            </div>
+            </div> */}
 
             {/* Submit Button */}
             <motion.button
@@ -459,8 +456,8 @@ export function RSVPForm() {
               whileTap={{
                 scale: 0.98
               }}
-              className="w-full py-4 bg-rose text-white font-semibold rounded-full shadow-lg 
-                         shadow-rose/30 hover:bg-rose-dark hover:shadow-xl hover:shadow-rose-dark/30 
+              className="w-full py-4 bg-red-400 text-white font-semibold rounded-full shadow-lg 
+                         shadow-red-500 hover:bg-red-800 hover:shadow-xl hover:shadow-red-300 
                          transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed
                          flex items-center justify-center gap-2">
 

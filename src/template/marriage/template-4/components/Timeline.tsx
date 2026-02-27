@@ -13,57 +13,57 @@ interface Event {
   mapLink: string;
   description: string;
 }
-// const events: Event[] = [
-// {
-//   name: 'Engagement Ceremony',
-//   date: 'December 12, 2025',
-//   time: '11:00 AM',
-//   venue: 'Jagmandir Island Palace',
-//   address: 'Lake Pichola, Udaipur',
-//   mapLink: 'https://maps.google.com/?q=Jagmandir+Island+Palace+Udaipur',
-//   description:
-//   'Join us as we exchange rings and promises in an intimate ceremony surrounded by the serene waters of Lake Pichola.'
-// },
-// {
-//   name: 'Mehendi Celebration',
-//   date: 'December 13, 2025',
-//   time: '3:00 PM',
-//   venue: 'Amet Haveli',
-//   address: 'Outside Chandpole, Udaipur',
-//   mapLink: 'https://maps.google.com/?q=Amet+Haveli+Udaipur',
-//   description:
-//   'An afternoon of intricate henna designs, folk music, and joyful celebrations as we prepare for the big day.'
-// },
-// {
-//   name: 'Sangeet Night',
-//   date: 'December 13, 2025',
-//   time: '7:00 PM',
-//   venue: 'Fateh Prakash Palace',
-//   address: 'City Palace Complex, Udaipur',
-//   mapLink: 'https://maps.google.com/?q=Fateh+Prakash+Palace+Udaipur',
-//   description:
-//   'A magical evening of music, dance performances, and celebration under the stars at the magnificent palace.'
-// },
-// {
-//   name: 'Wedding Ceremony',
-//   date: 'December 14, 2025',
-//   time: '6:00 PM',
-//   venue: 'The Oberoi Udaivilas',
-//   address: 'Haridasji Ki Magri, Udaipur',
-//   mapLink: 'https://maps.google.com/?q=Oberoi+Udaivilas+Udaipur',
-//   description:
-//   'The sacred ceremony where two souls become one, surrounded by loved ones in a setting of unparalleled beauty.'
-// },
-// {
-//   name: 'Reception Dinner',
-//   date: 'December 15, 2025',
-//   time: '7:30 PM',
-//   venue: 'Taj Lake Palace',
-//   address: 'Lake Pichola, Udaipur',
-//   mapLink: 'https://maps.google.com/?q=Taj+Lake+Palace+Udaipur',
-//   description:
-//   'A grand celebration dinner on the floating palace, marking the beginning of our new journey together.'
-// }];
+const defaultEvents: Event[] = [
+{
+  name: 'Engagement Ceremony',
+  date: 'December 12, 2025',
+  time: '11:00 AM',
+  venue: 'Jagmandir Island Palace',
+  address: 'Lake Pichola, Udaipur',
+  mapLink: 'https://maps.google.com/?q=Jagmandir+Island+Palace+Udaipur',
+  description:
+  'Join us as we exchange rings and promises in an intimate ceremony surrounded by the serene waters of Lake Pichola.'
+},
+{
+  name: 'Mehendi Celebration',
+  date: 'December 13, 2025',
+  time: '3:00 PM',
+  venue: 'Amet Haveli',
+  address: 'Outside Chandpole, Udaipur',
+  mapLink: 'https://maps.google.com/?q=Amet+Haveli+Udaipur',
+  description:
+  'An afternoon of intricate henna designs, folk music, and joyful celebrations as we prepare for the big day.'
+},
+{
+  name: 'Sangeet Night',
+  date: 'December 13, 2025',
+  time: '7:00 PM',
+  venue: 'Fateh Prakash Palace',
+  address: 'City Palace Complex, Udaipur',
+  mapLink: 'https://maps.google.com/?q=Fateh+Prakash+Palace+Udaipur',
+  description:
+  'A magical evening of music, dance performances, and celebration under the stars at the magnificent palace.'
+},
+{
+  name: 'Wedding Ceremony',
+  date: 'December 14, 2025',
+  time: '6:00 PM',
+  venue: 'The Oberoi Udaivilas',
+  address: 'Haridasji Ki Magri, Udaipur',
+  mapLink: 'https://maps.google.com/?q=Oberoi+Udaivilas+Udaipur',
+  description:
+  'The sacred ceremony where two souls become one, surrounded by loved ones in a setting of unparalleled beauty.'
+},
+{
+  name: 'Reception Dinner',
+  date: 'December 15, 2025',
+  time: '7:30 PM',
+  venue: 'Taj Lake Palace',
+  address: 'Lake Pichola, Udaipur',
+  mapLink: 'https://maps.google.com/?q=Taj+Lake+Palace+Udaipur',
+  description:
+  'A grand celebration dinner on the floating palace, marking the beginning of our new journey together.'
+}];
 
 function TimelineEvent({ event, index }: {event: Event;index: number;}) {
   const ref = useRef(null);
@@ -160,21 +160,21 @@ function TimelineEvent({ event, index }: {event: Event;index: number;}) {
 }
 export function Timeline() {
   const { previewData } = usePreview();
-  const apiEvents = (previewData as any)?.events || [];
+    const eventSection = previewData?.event_section;
+  const events = eventSection?.data || [];
+  // const defaultEvents: Event[] = [
+  //   {
+  //     name: 'Engagement Ceremony',
+  //     date: 'December 12, 2025',
+  //     time: '11:00 AM',
+  //     venue: 'Jagmandir Island Palace',
+  //     address: 'Lake Pichola, Udaipur',
+  //     mapLink: 'https://maps.google.com/?q=Jagmandir+Island+Palace+Udaipur',
+  //     description: 'Join us as we exchange rings and promises in an intimate ceremony.'
+  //   }
+  // ];
   
-  const defaultEvents: Event[] = [
-    {
-      name: 'Engagement Ceremony',
-      date: 'December 12, 2025',
-      time: '11:00 AM',
-      venue: 'Jagmandir Island Palace',
-      address: 'Lake Pichola, Udaipur',
-      mapLink: 'https://maps.google.com/?q=Jagmandir+Island+Palace+Udaipur',
-      description: 'Join us as we exchange rings and promises in an intimate ceremony surrounded by the serene waters of Lake Pichola.'
-    }
-  ];
-  
-  const events: Event[] = apiEvents.length > 0 ? apiEvents.map((event: any) => ({
+  const displayEvents: Event[] = events.length > 0 ? events.map((event: any) => ({
     name: event.name || event.event_name || 'Event',
     date: event.start_time ? new Date(event.start_time).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }) : '',
     time: event.start_time ? new Date(event.start_time).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' }) : '',
@@ -301,7 +301,7 @@ export function Timeline() {
 
           {/* Events */}
           <div className="space-y-12">
-            {events.map((event, index) =>
+            {displayEvents.map((event, index) =>
             <div key={event.name} className="relative">
                 {/* Leaf marker */}
                 <motion.div

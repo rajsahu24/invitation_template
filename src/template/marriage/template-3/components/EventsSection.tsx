@@ -33,7 +33,7 @@ export function EventsSection() {
   const { previewData } = usePreview() as { previewData: InvitationData };
   const eventSection = previewData?.event_section;
   const events = eventSection?.data || [];
-  console.log("lsdkfjalskdjfljf",events)
+  
   const displayEvents = Array.isArray(events) && events.length > 0 ? events : DUMMY_EVENTS;
   return (
     <section className="py-24 bg-[#FFFAF0] relative overflow-hidden">

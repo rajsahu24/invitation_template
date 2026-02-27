@@ -3,15 +3,55 @@ import { motion } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
 import { usePreview } from '../../../../context/PreviewContext';
 
+const formatDate = (dateString: string): string => {
+  const date = new Date(dateString);
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+};
+
 export function Hero() {
   const { previewData } = usePreview();
-  const invitation = (previewData as any)?.invitation || previewData;
-  const metadata = invitation?.metadata || {};
+  const heroSection = previewData?.hero_section;
+  const data = heroSection?.data;
+  const schema = heroSection?.schema;
+
+  const getFieldValue = (key: string) => (data && typeof data === 'object' ? data[key] : '') || '';
   
-  const groomName = metadata.groom_name || invitation?.groom_name || 'Aarav';
-  const brideName = metadata.bride_name || invitation?.bride_name || 'Meera';
-  const weddingDate = metadata.wedding_date || invitation?.wedding_date || 'December 14, 2025';
-  const location = metadata.location || invitation?.location || 'Udaipur, Rajasthan';
+  let brideName = '';
+  let groomName = '';
+  let weddingDate = '';
+  let weddingLocation = '';
+
+  if (data && typeof data === 'object') {
+    if (schema?.fields) {
+      const findField = (keywords: string[]) => 
+        schema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
+      
+      const brideField = findField(['bride']);
+      const groomField = findField(['groom']);
+      const dateField = findField(['date']);
+      const locationField = findField(['location']);
+
+      brideName = brideField ? getFieldValue(brideField.key) : '';
+      groomName = groomField ? getFieldValue(groomField.key) : '';
+      weddingDate = dateField ? formatDate(getFieldValue(dateField.key)) : '';
+      weddingLocation = locationField ? getFieldValue(locationField.key) : '';
+    } else {
+      brideName = getFieldValue('bride_name');
+      groomName = getFieldValue('groom_name');
+      const dateValue = getFieldValue('date') || getFieldValue('wedding_date');
+      weddingDate = dateValue ? formatDate(dateValue) : '';
+      weddingLocation = getFieldValue('location') || getFieldValue('wedding_location');
+    }
+  }
+
+  const displayGroomName = groomName || 'Aarav';
+  const displayBrideName = brideName || 'Meera';
+  const displayWeddingDate = weddingDate || 'December 14, 2025';
+  const displayLocation = weddingLocation || 'Udaipur, Rajasthan';
   
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -135,7 +175,7 @@ export function Hero() {
           className="mb-8">
 
           <h1 className="font-serif text-6xl md:text-8xl text-forest mb-4">
-            {groomName}
+            {displayGroomName}
           </h1>
 
           {/* Botanical divider */}
@@ -215,7 +255,7 @@ export function Hero() {
 
           </div>
 
-          <h1 className="font-serif text-6xl md:text-8xl text-forest">{brideName}</h1>
+          <h1 className="font-serif text-6xl md:text-8xl text-forest">{displayBrideName}</h1>
         </motion.div>
 
         <motion.p
@@ -250,7 +290,7 @@ export function Hero() {
           className="mb-10">
 
           <p className="text-lg md:text-xl text-forest font-medium tracking-wide">
-            {weddingDate}
+            {displayWeddingDate}
           </p>
           <p className="text-forest-light mt-1 flex items-center justify-center gap-2">
             <svg
@@ -272,7 +312,7 @@ export function Hero() {
                 d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
 
             </svg>
-            {location}
+            {displayLocation}
           </p>
         </motion.div>
 

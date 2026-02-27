@@ -169,20 +169,55 @@ function Lightbox({
 }
 export function Gallery() {
   const { previewData } = usePreview();
-  const apiImages = (previewData as any)?.images || [];
+  // const gallerySection = previewData?.gallery_section;
+  const apiImages = (previewData as any)?.image_section?.data?.images || [];
   
   const defaultPhotos = [
-    {
-      src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop',
-      alt: 'Couple at sunset',
-      span: 'col-span-1'
-    },
-    {
-      src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&h=800&fit=crop',
-      alt: 'Engagement moment',
-      span: 'col-span-1 row-span-2'
-    }
-  ];
+{
+  src: 'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop',
+  alt: 'Couple at sunset',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&h=800&fit=crop',
+  alt: 'Engagement moment',
+  span: 'col-span-1 row-span-2'
+},
+{
+  src: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop',
+  alt: 'Wedding preparation',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&h=400&fit=crop',
+  alt: 'Together in garden',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1460978812857-470ed1c77af0?w=600&h=400&fit=crop',
+  alt: 'Romantic walk',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1537633552985-df8429e8048b?w=600&h=400&fit=crop',
+  alt: 'Celebration',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?w=600&h=400&fit=crop',
+  alt: 'Indian wedding ceremony',
+  span: 'col-span-1'
+},
+{
+  src: 'https://images.unsplash.com/photo-1604017011826-d3b4c23f8914?w=600&h=800&fit=crop',
+  alt: 'Traditional attire',
+  span: 'col-span-1 row-span-2'
+},
+{
+  src: 'https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=600&h=400&fit=crop',
+  alt: 'Mehendi ceremony',
+  span: 'col-span-1'
+}];
   
   const photos = apiImages.length > 0 ? apiImages.map((img: any, index: number) => ({
     src: img.image_url || img.url,
