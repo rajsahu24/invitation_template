@@ -1,5 +1,4 @@
 import { EventsSection } from "./components/EventsSection";
-import { GuestList } from "./components/GuestList";
 import { HeroSection } from "./components/HeroSection";
 import { PhotoGallery } from "./components/PhotoGallery";
 import { RSVPSection } from "./components/RSVPSection";

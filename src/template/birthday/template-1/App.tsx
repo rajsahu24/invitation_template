@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, Clock, Shirt, Gift, Check, X } from 'lucide-react';
+import { Calendar, MapPin, Clock, Gift, Check, X } from 'lucide-react';
 import { ConfettiAnimation } from './components/ConfettiAnimation';
 import {
   BalloonCluster } from
