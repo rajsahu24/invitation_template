@@ -6,6 +6,7 @@ import { PreviewProvider, usePreview } from "../context/PreviewContext";
 import MarriageTemplate1 from "../template/marriage/template-1";
 import MarriageTemplate2 from "../template/marriage/template-2";
 import MarriageTemplate3 from "../template/marriage/template-3";
+import MarriageTemplate4 from "../template/marriage/template-4";
 import BirthdayT1 from "../template/birthday/template-1";
 
 
@@ -13,7 +14,8 @@ const TEMPLATE_MAP: any = {
   Wedding: {
     "Classic Wedding": MarriageTemplate1,
     "Modern Wedding": MarriageTemplate2,
-    "culture wedding": MarriageTemplate3
+    "Culture Wedding": MarriageTemplate3,
+    "Botanical Garden": MarriageTemplate4
   },
   Birthday: {
     "Birthday Celebration": BirthdayT1

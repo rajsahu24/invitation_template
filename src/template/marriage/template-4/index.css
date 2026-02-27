@@ -1,0 +1,99 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Inter:wght@300;400;500;600&display=swap');
+
+
+
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+:root {
+  --color-sage: #E8EDE5;
+  --color-sage-dark: #C5D1BF;
+  --color-rose: #D4A0A0;
+  --color-rose-light: #E8C4C4;
+  --color-rose-dark: #B88585;
+  --color-cream: #FDF8F4;
+  --color-forest: #3D5A3D;
+  --color-forest-light: #5A7A5A;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  color: var(--color-forest);
+  background-color: var(--color-cream);
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'DM Serif Display', serif;
+}
+
+.font-heading {
+  font-family: 'DM Serif Display', serif;
+}
+
+.font-body {
+  font-family: 'Inter', sans-serif;
+}
+
+.gold-border {
+  border-color: var(--color-rose);
+}
+
+.thin-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-rose), transparent);
+}
+
+.section-divider {
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--color-rose-light), transparent);
+  margin: 0 auto;
+  max-width: 200px;
+}
+
+/* Elegant scroll reveal */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Custom form styles */
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: var(--color-forest) !important;
+  box-shadow: 0 0 0 1px var(--color-forest-light);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--color-sage);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-sage-dark);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-forest-light);
+}

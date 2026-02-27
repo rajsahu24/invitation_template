@@ -20,15 +20,16 @@ export default {
           sapphire: '#2563EB',
           cream: '#FDFBF7',
         },
-                maroon: {
+        maroon: {
           DEFAULT: '#8B1538',
           light: '#A61B43',
           dark: '#660F29',
         },
         gold: {
-          DEFAULT: '#D4AF37',
-          light: '#F4D06F',
+          DEFAULT: '#C9A84C',
+          light: '#E8D5A3',
           dark: '#B89628',
+          pale: '#F5EDD8',
         },
         emerald: {
           DEFAULT: '#046A38',
@@ -38,7 +39,28 @@ export default {
         },
         brown: {
           DEFAULT: '#3E2723',
-        }
+        },
+        sage: {
+          DEFAULT: '#E8EDE5',
+          light: '#B5C4B5',
+          dark: '#C5D1BF',
+          pale: '#EEF2EE',
+        },
+        rose: {
+          DEFAULT: '#D4A0A0',
+          light: '#E8C4C4',
+          dark: '#B88585',
+        },
+        forest: {
+          DEFAULT: '#3D5A3D',
+          light: '#5A7A5A',
+        },
+        champagne: '#F7F3EE',
+        warmwhite: '#FDFAF6',
+        cream: '#FDF8F4',
+        charcoal: '#2C2C2C',
+        stone: '#6B6560',
+        parchment: '#F2EBE0',
       },
       fontFamily: {
         playfair: ['"Playfair Display"', 'serif'],
