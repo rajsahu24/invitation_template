@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { motion } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
 import { InstagramIcon, HeartIcon, MailIcon, PhoneIcon } from 'lucide-react';

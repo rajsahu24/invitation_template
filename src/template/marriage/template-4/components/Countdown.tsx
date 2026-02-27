@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import  { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
 const WEDDING_DATE = new Date('2025-12-14T18:00:00+05:30');

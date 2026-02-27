@@ -1,4 +1,4 @@
-import React, { useState, useRef, memo } from 'react';
+import  { useState, useRef } from 'react';
 import { motion, useInView, AnimatePresence } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
 import { XIcon, ZoomInIcon } from 'lucide-react';
@@ -274,7 +274,7 @@ export function Gallery() {
 
         {/* Gallery grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[200px]">
-          {photos.map((photo, index) =>
+          {photos.map((photo:any, index:number) =>
           <GalleryImage
             key={index}
             photo={photo}
