@@ -3,7 +3,7 @@ import { motion, useInView } from 'framer-motion';
 import { usePreview } from '../../../../context/PreviewContext';
 export function HostDetails() {
     const { previewData } = usePreview();
-    const heroSection = previewData?.family_info;
+    const heroSection = previewData?.hero_section;
     const data = heroSection?.data;
     // const schema = heroSection?.schema;
   const ref = useRef(null);

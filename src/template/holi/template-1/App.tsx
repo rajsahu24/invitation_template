@@ -4,7 +4,7 @@ import { EventDetails } from './components/EventDetails';
 import { Highlights } from './components/Highlights';
 import { GallerySection } from './components/GallerySection';
 import { CountdownTimer } from './components/CountdownTimer';
-import { DressCode } from './components/DressCode';
+
 import { RSVPForm } from './components/RSVPForm';
 import { Footer } from './components/Footer';
 function OrnateDivider() {
@@ -66,9 +66,9 @@ export function App() {
       <OrnateDivider />
 
       {/* Dress Code */}
-      <div id="dress_code_section">
+      {/* <div id="dress_code_section">
         <DressCode />
-      </div>
+      </div> */}
 
       <OrnateDivider />
 

@@ -15,7 +15,7 @@ export function HeroSection() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
   const { previewData } = usePreview();
-  const heroSection = previewData?.hero_section;
+  const heroSection = previewData?.subhero_section;
   const data = heroSection?.data;
   const schema = heroSection?.schema;
 

@@ -1,34 +1,70 @@
 import  { useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
+import { usePreview } from '../../../../context/PreviewContext';
+import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
+
 interface FormData {
   name: string;
   phone: string;
-  guests: string;
+  email: string;
+  status: string;
   message: string;
 }
+
 export function RSVPForm() {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
     margin: '-100px'
   });
+  const { previewData } = usePreview() as { previewData: InvitationData };
+  const invitation_id = previewData?.invitation_id;
+
   const [formData, setFormData] = useState<FormData>({
     name: '',
     phone: '',
-    guests: '',
+    email: '',
+    status: '2',
     message: ''
   });
-  const handleSubmit = (e: any) => {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: any) => {
     e.preventDefault();
-    alert(
-      `🎉 Dhanyavaad ${formData.name}! Aapka RSVP mil gaya!\n\nWe're excited to have you${formData.guests ? ` and ${formData.guests} guest(s)` : ''}!\n\nSee you on March 14th! 🌈`
-    );
-    setFormData({
-      name: '',
-      phone: '',
-      guests: '',
-      message: ''
-    });
+    setIsSubmitting(true);
+    
+    try {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/guests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          invitation_id: invitation_id,
+          status: formData.status,
+        }),
+      });
+
+      if (response.ok) {
+        alert(`🎉 Dhanyavaad ${formData.name}! Aapka RSVP mil gaya!\n\nSee you at the celebration! 🌈`);
+        setFormData({
+          name: '',
+          phone: '',
+          email: '',
+          status: '2',
+          message: ''
+        });
+      } else {
+        alert('Failed to submit RSVP. Please try again.');
+      }
+    } catch (error) {
+      alert('An error occurred. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   const inputClasses =
   'w-full bg-dark border-4 border-gold text-gold placeholder-gold/50 font-body text-lg p-4 rounded-lg focus:outline-none focus:border-marigold focus:ring-2 focus:ring-marigold/50 transition-all';
@@ -161,7 +197,7 @@ export function RSVPForm() {
 
           </motion.div>
 
-          {/* Guests Field */}
+          {/* Email Field */}
           <motion.div
             initial={{
               x: -30,
@@ -180,26 +216,66 @@ export function RSVPForm() {
             }}>
 
             <label
-              htmlFor="guests"
+              htmlFor="email"
               className="block font-heading font-bold text-gold mb-2 text-lg">
 
-              Kitne Log? (Number of Guests)
+              Email
             </label>
             <input
-              type="number"
-              id="guests"
-              min="0"
-              max="10"
-              placeholder="0"
+              type="email"
+              id="email"
+              placeholder="your@email.com"
               className={inputClasses}
-              value={formData.guests}
+              value={formData.email}
               onChange={(e) =>
               setFormData({
                 ...formData,
-                guests: e.target.value
+                email: e.target.value
               })
               } />
 
+          </motion.div>
+
+          {/* Status Field */}
+          <motion.div
+            initial={{
+              x: -30,
+              opacity: 0
+            }}
+            animate={
+            isInView ?
+            {
+              x: 0,
+              opacity: 1
+            } :
+            {}
+            }
+            transition={{
+              delay: 0.6
+            }}>
+
+            <label
+              htmlFor="status"
+              className="block font-heading font-bold text-gold mb-2 text-lg">
+
+              Aa Rahe Ho? (Will you attend?) *
+            </label>
+            <select
+              id="status"
+              required
+              className={inputClasses}
+              value={formData.status}
+              onChange={(e) =>
+              setFormData({
+                ...formData,
+                status: e.target.value
+              })
+              }>
+
+              <option value="2">🎉 Haan, Zaroor! (Yes, Definitely!)</option>
+              <option value="3">🤔 Shayad (Maybe)</option>
+              <option value="4">😔 Nahi Aa Paunga (Can't Make It)</option>
+            </select>
           </motion.div>
 
           {/* Message Field */}
@@ -217,7 +293,7 @@ export function RSVPForm() {
             {}
             }
             transition={{
-              delay: 0.6
+              delay: 0.7
             }}>
 
             <label
@@ -261,7 +337,8 @@ export function RSVPForm() {
 
             <motion.button
               type="submit"
-              className="w-full bg-gold text-dark font-heading font-bold text-xl md:text-2xl py-5 px-8 rounded-lg border-4 border-marigold glow-gold"
+              disabled={isSubmitting}
+              className="w-full bg-gold text-dark font-heading font-bold text-xl md:text-2xl py-5 px-8 rounded-lg border-4 border-marigold glow-gold disabled:opacity-50 disabled:cursor-not-allowed"
               whileHover={{
                 scale: 1.02
               }}
@@ -269,11 +346,11 @@ export function RSVPForm() {
                 scale: 0.98
               }}>
 
-              🎉 Haan, Main Aa Raha/Rahi Hoon!
+              send
             </motion.button>
-            <p className="text-center font-body text-cream/60 text-sm mt-3">
+            {/* <p className="text-center font-body text-cream/60 text-sm mt-3">
               (Yes, I'm Coming!)
-            </p>
+            </p> */}
           </motion.div>
         </motion.form>
 
@@ -294,7 +371,7 @@ export function RSVPForm() {
             delay: 0.9
           }}>
 
-          Ya phir WhatsApp karo: +91 98765 43210 📱
+    
         </motion.p>
       </div>
     </section>);

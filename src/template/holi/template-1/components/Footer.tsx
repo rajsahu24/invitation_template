@@ -1,54 +1,35 @@
 import  { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { MessageCircleIcon, MailIcon, CopyIcon } from 'lucide-react';
+
 export function Footer() {
   const ref = useRef(null);
   const isInView = useInView(ref, {
     once: true,
     margin: '-50px'
   });
-  const handleShare = (type: 'whatsapp' | 'email' | 'copy') => {
-    const message =
-    "🎨 You're invited to Holi 2026! Join us for colors, music, and unlimited masti at Sharma Villa on March 14th! 🌈";
-    const url = window.location.href;
-    switch (type) {
-      case 'whatsapp':
-        window.open(
-          `https://wa.me/?text=${encodeURIComponent(message + '\n\n' + url)}`,
-          '_blank'
-        );
-        break;
-      case 'email':
-        window.location.href = `mailto:?subject=You're Invited to Holi 2026!&body=${encodeURIComponent(message + '\n\n' + url)}`;
-        break;
-      case 'copy':
-        navigator.clipboard.writeText(url);
-        alert('Link copied! 📋 Ab share karo!');
-        break;
-    }
-  };
-  const shareButtons = [
-  {
-    type: 'whatsapp' as const,
-    icon: MessageCircleIcon,
-    label: 'WhatsApp',
-    color: 'text-green-500',
-    rotation: -5
-  },
-  {
-    type: 'email' as const,
-    icon: MailIcon,
-    label: 'Email',
-    color: 'text-marigold',
-    rotation: 3
-  },
-  {
-    type: 'copy' as const,
-    icon: CopyIcon,
-    label: 'Copy Link',
-    color: 'text-magenta',
-    rotation: -3
-  }];
+
+  // const shareButtons = [
+  // {
+  //   type: 'whatsapp' as const,
+  //   icon: MessageCircleIcon,
+  //   label: 'WhatsApp',
+  //   color: 'text-green-500',
+  //   rotation: -5
+  // },
+  // {
+  //   type: 'email' as const,
+  //   icon: MailIcon,
+  //   label: 'Email',
+  //   color: 'text-marigold',
+  //   rotation: 3
+  // },
+  // {
+  //   type: 'copy' as const,
+  //   icon: CopyIcon,
+  //   label: 'Copy Link',
+  //   color: 'text-magenta',
+  //   rotation: -3
+  // }];
 
   return (
     <footer ref={ref} className="py-16 md:py-24 px-4">
@@ -102,7 +83,7 @@ export function Footer() {
         </motion.div>
 
         {/* Share Buttons */}
-        <div className="flex justify-center gap-6 md:gap-10 mb-12">
+        {/* <div className="flex justify-center gap-6 md:gap-10 mb-12">
           {shareButtons.map((btn, index) =>
           <motion.button
             key={btn.type}
@@ -144,7 +125,7 @@ export function Footer() {
               </div>
             </motion.button>
           )}
-        </div>
+        </div> */}
 
         {/* Decorative Elements */}
         <motion.div
@@ -188,11 +169,9 @@ export function Footer() {
           }}>
 
           <p className="font-body text-cream/60 text-sm mb-2">
-            Made with 💜 and Gulaal
+            Made with 💜 © 2026 Inviteera.com
           </p>
-          <p className="font-body text-cream/40 text-xs">
-            © 2026 Sharma & Kapoor Parivaar | Holi Milan
-          </p>
+
         </motion.div>
 
         {/* Bottom Ornate Border */}
