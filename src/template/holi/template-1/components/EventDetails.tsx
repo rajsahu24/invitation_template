@@ -60,7 +60,7 @@ export function EventDetails() {
     <section ref={ref} className="py-16 md:py-24 px-4">
       <div className="max-w-4xl mx-auto space-y-12">
         {events.map((event, index) => {
-          const { eventName, eventDate, eventTime, eventLocation, eventAddress } = getEventData(event);
+          const { eventName, eventDate, eventTime, eventLocation } = getEventData(event);
           
           return (
             <motion.div
@@ -134,9 +134,6 @@ export function EventDetails() {
                     </h3>
                     <p className="font-body text-dark font-semibold">
                       {eventLocation}
-                    </p>
-                    <p className="font-body text-dark/70 text-sm">
-                      {eventAddress}
                     </p>
                   </div>
                 </motion.div>
