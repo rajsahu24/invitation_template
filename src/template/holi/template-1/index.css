@@ -1,0 +1,265 @@
+/* @import url() FONT IMPORTS MUST ALWAYS BE AT THE VERY TOP OF THIS FILE, ABOVE THE TAILWIND IMPORTS — DO NOT DELETE THIS COMMENT */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Poppins:wght@400;600;700&display=swap');
+
+/* END TAILWIND IMPORTS — ALL OTHER CSS MUST GO BELOW THIS LINE */
+
+
+/* ===== BOLLYWOOD HOLI INVITATION CUSTOM STYLES ===== */
+
+/* Starburst/Sunray Pattern */
+.starburst {
+  background: conic-gradient(from 0deg,
+      var(--color-gold) 0deg 10deg,
+      var(--color-marigold) 10deg 20deg,
+      var(--color-gold) 20deg 30deg,
+      var(--color-marigold) 30deg 40deg,
+      var(--color-gold) 40deg 50deg,
+      var(--color-marigold) 50deg 60deg,
+      var(--color-gold) 60deg 70deg,
+      var(--color-marigold) 70deg 80deg,
+      var(--color-gold) 80deg 90deg,
+      var(--color-marigold) 90deg 100deg,
+      var(--color-gold) 100deg 110deg,
+      var(--color-marigold) 110deg 120deg,
+      var(--color-gold) 120deg 130deg,
+      var(--color-marigold) 130deg 140deg,
+      var(--color-gold) 140deg 150deg,
+      var(--color-marigold) 150deg 160deg,
+      var(--color-gold) 160deg 170deg,
+      var(--color-marigold) 170deg 180deg,
+      var(--color-gold) 180deg 190deg,
+      var(--color-marigold) 190deg 200deg,
+      var(--color-gold) 200deg 210deg,
+      var(--color-marigold) 210deg 220deg,
+      var(--color-gold) 220deg 230deg,
+      var(--color-marigold) 230deg 240deg,
+      var(--color-gold) 240deg 250deg,
+      var(--color-marigold) 250deg 260deg,
+      var(--color-gold) 260deg 270deg,
+      var(--color-marigold) 270deg 280deg,
+      var(--color-gold) 280deg 290deg,
+      var(--color-marigold) 290deg 300deg,
+      var(--color-gold) 300deg 310deg,
+      var(--color-marigold) 310deg 320deg,
+      var(--color-gold) 320deg 330deg,
+      var(--color-marigold) 330deg 340deg,
+      var(--color-gold) 340deg 350deg,
+      var(--color-marigold) 350deg 360deg);
+}
+
+/* Mandala-inspired Background Pattern */
+.mandala-bg {
+  background-color: var(--color-dark);
+  background-image:
+    radial-gradient(circle at 50% 50%, transparent 20%, rgba(123, 45, 142, 0.1) 21%, transparent 22%),
+    radial-gradient(circle at 50% 50%, transparent 30%, rgba(255, 215, 0, 0.05) 31%, transparent 32%),
+    radial-gradient(circle at 50% 50%, transparent 40%, rgba(255, 0, 127, 0.05) 41%, transparent 42%),
+    radial-gradient(circle at 50% 50%, transparent 50%, rgba(255, 140, 0, 0.05) 51%, transparent 52%);
+  background-size: 100px 100px;
+}
+
+/* Filmstrip Perforations */
+.filmstrip {
+  position: relative;
+  background: var(--color-dark);
+}
+
+.filmstrip::before,
+.filmstrip::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 20px;
+  background: repeating-linear-gradient(90deg,
+      transparent 0px,
+      transparent 15px,
+      var(--color-gold) 15px,
+      var(--color-gold) 25px,
+      transparent 25px,
+      transparent 40px);
+}
+
+.filmstrip::before {
+  top: 0;
+}
+
+.filmstrip::after {
+  bottom: 0;
+}
+
+/* Ornate Border */
+.ornate-border {
+  border: 4px solid var(--color-gold);
+  position: relative;
+}
+
+.ornate-border::before,
+.ornate-border::after {
+  content: '❖';
+  position: absolute;
+  color: var(--color-gold);
+  font-size: 1.5rem;
+}
+
+.ornate-border::before {
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ornate-border::after {
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* Ticket Tear Edge */
+.ticket-tear {
+  clip-path: polygon(0% 0%,
+      5% 5%, 0% 10%, 5% 15%, 0% 20%, 5% 25%, 0% 30%, 5% 35%, 0% 40%, 5% 45%, 0% 50%,
+      5% 55%, 0% 60%, 5% 65%, 0% 70%, 5% 75%, 0% 80%, 5% 85%, 0% 90%, 5% 95%, 0% 100%,
+      100% 100%,
+      95% 95%, 100% 90%, 95% 85%, 100% 80%, 95% 75%, 100% 70%, 95% 65%, 100% 60%, 95% 55%, 100% 50%,
+      95% 45%, 100% 40%, 95% 35%, 100% 30%, 95% 25%, 100% 20%, 95% 15%, 100% 10%, 95% 5%, 100% 0%);
+}
+
+/* Vintage Stamp Effect */
+.vintage-stamp {
+  border: 3px solid currentColor;
+  padding: 0.75rem 1.25rem;
+  position: relative;
+  transform: rotate(-3deg);
+}
+
+.vintage-stamp::before {
+  content: '';
+  position: absolute;
+  inset: 3px;
+  border: 1px dashed currentColor;
+  pointer-events: none;
+}
+
+/* Flip Card for Countdown */
+.flip-card {
+  perspective: 1000px;
+}
+
+.flip-card-inner {
+  position: relative;
+  transform-style: preserve-3d;
+}
+
+.flip-card-front,
+.flip-card-back {
+  backface-visibility: hidden;
+}
+
+/* Decorative Divider */
+.ornate-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.ornate-divider::before,
+.ornate-divider::after {
+  content: '';
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--color-gold), transparent);
+}
+
+/* Custom Scrollbar for Filmstrip Gallery */
+.filmstrip-scroll::-webkit-scrollbar {
+  height: 8px;
+}
+
+.filmstrip-scroll::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+
+.filmstrip-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-gold);
+  border-radius: 4px;
+}
+
+.filmstrip-scroll::-webkit-scrollbar-thumb:hover {
+  background: var(--color-marigold);
+}
+
+/* Double Border Frame */
+.double-border-frame {
+  border: 6px solid var(--color-gold);
+  box-shadow:
+    inset 0 0 0 3px var(--color-dark),
+    inset 0 0 0 6px var(--color-marigold),
+    0 0 30px rgba(255, 215, 0, 0.3);
+}
+
+/* Corner Flourishes */
+.corner-flourish {
+  position: relative;
+}
+
+.corner-flourish::before,
+.corner-flourish::after {
+  content: '✦';
+  position: absolute;
+  color: var(--color-gold);
+  font-size: 2rem;
+}
+
+.corner-flourish::before {
+  top: -1rem;
+  left: -1rem;
+}
+
+.corner-flourish::after {
+  bottom: -1rem;
+  right: -1rem;
+}
+
+/* Medallion Beads */
+.medallion-beads {
+  position: relative;
+}
+
+.medallion-beads::before {
+  content: '';
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  background: repeating-conic-gradient(from 0deg,
+      var(--color-gold) 0deg 10deg,
+      transparent 10deg 20deg);
+  z-index: -1;
+}
+
+/* Paint Drip Effect */
+.paint-drip {
+  position: relative;
+}
+
+.paint-drip::after {
+  content: '';
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10px;
+  height: 30px;
+  background: currentColor;
+  border-radius: 0 0 50% 50%;
+  opacity: 0.8;
+}
+
+/* Glow Effect */
+.glow-gold {
+  box-shadow: 0 0 20px rgba(255, 215, 0, 0.5), 0 0 40px rgba(255, 215, 0, 0.3);
+}
+
+.glow-magenta {
+  box-shadow: 0 0 20px rgba(255, 0, 127, 0.5), 0 0 40px rgba(255, 0, 127, 0.3);
+}

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@import url('https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700;800&family=Bungee+Shade&family=Quicksand:wght@400;500;600;700&display=swap');
+
 @theme {
     --color-royal-purple: #4B0082;
     --color-royal-deepPurple: #2E0052;
@@ -12,10 +14,98 @@
     --color-royal-sapphire: #2563EB;
     --color-royal-cream: #FDFBF7;
 
+    --color-dark: #1A0A2E;
+    --color-gold: #FFD700;
+    --color-magenta: #FF007F;
+    --color-marigold: #FF8C00;
+    --color-warmwhite: #FDFAF6;
+    --color-charcoal: #2C2C2C;
+    --color-stone: #6B6560;
+    --color-parchment: #F2EBE0;
+
+    /* Holi Colors */
+    --color-holi-pink: #FF1493;
+    --color-holi-yellow: #FFD700;
+    --color-holi-blue: #4169E1;
+    --color-holi-green: #32CD32;
+    --color-holi-orange: #FF6B35;
+    --color-holi-purple: #9B59B6;
+    --color-holi-red: #FF4500;
+    --color-cream: #FDFBF7;
+
     --font-playfair: "Playfair Display", serif;
     --font-cormorant: "Cormorant Garamond", serif;
     --font-cinzel: "Cinzel", serif;
-    
+
+    /* Holi Fonts */
+    --font-heading: "Baloo 2", cursive;
+    --font-body: "Quicksand", sans-serif;
+    --font-display: "Bungee Shade", cursive;
+
+    /* Animations */
+    --animate-gradient-shift: gradientShift 15s ease infinite;
+    --animate-powder-burst: powderBurst 2s ease-out infinite;
+    --animate-bounce-custom: bounceCustom 2s infinite;
+    --animate-float: float 6s ease-in-out infinite;
+
+    @keyframes gradientShift {
+
+        0%,
+        100% {
+            background-position: 0% 50%
+        }
+
+        50% {
+            background-position: 100% 50%
+        }
+    }
+
+    @keyframes powderBurst {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+            filter: drop-shadow(0 0 0px rgba(255, 20, 147, 0))
+        }
+
+        50% {
+            transform: scale(1.05);
+            opacity: 0.9;
+            filter: drop-shadow(0 0 20px rgba(255, 20, 147, 0.8))
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+            filter: drop-shadow(0 0 0px rgba(255, 20, 147, 0))
+        }
+    }
+
+    @keyframes bounceCustom {
+
+        0%,
+        100% {
+            transform: translateY(-5%);
+            animation-timing-function: cubic-bezier(0.8, 0, 1, 1)
+        }
+
+        50% {
+            transform: translateY(0);
+            animation-timing-function: cubic-bezier(0, 0, 0.2, 1)
+        }
+    }
+
+    @keyframes float {
+
+        0%,
+        100% {
+            transform: translateY(0) rotate(0deg)
+        }
+
+        50% {
+            transform: translateY(-20px) rotate(5deg)
+        }
+    }
+
     --background-image-royal-gradient: linear-gradient(to bottom right, #2E0052, #004d4d);
     --background-image-gold-gradient: linear-gradient(to right, #B8860B, #FFD700, #B8860B);
 }

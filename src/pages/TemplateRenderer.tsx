@@ -8,7 +8,8 @@ import MarriageTemplate2 from "../template/marriage/template-2";
 import MarriageTemplate3 from "../template/marriage/template-3";
 import MarriageTemplate4 from "../template/marriage/template-4";
 import BirthdayT1 from "../template/birthday/template-1";
-
+import HoliTemolateT1 from '../template/holi/template-1'
+import HoliTemolateT2 from '../template/holi/template-2'
 
 const TEMPLATE_MAP: any = {
   Wedding: {
@@ -19,6 +20,10 @@ const TEMPLATE_MAP: any = {
   },
   Birthday: {
     "Birthday Celebration": BirthdayT1
+  },
+  holi:{
+    "Splash & Play":HoliTemolateT1,
+    "Retro Bollywood":  HoliTemolateT2,
   }
 };  
 
