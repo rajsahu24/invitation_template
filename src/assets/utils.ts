@@ -69,13 +69,19 @@ export const DEFAULT_INVITATION_DATA:any  = {
 };
 
 
-export const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | 'invitation' | null } => {
+export const getIdFromUrl = (): { id: string | null, type: 'template' | 'public' | 'rsvp_token' | 'invitation' | 'slug' | null } => {
     const pathParts = window.location.pathname.split('/').filter(Boolean);
 
     // Check if it's the new route format: /preview/category/templateName/invitation_id
     if (pathParts[0] === 'preview' && pathParts.length === 4) {
         const invitation_id = pathParts[3];
         return { id: invitation_id, type: 'invitation' };
+    }
+
+    // Check for /public/{public_id} route
+    if (pathParts[0] === 'public' && pathParts.length === 2) {
+        const public_id = pathParts[1];
+        return { id: public_id, type: 'public' };
     }
 
     const id = pathParts[0] || null;
@@ -90,7 +96,8 @@ export const getIdFromUrl = (): { id: string | null, type: 'template' | 'public'
     const rsvp_token = isRSVPToken(id)
     if (rsvp_token) return { id: id, type: 'rsvp_token' }
 
-    return { id, type: 'public' };
+    // Default to slug type for URLs like /{slug}
+    return { id, type: 'slug' };
 };
 
 

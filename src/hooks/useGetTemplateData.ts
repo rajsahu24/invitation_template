@@ -75,6 +75,28 @@ export const useGetTemplateData = () => {
         }
     }, []);
 
+    const fetchInvitationBySlug = useCallback(async (slug: string) => {
+        setIsLoading(true);
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/invitation-data/slug/${slug}`);
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Slug invitation details fetched:', data);
+
+                const transformed = data;
+                setPreviewData(transformed);
+                console.log("Transformed slug data:", transformed);
+            } else {
+                setPreviewData([]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch invitation details by slug:', error);
+            setPreviewData([]);
+        } finally {
+            setIsLoading(false);
+        }
+    }, []);
+
     const fetchTemplateData = useCallback(async (template_id: string) => {
         setIsLoading(true);
         try {
@@ -107,6 +129,8 @@ export const useGetTemplateData = () => {
             fetchGuestInvitationData(id);
         } else if (type === 'public' && id) {
             fetchInvitationDetails(id);
+        } else if (type === 'slug' && id) {
+            fetchInvitationBySlug(id);
         } else if (type === 'template' && id) {
             fetchTemplateData(id);
         } else if (!id) {
@@ -115,7 +139,7 @@ export const useGetTemplateData = () => {
         }
 
         setHasFetchedInitial(true);
-    }, [hasFetchedInitial, fetchGuestInvitationData, fetchInvitationDetails, fetchInvitationData, fetchTemplateData]);
+    }, [hasFetchedInitial, fetchGuestInvitationData, fetchInvitationBySlug, fetchInvitationDetails, fetchInvitationData, fetchTemplateData]);
 
     // Message listener effect
     useEffect(() => {

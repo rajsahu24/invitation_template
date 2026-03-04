@@ -14,6 +14,10 @@ export default function App() {
           path="/:id"
           element={<TemplateRenderer />}
         />
+        <Route
+          path="/public/:id"
+          element={<TemplateRenderer />}
+        />
       </Routes>
     </BrowserRouter>
     </div>

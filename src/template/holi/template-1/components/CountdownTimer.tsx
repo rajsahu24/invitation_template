@@ -93,7 +93,6 @@ export function CountdownTimer() {
  
   // Get target date from preview data
   const targetDateTime = data?.date_time || data?.target_date || '2026-03-14T11:00:00';
-  console.log(targetDateTime)
   const calculateTimeLeft = (): TimeLeft => {
     const targetDate = new Date(targetDateTime).getTime();
     const now = new Date().getTime();
