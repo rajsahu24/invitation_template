@@ -13,17 +13,17 @@ import HoliTemolateT2 from '../template/holi/template-2'
 
 const TEMPLATE_MAP: any = {
   Wedding: {
-    "Classic Wedding": MarriageTemplate1,
-    "Modern Wedding": MarriageTemplate2,
-    "Culture Wedding": MarriageTemplate3,
-    "Botanical Garden": MarriageTemplate4
+    "classic wedding": MarriageTemplate1,
+    "modern wedding": MarriageTemplate2,
+    "culture wedding": MarriageTemplate3,
+    "botanical garden": MarriageTemplate4
   },
   Birthday: {
-    "Birthday Celebration": BirthdayT1
+    "birthday celebration": BirthdayT1
   },
   holi:{
-    "Splash & Play":HoliTemolateT1,
-    "Retro Bollywood":  HoliTemolateT2,
+    "splash & play":HoliTemolateT1,
+    "retro b  ollywood":  HoliTemolateT2,
   }
 };  
 

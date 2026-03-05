@@ -4,22 +4,22 @@ import { SectionDivider } from './ui/OrnateDecorations';
 import { usePreview } from '../../../../context/PreviewContext';
 let photos = [
   {
-    image_url:'https://images.unsplash.com/photo-1605218427368-35b0f996d716?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image_url:'https://images.unsplash.com/photo-1519741497674-611481863552?w=600&h=400&fit=crop',
   },
   {
-    image_url:'https://images.unsplash.com/photo-1587271407850-8d43891882c0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image_url:'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=600&h=800&fit=crop',
   },
   {
     image_url:'https://images.unsplash.com/photo-1621621667797-e06afc217fb0?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
   },
   {
-    image_url:'https://images.unsplash.com/photo-1583939411023-147850f3ad4b?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image_url:'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=400&fit=crop',
   },
   {
     image_url:'https://images.unsplash.com/photo-1595526114035-0d45ed16cfbf?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
   },
   {
-    image_url:'https://images.unsplash.com/photo-1511795409873-25c0284a0338?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80',
+    image_url:'https://images.unsplash.com/photo-1529634806980-85c3dd6d34ac?w=600&h=400&fit=crop',
   }
 ]
 

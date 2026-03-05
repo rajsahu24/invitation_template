@@ -7,18 +7,18 @@ import type { InvitationData } from '../../../../hooks/getTemplateDataModel';
 
 const DUMMY_EVENTS = [
   {
-    event_name: 'Mehndi & Sangeet',
+    event_name: 'Sangeet',
     date_time: '2024-12-11T16:00:00',
     location: 'The Oberoi Udaivilas, Udaipur',
     description: 'Join us for an evening of music, dance, and henna application. A colorful celebration to kickstart the wedding festivities with traditional folk performances and a gala dinner.',
-    image: 'https://images.unsplash.com/photo-1596225577626-38b456897268?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1645856049869-d410ad2e7585?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGluZGlhbiUyMG1hcnJpZWQlMjBkYW5jZXxlbnwwfHwwfHx8MA%3D%3D'
   },
   {
     event_name: 'Wedding Ceremony',
     date_time: '2024-12-12T10:00:00',
     location: 'Jagmandir Island Palace',
     description: 'The sacred union. Witness the Baraat procession followed by the Pheras under the mandap, as we take our vows in the presence of the holy fire and our loved ones.',
-    image: 'https://images.unsplash.com/photo-1519225421980-715cb0202128?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80'
+    image: 'https://images.unsplash.com/photo-1613665667184-81bb9b8605e2?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D'
   },
   {
     event_name: 'Grand Reception',
