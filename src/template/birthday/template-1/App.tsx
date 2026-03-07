@@ -20,9 +20,20 @@ export default function App() {
   
   const { previewData } = usePreview();
   const [rsvpState, setRsvpState] = useState<'idle' | 'yes' | 'no'>('idle');
-  const hero_section = (previewData as any).hero_section
   
-  const events = (previewData as any).event_section?.data || [
+  const heroSection = previewData?.hero_section;
+  const heroData = heroSection?.data;
+  const heroSchema = heroSection?.schema;
+  
+  const eventSection = previewData?.event_section;
+  const eventData = eventSection?.data;
+  const eventSchema = eventSection?.schema;
+  
+  const imageSection = previewData?.image_section;
+  const imageData = imageSection?.data;
+  const imageSchema = imageSection?.schema;
+  
+  const events = eventData || [
     {
       date: "2023-07-15T10:00:00Z",
       time: "10:00 AM",
@@ -37,8 +48,9 @@ export default function App() {
       location: "Beachfront Pavilion",
       description: "Afternoon celebration"
     }
-  ]
-  const images = (previewData as any)?.image_section?.data?.images ||[
+  ];
+  
+  const images = imageData?.images || [
     {
       image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
       type: "cover"
@@ -50,9 +62,8 @@ export default function App() {
     {
       image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
       type: "memory"
-    }]
-  
-  console.log(events,"events")
+    }
+  ];
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const getRSVPTokenFromUrl = (): string | null => {
@@ -98,9 +109,34 @@ export default function App() {
   //   else if (guest.status === 4) setRsvpState('no');
   // }, [guest.status]);
 
-  const name = hero_section?.data?.celebrant_name ||"Sarah";
-  const age = hero_section?.data?.date || "30th"; 
-  const message = hero_section?.data?.tag_line || "Join us to celebrate a very special day";
+  const getHeroFieldValue = (key: string) => (heroData && typeof heroData === 'object' ? heroData[key] : '') || '';
+  
+  let name = '';
+  let age = '';
+  let message = '';
+  
+  if (heroData && typeof heroData === 'object') {
+    if (heroSchema?.fields) {
+      const findField = (keywords: string[]) => 
+        heroSchema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
+      
+      const nameField = findField(['celebrant', 'name']);
+      const ageField = findField(['age', 'date']);
+      const messageField = findField(['tag', 'line', 'message']);
+
+      name = nameField ? getHeroFieldValue(nameField.key) : '';
+      age = ageField ? getHeroFieldValue(ageField.key) : '';
+      message = messageField ? getHeroFieldValue(messageField.key) : '';
+    } else {
+      name = getHeroFieldValue('celebrant_name') || getHeroFieldValue('name');
+      age = getHeroFieldValue('date') || getHeroFieldValue('age');
+      message = getHeroFieldValue('tag_line') || getHeroFieldValue('message');
+    }
+  }
+  
+  const displayName = name || "Sarah";
+  const displayAge = age || "30th";
+  const displayMessage = message || "Join us to celebrate a very special day";
   
   const formatDate = (dateString: string) => {
     try {
@@ -185,7 +221,7 @@ export default function App() {
               className="mt-8">
 
               <p className="text-2xl md:text-3xl font-[Caveat] text-stone-600">
-                {message}
+                {displayMessage}
               </p>
               <SquiggleLine
                 className="w-48 mx-auto mt-4 text-[#C5B4E3]"
@@ -220,12 +256,12 @@ export default function App() {
 
 
               <h2 className="text-5xl md:text-6xl font-[Caveat] text-stone-700 mb-2">
-                {name}'s
+                {displayName}'s
               </h2>
               <div className="flex items-center justify-center gap-4 mb-4">
                 <SwirlDoodle className="w-8 h-8 text-[#B4E7CE]" />
                 <span className="text-8xl font-bold text-[#FFB3D9] font-[Caveat]">
-                  {age}
+                  {displayAge}
                 </span>
                 <SwirlDoodle className="w-8 h-8 text-[#B4E7CE] transform scale-x-[-1]" />
               </div>
@@ -259,7 +295,7 @@ export default function App() {
               ) : (
                 <>
                   <PolaroidFrame
-                    caption={`Little ${name}, 1994`}
+                    caption={`Little ${displayName}, 1994`}
                     rotation={-6}
                     delay={0.2}
                     className="w-64">
