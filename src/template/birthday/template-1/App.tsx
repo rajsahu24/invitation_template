@@ -258,13 +258,7 @@ export default function App() {
               <h2 className="text-5xl md:text-6xl font-[Caveat] text-stone-700 mb-2">
                 {displayName}'s
               </h2>
-              <div className="flex items-center justify-center gap-4 mb-4">
-                <SwirlDoodle className="w-8 h-8 text-[#B4E7CE]" />
-                <span className="text-8xl font-bold text-[#FFB3D9] font-[Caveat]">
-                  {displayAge}
-                </span>
-                <SwirlDoodle className="w-8 h-8 text-[#B4E7CE] transform scale-x-[-1]" />
-              </div>
+
               <h2 className="text-5xl md:text-6xl font-[Caveat] text-stone-700">
                 Birthday Bash
               </h2>

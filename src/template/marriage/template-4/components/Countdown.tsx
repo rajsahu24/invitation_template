@@ -1,6 +1,7 @@
 import  { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
+import { usePreview } from '../../../../context/PreviewContext';
 const WEDDING_DATE = new Date('2025-12-14T18:00:00+05:30');
 interface TimeUnit {
   value: number;
@@ -43,7 +44,7 @@ function CountdownUnit({
 
       <div className="relative">
         {/* Circular badge */}
-        <div className="w-20 h-20 md:w-28 md:h-28 rounded-full bg-sage flex items-center justify-center shadow-lg border-2 border-sage-dark/30">
+        <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-28 md:h-28 rounded-full bg-sage flex items-center justify-center shadow-lg border-2 border-sage-dark/30">
           <motion.span
             key={value}
             initial={{
@@ -54,7 +55,7 @@ function CountdownUnit({
               opacity: 1,
               y: 0
             }}
-            className="font-serif text-3xl md:text-5xl text-forest">
+            className="font-serif text-2xl sm:text-3xl md:text-5xl text-forest">
 
             {value.toString().padStart(2, '0')}
           </motion.span>
@@ -62,7 +63,7 @@ function CountdownUnit({
 
         {/* Leaf accent */}
         <motion.div
-          className="absolute -top-2 -right-2 text-forest-light"
+          className="absolute -top-1 -right-1 sm:-top-2 sm:-right-2 text-forest-light"
           animate={{
             rotate: [0, 10, 0]
           }}
@@ -71,27 +72,34 @@ function CountdownUnit({
             repeat: Infinity
           }}>
 
-          <BotanicalLeaf variant="small" animate={false} className="w-6 h-6" />
+          <BotanicalLeaf variant="small" animate={false} className="w-4 h-4 sm:w-6 sm:h-6" />
         </motion.div>
       </div>
 
-      <span className="mt-3 text-forest-light text-sm md:text-base font-medium tracking-wide uppercase">
+      <span className="mt-2 sm:mt-3 text-forest-light text-xs sm:text-sm md:text-base font-medium tracking-wide uppercase">
         {label}
       </span>
     </motion.div>);
 
 }
 export function Countdown() {
+  const containerRef = useRef(null);
+  const isInView = useInView(containerRef, {
+    once: true,
+    margin: '-100px'
+  });
+  const { previewData } = usePreview();
+  const countdownSection = previewData?.Countdown_section;
+  const data = countdownSection?.data;
+  
+  const targetDateTime = data?.date_time || data?.target_date || '2025-12-14T18:00:00+05:30';
+  const WEDDING_DATE = new Date(targetDateTime);
+  
   const [timeLeft, setTimeLeft] = useState({
     days: 0,
     hours: 0,
     minutes: 0,
     seconds: 0
-  });
-  const containerRef = useRef(null);
-  const isInView = useInView(containerRef, {
-    once: true,
-    margin: '-100px'
   });
   useEffect(() => {
     const calculateTimeLeft = () => {
@@ -109,7 +117,7 @@ export function Countdown() {
     calculateTimeLeft();
     const timer = setInterval(calculateTimeLeft, 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [targetDateTime]);
   const units: TimeUnit[] = [
   {
     value: timeLeft.days,
@@ -129,10 +137,10 @@ export function Countdown() {
   }];
 
   return (
-    <section className="py-20 px-6 bg-gradient-to-b from-cream to-sage/30 relative overflow-hidden">
+    <section className="py-12 sm:py-16 md:py-20 px-4 sm:px-6 bg-gradient-to-b from-cream to-sage/30 relative overflow-hidden">
       {/* Background decorations */}
       <motion.div
-        className="absolute top-10 left-10 text-sage-dark opacity-25"
+        className="absolute top-4 left-2 sm:top-10 sm:left-10 text-sage-dark opacity-25"
         animate={{
           y: [0, -8, 0]
         }}
@@ -141,11 +149,11 @@ export function Countdown() {
           repeat: Infinity
         }}>
 
-        <BotanicalLeaf variant="branch" animate={false} className="w-20 h-28" />
+        <BotanicalLeaf variant="branch" animate={false} className="w-12 h-16 sm:w-20 sm:h-28" />
       </motion.div>
 
       <motion.div
-        className="absolute bottom-10 right-10 text-sage-dark opacity-25"
+        className="absolute bottom-4 right-2 sm:bottom-10 sm:right-10 text-sage-dark opacity-25"
         animate={{
           y: [0, 8, 0]
         }}
@@ -157,7 +165,7 @@ export function Countdown() {
         <BotanicalLeaf
           variant="branch"
           animate={false}
-          className="w-24 h-32 rotate-180" />
+          className="w-14 h-20 sm:w-24 sm:h-32 rotate-180" />
 
       </motion.div>
 
@@ -181,24 +189,24 @@ export function Countdown() {
           transition={{
             duration: 0.8
           }}
-          className="text-center mb-12">
+          className="text-center mb-8 sm:mb-12">
 
-          <h2 className="font-serif text-4xl md:text-5xl text-forest mb-4">
+          <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-forest mb-3 sm:mb-4">
             Counting Down
           </h2>
-          <div className="flex items-center justify-center gap-3">
-            <div className="h-px w-12 bg-rose" />
+          <div className="flex items-center justify-center gap-2 sm:gap-3">
+            <div className="h-px w-8 sm:w-12 bg-rose" />
             <BotanicalLeaf
               variant="small"
               animate={false}
-              className="w-6 h-6 text-forest-light" />
+              className="w-5 h-5 sm:w-6 sm:h-6 text-forest-light" />
 
-            <div className="h-px w-12 bg-rose" />
+            <div className="h-px w-8 sm:w-12 bg-rose" />
           </div>
-          <p className="mt-6 text-forest-light">Until we say "I do"</p>
+          <p className="mt-4 sm:mt-6 text-sm sm:text-base text-forest-light">Until we say "I do"</p>
         </motion.div>
 
-        <div className="flex justify-center gap-4 md:gap-8">
+        <div className="flex flex-wrap justify-center gap-3 sm:gap-4 md:gap-8">
           {units.map((unit, index) =>
           <CountdownUnit
             key={unit.label}
@@ -226,7 +234,7 @@ export function Countdown() {
             duration: 0.8,
             delay: 0.8
           }}
-          className="text-center mt-10 font-serif text-xl text-forest-light italic">
+          className="text-center mt-6 sm:mt-8 md:mt-10 font-serif text-base sm:text-lg md:text-xl text-forest-light italic">
 
           December 14, 2025 · Udaipur
         </motion.p>
