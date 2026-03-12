@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect } from 'react';
+import React, { createContext, useContext } from 'react';
 import type { ReactNode } from "react";
 import { useGetTemplateData } from '../hooks/useGetTemplateData';
 import { useMetadata } from '../hooks/useMetadata';

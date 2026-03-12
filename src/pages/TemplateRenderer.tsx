@@ -42,8 +42,13 @@ function TemplateContent() {
   // Update metadata when previewData changes
   useEffect(() => {
     if (invitation) {
-      const title = invitation.invitation_title || 'You are Invited!';
-      const description = invitation.invitation_message || invitation.invitation_tag_line || 'Join us for a special celebration.';
+      console.log('[TemplateRenderer] invitation data:', invitation);
+      console.log('[TemplateRenderer] invitation_title:', invitation.invitation_title);
+      
+      const title = invitation.invitation_title?.data || invitation.invitation_title || 'You are Invited!';
+      const description = invitation.invitation_message?.data || invitation.invitation_message || invitation.invitation_tag_line?.data || invitation.invitation_tag_line || 'Join us for a special celebration.';
+      console.log('[TemplateRenderer] extracted title:', title);
+      console.log('[TemplateRenderer] extracted description:', description);
       const currentUrl = window.location.href;
       
       // Get public_id or slug from URL
