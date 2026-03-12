@@ -1,5 +1,7 @@
 import { useParams } from "react-router-dom";
 import { PreviewProvider, usePreview } from "../context/PreviewContext";
+import { useEffect } from "react";
+import { updateMetadata, generateOGImageUrl } from "../utils/metadata";
 
 
 // marriage
@@ -36,6 +38,30 @@ function TemplateContent() {
   console.log(previewData)
   const invitation = previewData;
   const urlTemplateName = templateName?.replace(/_/g, " ");
+  
+  // Update metadata when previewData changes
+  useEffect(() => {
+    if (invitation) {
+      const title = invitation.invitation_title || 'You are Invited!';
+      const description = invitation.invitation_message || invitation.invitation_tag_line || 'Join us for a special celebration.';
+      const currentUrl = window.location.href;
+      
+      // Get public_id or slug from URL
+      const pathParts = window.location.pathname.split('/');
+      const idParam = pathParts[pathParts.length - 1];
+      
+      // Generate OG image URL
+      const ogImage = generateOGImageUrl({ public_id: idParam });
+      
+      updateMetadata({
+        title,
+        description,
+        image: ogImage,
+        url: currentUrl,
+        type: 'website'
+      });
+    }
+  }, [invitation]);
   
   // Prioritize URL params for preview overrides
   // We use URL params if they exist, otherwise fallback to invitation data
