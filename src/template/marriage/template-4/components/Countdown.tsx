@@ -2,7 +2,7 @@ import  { useEffect, useState, useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
 import { usePreview } from '../../../../context/PreviewContext';
-const WEDDING_DATE = new Date('2025-12-14T18:00:00+05:30');
+// const WEDDING_DATE = new Date('2025-12-14T18:00:00+05:30');
 interface TimeUnit {
   value: number;
   label: string;

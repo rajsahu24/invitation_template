@@ -8,7 +8,6 @@ import {
 import {
   StarDoodle,
   HeartDoodle,
-  SwirlDoodle,
   SquiggleLine,
   BurstDoodle } from
 './components/DoodleElements';
@@ -27,11 +26,11 @@ export default function App() {
   
   const eventSection = previewData?.event_section;
   const eventData = eventSection?.data;
-  const eventSchema = eventSection?.schema;
+
   
   const imageSection = previewData?.image_section;
   const imageData = imageSection?.data;
-  const imageSchema = imageSection?.schema;
+
   
   const events = eventData || [
     {
@@ -112,7 +111,7 @@ export default function App() {
   const getHeroFieldValue = (key: string) => (heroData && typeof heroData === 'object' ? heroData[key] : '') || '';
   
   let name = '';
-  let age = '';
+  // let age = '';
   let message = '';
   
   if (heroData && typeof heroData === 'object') {
@@ -121,21 +120,21 @@ export default function App() {
         heroSchema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
       
       const nameField = findField(['celebrant', 'name']);
-      const ageField = findField(['age', 'date']);
+      // const ageField = findField(['age', 'date']);
       const messageField = findField(['tag', 'line', 'message']);
 
       name = nameField ? getHeroFieldValue(nameField.key) : '';
-      age = ageField ? getHeroFieldValue(ageField.key) : '';
+      // age = ageField ? getHeroFieldValue(ageField.key) : '';
       message = messageField ? getHeroFieldValue(messageField.key) : '';
     } else {
       name = getHeroFieldValue('celebrant_name') || getHeroFieldValue('name');
-      age = getHeroFieldValue('date') || getHeroFieldValue('age');
+      // age = getHeroFieldValue('date') || getHeroFieldValue('age');
       message = getHeroFieldValue('tag_line') || getHeroFieldValue('message');
     }
   }
   
   const displayName = name || "Sarah";
-  const displayAge = age || "30th";
+
   const displayMessage = message || "Join us to celebrate a very special day";
   
   const formatDate = (dateString: string) => {

@@ -1,6 +1,32 @@
 {
   "rewrites": [
     {
+      "source": "/api/og",
+      "destination": "/api/og.tsx"
+    },
+    {
+      "source": "/public/:public_id",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebook|Twitter|Slack|LinkedIn|Discord|Telegram).*"
+        }
+      ],
+      "destination": "/api/metadata?public_id=:public_id"
+    },
+    {
+      "source": "/:slug",
+      "has": [
+        {
+          "type": "header",
+          "key": "user-agent",
+          "value": ".*(WhatsApp|facebook|Twitter|Slack|LinkedIn|Discord|Telegram).*"
+        }
+      ],
+      "destination": "/api/metadata?slug=:slug"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
