@@ -28,9 +28,17 @@ export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, them
   const invitation = (safePreviewData as any).invitation || safePreviewData;
   const dynamicTheme = theme || (invitation?.invitation_type === 'birthday' ? 'birthday' : 'wedding');
   
+  // Helper function to extract string value from either direct string or SectionResponse
+  const extractString = (value: any): string => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value.data === 'string') return value.data;
+    return '';
+  };
+  
   // Extract metadata from invitation data
-  const title = invitation?.invitation_title || 'You are Invited!';
-  const description = invitation?.invitation_message || invitation?.invitation_tag_line || 'Join us for a special celebration.';
+  const title = extractString(invitation?.invitation_title) || 'You are Invited!';
+  const description = extractString(invitation?.invitation_message) || extractString(invitation?.invitation_tag_line) || 'Join us for a special celebration.';
   
   // Get public_id or slug from URL
   const pathParts = window.location.pathname.split('/');

@@ -39,14 +39,22 @@ function TemplateContent() {
   const invitation = previewData;
   const urlTemplateName = templateName?.replace(/_/g, " ");
   
+  // Helper function to extract string value from either direct string or SectionResponse
+  const extractString = (value: any): string => {
+    if (!value) return '';
+    if (typeof value === 'string') return value;
+    if (typeof value.data === 'string') return value.data;
+    return '';
+  };
+
   // Update metadata when previewData changes
   useEffect(() => {
     if (invitation) {
       console.log('[TemplateRenderer] invitation data:', invitation);
       console.log('[TemplateRenderer] invitation_title:', invitation.invitation_title);
       
-      const title = invitation.invitation_title?.data || invitation.invitation_title || 'You are Invited!';
-      const description = invitation.invitation_message?.data || invitation.invitation_message || invitation.invitation_tag_line?.data || invitation.invitation_tag_line || 'Join us for a special celebration.';
+      const title = extractString(invitation.invitation_title) || 'You are Invited!';
+      const description = extractString(invitation.invitation_message) || extractString(invitation.invitation_tag_line) || 'Join us for a special celebration.';
       console.log('[TemplateRenderer] extracted title:', title);
       console.log('[TemplateRenderer] extracted description:', description);
       const currentUrl = window.location.href;
