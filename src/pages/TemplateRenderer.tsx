@@ -12,6 +12,8 @@ import MarriageTemplate4 from "../template/marriage/template-4";
 import BirthdayT1 from "../template/birthday/template-1";
 import HoliTemolateT1 from '../template/holi/template-1'
 import HoliTemolateT2 from '../template/holi/template-2'
+import BirthdayWisht1 from '../template/birthday-wish/template-1'
+
 
 const TEMPLATE_MAP: any = {
   Wedding: {
@@ -25,7 +27,11 @@ const TEMPLATE_MAP: any = {
   },
   holi:{
     "splash & play":HoliTemolateT1,
-    "retro b  ollywood":  HoliTemolateT2,
+    "retro bollywood":  HoliTemolateT2,
+  },
+  birthday_wish:{
+    "surprise birthday card":
+    BirthdayWisht1
   }
 };  
 
@@ -78,7 +84,7 @@ function TemplateContent() {
   
   // Prioritize URL params for preview overrides
   // We use URL params if they exist, otherwise fallback to invitation data
-  const finalCategory = category || invitation?.template_type;
+  const finalCategory = category || invitation?.template_type?.replace(/ /g, "_");
   const finalTemplateName = urlTemplateName || invitation?.template_name;
   
   console.log('Category:', finalCategory, 'Template Name:', finalTemplateName);

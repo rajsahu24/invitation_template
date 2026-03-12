@@ -8,6 +8,21 @@ export default {
   theme: {
     extend: {
       colors: {
+        navy: {
+          950: '#020617',
+          900: '#0a192f',
+          800: '#112240',
+          700: '#1d3557',
+          600: '#233554',
+        },
+        celebration: {
+          gradient: 'linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f97316 100%)',
+        },
+        warmpink: '#FF6B8A',
+        coral: '#FF7F50',
+        mint: '#98D8C8',
+        skyblue: '#87CEEB',
+        'gold-shimmer': 'linear-gradient(90deg, #FFD700, #FFA500, #FFD700)',
         royal: {
           purple: '#4B0082',
           deepPurple: '#2E0052',
@@ -27,6 +42,8 @@ export default {
         },
         gold: {
           DEFAULT: '#C9A84C',
+          400: '#FFD700',
+          500: '#DAA520',
           light: '#E8D5A3',
           dark: '#B89628',
           pale: '#F5EDD8',
@@ -85,6 +102,9 @@ export default {
       backgroundImage: {
         'royal-gradient': 'linear-gradient(to bottom right, #2E0052, #004d4d)',
         'gold-gradient': 'linear-gradient(to right, #B8860B, #FFD700, #B8860B)',
+        'celebration-gradient': 'linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%)',
+        'birthday-party': 'linear-gradient(180deg, #1e1e3f 0%, #2d1b4e 50%, #4a1c6b 100%)',
+        'festive-glow': 'radial-gradient(circle at 50% 0%, #ff6b6b 0%, #c44569 50%, #1e1e3f 100%)',
       },
             animation: {
         'gradient-shift': 'gradientShift 15s ease infinite',
