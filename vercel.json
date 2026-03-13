@@ -1,9 +1,14 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/og",
-      "destination": "/api/og.tsx"
+  "functions": {
+    "api/og.tsx": {
+      "runtime": "@vercel/node",
+      "includeFiles": ["package.json"]
     },
+    "api/metadata.ts": {
+      "runtime": "@vercel/node"
+    }
+  },
+  "rewrites": [
     {
       "source": "/public/:public_id",
       "has": [
