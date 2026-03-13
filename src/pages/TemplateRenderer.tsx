@@ -82,8 +82,7 @@ function TemplateContent() {
     }
   }, [invitation]);
   
-  // Prioritize URL params for preview overrides
-  // We use URL params if they exist, otherwise fallback to invitation data
+
   const finalCategory = category || invitation?.template_type?.replace(/ /g, "_");
   const finalTemplateName = urlTemplateName || invitation?.template_name;
   
