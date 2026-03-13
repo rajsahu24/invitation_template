@@ -103,10 +103,7 @@ export default function App() {
   };
 
 
-  // React.useEffect(() => {
-  //   if (guest.status === 2) setRsvpState('yes');
-  //   else if (guest.status === 4) setRsvpState('no');
-  // }, [guest.status]);
+ 
 
   const getHeroFieldValue = (key: string) => (heroData && typeof heroData === 'object' ? heroData[key] : '') || '';
   
@@ -120,15 +117,15 @@ export default function App() {
         heroSchema.fields.find((f: any) => keywords.some(k => f.key.toLowerCase().includes(k)));
       
       const nameField = findField(['celebrant', 'name']);
-      // const ageField = findField(['age', 'date']);
+     
       const messageField = findField(['tag', 'line', 'message']);
 
       name = nameField ? getHeroFieldValue(nameField.key) : '';
-      // age = ageField ? getHeroFieldValue(ageField.key) : '';
+     
       message = messageField ? getHeroFieldValue(messageField.key) : '';
     } else {
       name = getHeroFieldValue('celebrant_name') || getHeroFieldValue('name');
-      // age = getHeroFieldValue('date') || getHeroFieldValue('age');
+     
       message = getHeroFieldValue('tag_line') || getHeroFieldValue('message');
     }
   }
