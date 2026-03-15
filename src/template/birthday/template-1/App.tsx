@@ -335,7 +335,7 @@ export default function App() {
                   <DetailCard
                     icon={<Clock className="w-8 h-8 text-[#C5B4E3]" />}
                     title="Time"
-                    content={`${event.time|| "10:00 AM"}`}
+                    content={`${formatTime(event.time)|| "10:00 AM"}`}
                     subContent={event.name}
                     delay={index * 0.1 + 0.1}
                   />

@@ -1,7 +1,7 @@
 
 import { motion } from 'framer-motion';
 import { BotanicalLeaf } from './BotanicalLeaf';
-import { InstagramIcon, HeartIcon, MailIcon, PhoneIcon } from 'lucide-react';
+import {  HeartIcon, MailIcon, PhoneIcon } from 'lucide-react';
 import { usePreview } from '../../../../context/PreviewContext';
 
 export function Footer() {
