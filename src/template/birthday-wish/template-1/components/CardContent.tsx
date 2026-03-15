@@ -36,7 +36,7 @@ export function CardContent({
   // Get image section data
   const imageSection = previewData?.image_section;
   const imageData = imageSection?.data;
-  const imageUrl = imageData.images[0].image_url || 'https://picsum.photos/300/300?random=1';
+  const imageUrl = imageData?.images[0].image_url || 'https://picsum.photos/300/300?random=1';
 
   // Get message section data (message, relation)
   const messageSection = previewData?.message_section;
