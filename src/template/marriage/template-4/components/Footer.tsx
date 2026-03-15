@@ -7,18 +7,18 @@ import { usePreview } from '../../../../context/PreviewContext';
 export function Footer() {
   const { previewData } = usePreview();
   console.log("data.....",previewData)
-  const infoData = (previewData as any)?.info_section.data || previewData;
+  const infoData = (previewData as any)?.info_section?.data || previewData;
   const invitation = (previewData as any)?.hero_section || previewData;
   
   const metadata = invitation?.data || {};
   const email = infoData?.email
   const phone = infoData?.phone
   const tag_line = infoData?.tag_line
-  const groomName = metadata.groom_name || invitation?.groom_name || 'Aarav';
-  const brideName = metadata.bride_name || invitation?.bride_name || 'Meera';
-  const weddingDate = metadata.date || invitation?.wedding_date || 'December 14, 2025';
-  const location = metadata.location || invitation?.location || 'Udaipur';
-  const hashtag = metadata.hashtag || `#${groomName}Weds${brideName}`.replace(/\s/g, '');
+  const groomName = metadata?.groom_name || invitation?.groom_name || 'Aarav';
+  const brideName = metadata?.bride_name || invitation?.bride_name || 'Meera';
+  const weddingDate = metadata?.date || invitation?.wedding_date || 'December 14, 2025';
+  const location = metadata?.location || invitation?.location || 'Udaipur';
+  const hashtag = metadata?.hashtag || `#${groomName}Weds${brideName}`.replace(/\s/g, '');
   
   return (
     <footer className="bg-sage py-16 px-6 relative overflow-hidden">
@@ -194,7 +194,7 @@ export function Footer() {
         </motion.div>
 
         {/* Social Icons */}
-          
+
 
         {/* Hashtag */}
         <motion.div
