@@ -39,16 +39,9 @@ export default function App() {
       end_time: "12:00 PM",
       location: "Central Park",
       description: "Morning picnic"
-    },
-    {
-      date: "2023-07-15T14:00:00Z",
-      time: "2:00 PM",
-      end_time: "5:00 PM",
-      location: "Beachfront Pavilion",
-      description: "Afternoon celebration"
     }
   ];
-  
+  console.log(events)
   const images = imageData?.images || [
     {
       image_url: "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=400&h=400&fit=crop",
@@ -137,11 +130,13 @@ export default function App() {
   const formatDate = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleDateString('en-US', {
+      const dateData = date.toLocaleDateString('en-US', {
         weekday: 'long',
         month: 'long',
         day: 'numeric'
       });
+      console.log("date data", dateData)
+      return dateData || "10 jan 2025";
     } catch (e) {
       return dateString;
     }
@@ -150,11 +145,11 @@ export default function App() {
   const formatTime = (dateString: string) => {
     try {
       const date = new Date(dateString);
-      return date.toLocaleTimeString('en-US', {
+      return   date.toLocaleTimeString('en-US', {
         hour: 'numeric',
         minute: '2-digit',
         hour12: true
-      });
+      })
     } catch (e) {
       return dateString;
     }
@@ -326,31 +321,33 @@ export default function App() {
         <div id="event_section">
           <section className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-24">
             {events && events.length > 0 ? (
-              events.map((event: any, index: number) => (
+              events.map((event: any, index: number) => {
+                console.log("event data",event)
+                return(
                 <React.Fragment key={event.id}>
                   <DetailCard
                     icon={<Calendar className="w-8 h-8 text-[#FFB3D9]" />}
                     title="When"
-                    content={formatDate(event.date)}
-                    subContent={new Date(event.date).getFullYear().toString()}
+                    content={event?.date &&  formatDate(event?.date) || "Saturday, July 15"}
+                    subContent={event?.date &&  new Date(event.date).getFullYear().toString() || " 2026"}
                     delay={index * 0.1}
                   />
                   <DetailCard
                     icon={<Clock className="w-8 h-8 text-[#C5B4E3]" />}
                     title="Time"
-                    content={`${event.time} ${event.end_time ? `- ${formatTime(event.end_time)}` : ''}`}
+                    content={`${event.time|| "10:00 AM"}`}
                     subContent={event.name}
                     delay={index * 0.1 + 0.1}
                   />
                   <DetailCard
                     icon={<MapPin className="w-8 h-8 text-[#B4E7CE]" />}
                     title="Where"
-                    content={event.location || "TBA"}
+                    content={event.location || "jaipur"}
                     subContent={event.description || ""}
                     delay={index * 0.1 + 0.2}
                   />
                 </React.Fragment>
-              ))
+              )})
             ) : (
               <>
                 <DetailCard

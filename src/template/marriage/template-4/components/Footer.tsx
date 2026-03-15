@@ -6,12 +6,17 @@ import { usePreview } from '../../../../context/PreviewContext';
 
 export function Footer() {
   const { previewData } = usePreview();
-  const invitation = (previewData as any)?.invitation || previewData;
-  const metadata = invitation?.metadata || {};
+  console.log("data.....",previewData)
+  const infoData = (previewData as any)?.info_section.data || previewData;
+  const invitation = (previewData as any)?.hero_section || previewData;
   
+  const metadata = invitation?.data || {};
+  const email = infoData?.email
+  const phone = infoData?.phone
+  const tag_line = infoData?.tag_line
   const groomName = metadata.groom_name || invitation?.groom_name || 'Aarav';
   const brideName = metadata.bride_name || invitation?.bride_name || 'Meera';
-  const weddingDate = metadata.wedding_date || invitation?.wedding_date || 'December 14, 2025';
+  const weddingDate = metadata.date || invitation?.wedding_date || 'December 14, 2025';
   const location = metadata.location || invitation?.location || 'Udaipur';
   const hashtag = metadata.hashtag || `#${groomName}Weds${brideName}`.replace(/\s/g, '');
   
@@ -177,57 +182,19 @@ export function Footer() {
             className="flex items-center gap-2 text-forest hover:text-rose transition-colors">
 
             <MailIcon className="w-5 h-5" />
-            <span>aaravmeera2025@gmail.com</span>
+            <span>{email}</span>
           </a>
           <a
             href="tel:+919876543210"
             className="flex items-center gap-2 text-forest hover:text-rose transition-colors">
 
             <PhoneIcon className="w-5 h-5" />
-            <span>+91 98765 43210</span>
+            <span>{phone}</span>
           </a>
         </motion.div>
 
         {/* Social Icons */}
-        <motion.div
-          initial={{
-            opacity: 0,
-            y: 20
-          }}
-          whileInView={{
-            opacity: 1,
-            y: 0
-          }}
-          viewport={{
-            once: true
-          }}
-          transition={{
-            duration: 0.8,
-            delay: 0.3
-          }}
-          className="flex justify-center gap-6 mb-12">
-
-          <a
-            href="https://instagram.com"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-12 h-12 bg-forest/10 hover:bg-forest hover:text-cream rounded-full 
-                       flex items-center justify-center text-forest transition-all duration-300"
-
-            aria-label="Instagram">
-
-            <InstagramIcon className="w-5 h-5" />
-          </a>
-          <a
-            href="#"
-            className="w-12 h-12 bg-forest/10 hover:bg-forest hover:text-cream rounded-full 
-                       flex items-center justify-center text-forest transition-all duration-300"
-
-            aria-label="Wedding Hashtag">
-
-            <span className="font-bold text-sm">#</span>
-          </a>
-        </motion.div>
+          
 
         {/* Hashtag */}
         <motion.div
@@ -246,7 +213,7 @@ export function Footer() {
           }}
           className="text-center mb-8">
 
-          <p className="text-forest-light mb-2">Share your moments with us</p>
+          <p className="text-forest-light mb-2">{tag_line}</p>
           <p className="font-serif text-2xl text-forest">{hashtag}</p>
         </motion.div>
 
