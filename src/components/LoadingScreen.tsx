@@ -1,27 +1,102 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 
+// Theme colors based on invitationfrontend project
+const colors = {
+  bgPrimary: '#F7F5F0',
+  bgSectionAlt: '#EDF2EC',
+  bgDark: '#1C1C1C',
+  accentPrimary: '#4A7C59',
+  accentSecondary: '#7BAE7F',
+};
+
 interface GenericLoaderProps {
   theme?: 'birthday' | 'wedding' | 'default';
   message?: string;
 }
 
+// Elegant Logo Component
+const Logo: React.FC = () => (
+  <motion.svg
+    width="80"
+    height="80"
+    viewBox="0 0 80 80"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    transition={{ duration: 0.8, ease: "easeOut" }}
+  >
+    {/* Outer circle */}
+    <circle
+      cx="40"
+      cy="40"
+      r="38"
+      stroke={colors.accentPrimary}
+      strokeWidth="2"
+      fill="none"
+    />
+    {/* Inner decorative circle */}
+    <circle
+      cx="40"
+      cy="40"
+      r="30"
+      stroke={colors.accentSecondary}
+      strokeWidth="1"
+      fill="none"
+      opacity="0.5"
+    />
+    {/* Decorative leaf/botanical element - left */}
+    <motion.path
+      d="M25 40 Q20 30 25 20 Q30 30 25 40"
+      fill={colors.accentPrimary}
+      animate={{ scale: [1, 1.1, 1] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    />
+    {/* Decorative leaf/botanical element - right */}
+    <motion.path
+      d="M55 40 Q60 30 55 20 Q50 30 55 40"
+      fill={colors.accentPrimary}
+      animate={{ scale: [1, 1.1, 1] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut", delay: 0.5 }}
+    />
+    {/* Center decorative element */}
+    <motion.circle
+      cx="40"
+      cy="40"
+      r="8"
+      fill={colors.accentPrimary}
+      animate={{ scale: [1, 1.2, 1] }}
+      transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+    />
+    {/* Inner glow */}
+    <motion.circle
+      cx="40"
+      cy="40"
+      r="4"
+      fill={colors.bgPrimary}
+      animate={{ scale: [1, 1.5, 1] }}
+      transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+    />
+  </motion.svg>
+);
+
 const themes = {
   birthday: {
-    colors: ['#FFB3D9', '#C5B4E3', '#B4E7CE', '#FFD4B3'],
-    bg: '#FFF8F0',
+    colors: [colors.accentPrimary, colors.accentSecondary, '#8BC34A', '#CDDC39'],
+    bg: colors.bgPrimary,
     icon: '🎉',
     defaultMessage: 'Preparing your birthday invitation....'
   },
   wedding: {
-    colors: ['#E8D5C4', '#F4E4BC', '#C9A96E', '#A67B5B'],
-    bg: '#FAF7F2',
+    colors: [colors.accentPrimary, colors.accentSecondary, '#6B8E6B', '#8FBC8F'],
+    bg: colors.bgPrimary,
     icon: '💕',
     defaultMessage: 'Preparing your wedding invitation...'
   },
   default: {
-    colors: ['#3B82F6', '#8B5CF6', '#10B981', '#F59E0B'],
-    bg: '#F8FAFC',
+    colors: [colors.accentPrimary, colors.accentSecondary, '#6B8E6B', '#8FBC8F'],
+    bg: colors.bgPrimary,
     icon: '✨',
     defaultMessage: 'Loading your invitation...'
   }
@@ -68,7 +143,12 @@ export const GenericLoader: React.FC<GenericLoaderProps> = ({
       />
 
       <div className="relative flex flex-col items-center">
-        <div className="relative w-32 h-32">
+        {/* Logo */}
+        <div className="mb-8">
+          <Logo />
+        </div>
+
+        <div className="relative w-24 h-24">
           {currentTheme.colors.map((color, index) => (
             <motion.div
               key={index}
@@ -80,7 +160,7 @@ export const GenericLoader: React.FC<GenericLoaderProps> = ({
               }}
               className="absolute border-4 rounded-full"
               style={{
-                inset: `${index * 8}px`,
+                inset: `${index * 6}px`,
                 borderTopColor: index === 0 ? color : 'transparent',
                 borderRightColor: index === 1 ? color : 'transparent',
                 borderBottomColor: index === 2 ? color : 'transparent',
@@ -96,7 +176,7 @@ export const GenericLoader: React.FC<GenericLoaderProps> = ({
                 rotate: [0, 10, -10, 0]
               }}
               transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-              className="text-4xl"
+              className="text-3xl"
             >
               {currentTheme.icon}
             </motion.div>
@@ -108,7 +188,7 @@ export const GenericLoader: React.FC<GenericLoaderProps> = ({
           animate={{ opacity: 1, y: 0 }}
           className="mt-8 text-center"
         >
-          <h2 className="text-3xl font-[Caveat] font-bold mb-2" style={{ color: currentTheme.colors[0] }}>
+          <h2 className="text-2xl font-semibold mb-2" style={{ color: colors.bgDark }}>
             {displayMessage}
           </h2>
           <div className="flex gap-1 justify-center">
