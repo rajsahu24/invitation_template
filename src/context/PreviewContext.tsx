@@ -1,7 +1,7 @@
 import React, { createContext, useContext } from 'react';
 import type { ReactNode } from "react";
 import { useGetTemplateData } from '../hooks/useGetTemplateData';
-import { useMetadata } from '../hooks/useMetadata';
+
 import { GenericLoader } from '../components/LoadingScreen';
 import { DEFAULT_INVITATION_DATA } from '../assets/utils';
 import type { PreviewContextType, PreviewData } from './PreviewContextModel';
@@ -29,28 +29,21 @@ export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, them
   const dynamicTheme = theme || (invitation?.invitation_type === 'birthday' ? 'birthday' : 'wedding');
   
   // Helper function to extract string value from either direct string or SectionResponse
-  const extractString = (value: any): string => {
-    if (!value) return '';
-    if (typeof value === 'string') return value;
-    if (typeof value.data === 'string') return value.data;
-    return '';
-  };
+  // const extractString = (value: any): string => {
+  //   if (!value) return '';
+  //   if (typeof value === 'string') return value;
+  //   if (typeof value.data === 'string') return value.data;
+  //   return '';
+  // };
   
   // Extract metadata from invitation data
-  const title = extractString(invitation?.invitation_title) || 'You are Invited!';
-  const description = extractString(invitation?.invitation_message) || extractString(invitation?.invitation_tag_line) || 'Join us for a special celebration.';
   
   // Get public_id or slug from URL
-  const pathParts = window.location.pathname.split('/');
-  const idParam = pathParts[pathParts.length - 1];
+  // const pathParts = window.location.pathname.split('/');
+
   
   // Update metadata dynamically
-  useMetadata({
-    title,
-    description,
-    publicId: idParam,
-    type: 'website'
-  });
+
   
   if (isLoading) {
     return <GenericLoader theme={dynamicTheme} />;

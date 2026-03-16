@@ -127,7 +127,7 @@ function TypewriterMessage({ message, relation }: { message: string; relation: s
     // Open envelope after a short delay
     const openTimer = setTimeout(() => setIsOpen(true), 500);
     // Start typing after envelope opens
-    let typeTimer: NodeJS.Timeout;
+    let typeTimer: any
     if (isOpen) {
       let i = 0;
       typeTimer = setInterval(() => {

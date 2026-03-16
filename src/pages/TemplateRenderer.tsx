@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { PreviewProvider, usePreview } from "../context/PreviewContext";
 import { useEffect } from "react";
-import { updateMetadata, generateOGImageUrl } from "../utils/metadata";
+
 
 
 // marriage
@@ -63,22 +63,14 @@ function TemplateContent() {
       const description = extractString(invitation.invitation_message) || extractString(invitation.invitation_tag_line) || 'Join us for a special celebration.';
       console.log('[TemplateRenderer] extracted title:', title);
       console.log('[TemplateRenderer] extracted description:', description);
-      const currentUrl = window.location.href;
+      // const currentUrl = window.location.href;
       
       // Get public_id or slug from URL
-      const pathParts = window.location.pathname.split('/');
-      const idParam = pathParts[pathParts.length - 1];
+      // const pathParts = window.location.pathname.split('/');
+      // const idParam = pathParts[pathParts.length - 1];
       
       // Generate OG image URL
-      const ogImage = generateOGImageUrl({ public_id: idParam });
-      
-      updateMetadata({
-        title,
-        description,
-        image: ogImage,
-        url: currentUrl,
-        type: 'website'
-      });
+
     }
   }, [invitation]);
   
