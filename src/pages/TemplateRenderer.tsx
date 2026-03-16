@@ -13,14 +13,15 @@ import BirthdayT1 from "../template/birthday/template-1";
 import HoliTemolateT1 from '../template/holi/template-1'
 import HoliTemolateT2 from '../template/holi/template-2'
 import BirthdayWisht1 from '../template/birthday-wish/template-1'
-
+import MarriageTemplate5 from "../template/marriage/template-5";
 
 const TEMPLATE_MAP: any = {
   Wedding: {
     "classic wedding": MarriageTemplate1,
     "modern wedding": MarriageTemplate2,
     "culture wedding": MarriageTemplate3,
-    "botanical garden": MarriageTemplate4
+    "botanical garden": MarriageTemplate4,
+    "legante":MarriageTemplate5
   },
   Birthday: {
     "birthday celebration": BirthdayT1

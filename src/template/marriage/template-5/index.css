@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap');
+
+
+body {
+  background-color: #FDFBF7;
+  color: #2E0052;
+}
+
+/* Custom Scrollbar for that royal feel */
+::-webkit-scrollbar {
+  width: 1px;
+}
+
+/* ::-webkit-scrollbar-track {
+  background: #2E0052;
+} */
+
+/* ::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #B8860B, #FFD700, #B8860B);
+  border-radius: 5px;
+  border: 2px solid #2E0052;
+} */
