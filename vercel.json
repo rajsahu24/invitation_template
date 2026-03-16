@@ -1,9 +1,5 @@
 {
   "functions": {
-    "api/og.tsx": {
-      "runtime": "@vercel/node",
-      "includeFiles": ["package.json"]
-    },
     "api/metadata.ts": {
       "runtime": "@vercel/node"
     }
