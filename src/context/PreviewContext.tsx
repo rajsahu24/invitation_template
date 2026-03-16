@@ -2,7 +2,7 @@ import React, { createContext, useContext } from 'react';
 import type { ReactNode } from "react";
 import { useGetTemplateData } from '../hooks/useGetTemplateData';
 
-import { GenericLoader } from '../components/LoadingScreen';
+// import { GenericLoader } from '../components/LoadingScreen';
 import { DEFAULT_INVITATION_DATA } from '../assets/utils';
 import type { PreviewContextType, PreviewData } from './PreviewContextModel';
 import type { InvitationData } from '../hooks/getTemplateDataModel';
@@ -19,14 +19,14 @@ interface PreviewProviderProps {
   template_id?:string;
 }
 
-export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, theme }) => {
+export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children }) => {
   
-  const { previewData: templateData, isLoading } = useGetTemplateData();
+  const { previewData: templateData } = useGetTemplateData();
   const safePreviewData: InvitationData = (templateData as InvitationData) || DEFAULT_INVITATION_DATA;
   
   
-  const invitation = (safePreviewData as any).invitation || safePreviewData;
-  const dynamicTheme = theme || (invitation?.invitation_type === 'birthday' ? 'birthday' : 'wedding');
+  // const invitation = (safePreviewData as any).invitation || safePreviewData;
+  // const dynamicTheme = theme || (invitation?.invitation_type === 'birthday' ? 'birthday' : 'wedding');
   
   // Helper function to extract string value from either direct string or SectionResponse
   // const extractString = (value: any): string => {
@@ -45,9 +45,9 @@ export const PreviewProvider: React.FC<PreviewProviderProps> = ({ children, them
   // Update metadata dynamically
 
   
-  if (isLoading) {
-    return <GenericLoader theme={dynamicTheme} />;
-  }
+  // if (isLoading) {
+  //   return <GenericLoader theme={dynamicTheme} />;
+  // }
   
   return (
     <PreviewContext.Provider value={{ previewData: safePreviewData, isLoading: false }}>
