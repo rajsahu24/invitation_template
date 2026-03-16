@@ -36,7 +36,8 @@ export default async function handler(req: VercelRequest, res: VercelResponse) {
     const baseUrl = `${protocol}://${host}`;
 
     const ogImageParam = public_id ? `public_id=${public_id}` : `slug=${slug}`;
-    const ogImageUrl = `${baseUrl}/api/og?${ogImageParam}`;
+    // Use a default OG image or generate one based on the slug/public_id
+    const ogImageUrl = `${baseUrl}/og-image?${ogImageParam}`;
     const invitationUrl = public_id ? `${baseUrl}/public/${public_id}` : `${baseUrl}/${slug}`;
 
     // Return a minimal HTML page with meta tags and an iframe
